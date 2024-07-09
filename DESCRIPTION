@@ -1,0 +1,42 @@
+Package: deprivateR
+Title: Measures of Deprivation
+Version: 0.1.0.9000
+Authors@R: c(
+    person("Christopher", "Prener", ,"chris.prener@gmail.com", c("aut", "cre"),
+    comment = c(ORCID = "0000-0002-4310-9888")),
+    person("Timothy", "Wiemken", , role = "aut")
+    )
+Description: Provides a unified framework to building ADI and SVI deprivation 
+    measures and accessing related data from the U.S. Census Bureau such as Gini
+    coefficient data.
+Depends: R (>= 3.5)
+License: Apache License (>= 2)
+URL: https://pfizer-vaccines.github.io/deprivateR/
+BugReports: https://github.com/pfizer-vaccines/deprivateR/issues
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.3.1
+Imports:
+    classInt,
+    dplyr,
+    english,
+    ndi,
+    rlang,
+    sf,
+    sociome,
+    stringr,
+    tibble,
+    tidycensus,
+    tidyselect,
+    tidyr, 
+    zippeR
+Suggests:
+    covr,
+    knitr,
+    measurements,
+    rmarkdown,
+    testthat,
+    tigris
+Remotes: 
+    pfizer-opensource/zippeR
+VignetteBuilder: knitr
