@@ -1,5 +1,5 @@
 Package: deprivateR
-Title: Measures of Deprivation
+Title: Tools for Calculating and Analyzing Measures of Deprivation in the United States
 Version: 0.1.0.9000
 Authors@R: c(
     person("Christopher", "Prener", ,"chris.prener@gmail.com", c("aut", "cre"),
