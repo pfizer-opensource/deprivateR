@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="Measures of Deprivation">
-<meta property="og:description" content="Provides a unified framework to building ADI and SVI deprivation measures and accessing related data from the U.S. Census Bureau such as Gini coefficient data.">
+<meta property="og:description" content="Provides a unified framework to building ADI, SVI, and NDI deprivation measures and accessing related data from the U.S. Census Bureau such as Gini coefficient data. Tools are also available for calculating percentiles, quantiles, and for creating clear map breaks for data visualization.">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -45,7 +45,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/pfizer-vaccines/deprivateR/" class="external-link">
+  <a href="https://github.com/pfizer-opensource/deprivateR/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
 
   </a>
@@ -65,7 +65,7 @@
 <div class="section level1">
 <div class="page-header"><h1 id="deprivater">deprivateR<a class="anchor" aria-label="anchor" href="#deprivater"></a>
 </h1></div>
-<p><a href="https://github.com/pfizer-evgen/deprivateR/actions" class="external-link"><img src="https://github.com/pfizer-evgen/deprivateR/workflows/R-CMD-check/badge.svg" alt="R build status"></a></p>
+<p><a href="https://github.com/pfizer-opensource/deprivateR/actions" class="external-link"><img src="https://github.com/pfizer-opensource/deprivateR/workflows/R-CMD-check/badge.svg" alt="R build status"></a></p>
 <p><code>deprivateR</code> is meant to provide a unified API for accessing and calculating a number of different measures of socioeconomic deprivation in the United States, including the Area Deprivation Index (ADI), Neighborhood Deprivation Index (NDI), and the Social Vulnerability Index. The Gini Coefficient can also be returned, though it is not re-calculated on the fly.</p>
 <div class="section level2">
 <h2 id="motivation">Motivation<a class="anchor" aria-label="anchor" href="#motivation"></a>
@@ -78,7 +78,7 @@
 <p>The development version of <code>deprivateR</code> can be accessed from GitHub with <code>remotes</code>:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
-<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"pfizer-evgen/deprivateR"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"pfizer-opensource/deprivateR"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
@@ -164,7 +164,7 @@
 <div class="section level2">
 <h2 id="feedback-and-code-of-conduct">Feedback and Code of Conduct<a class="anchor" aria-label="anchor" href="#feedback-and-code-of-conduct"></a>
 </h2>
-<p>If you have feedback on <code>deprivateR</code>, please <a href="https://github.com/pfizer-evgen/deprivateR/issues" class="external-link">open an issue on GitHub</a> after checking the <a href="https://github.com/pfizer-evgen/deprivateR/blob/main/.github/CONTRIBUTING.md" class="external-link">contribution guidelines</a>. Please note that this project is released with a Contributor <a href="https://github.com/pfizer-evgen/deprivateR/blob/main/.github/CODE_OF_CONDUCT.md" class="external-link">Code of Conduct</a>. By participating in this project you agree to abide by its terms.</p>
+<p>If you have feedback on <code>deprivateR</code>, please <a href="https://github.com/pfizer-opensource/deprivateR/issues" class="external-link">open an issue on GitHub</a> after checking the <a href="https://github.com/pfizer-opensource/deprivateR/blob/main/.github/CONTRIBUTING.md" class="external-link">contribution guidelines</a>. Please note that this project is released with a Contributor <a href="https://github.com/pfizer-opensource/deprivateR/blob/main/.github/CODE_OF_CONDUCT.md" class="external-link">Code of Conduct</a>. By participating in this project you agree to abide by its terms.</p>
 </div>
 </div>
   </div>
@@ -173,8 +173,8 @@
     <div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/pfizer-vaccines/deprivateR/" class="external-link">Browse source code</a></li>
-<li><a href="https://github.com/pfizer-vaccines/deprivateR/issues" class="external-link">Report a bug</a></li>
+<li><a href="https://github.com/pfizer-opensource/deprivateR/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/pfizer-opensource/deprivateR/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
@@ -204,8 +204,8 @@
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>
-<a href="https://pfizer-evgen.github.io" class="external-link">Christopher Prener</a> <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-4310-9888" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Timothy Wiemken <br><small class="roles"> Author </small>  </li>
+<a href="https://pfizer-opensource.github.io" class="external-link">Christopher Prener</a> <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-4310-9888" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Timothy Wiemken <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-8251-3007" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 </ul>
 </div>
 
@@ -217,7 +217,7 @@
 
       <footer><div class="copyright">
   <p></p>
-<p>Developed by <a href="https://pfizer-evgen.github.io" class="external-link">Christopher Prener</a>, Timothy Wiemken.</p>
+<p>Developed by <a href="https://pfizer-opensource.github.io" class="external-link">Christopher Prener</a>, Timothy Wiemken.</p>
 </div>
 
 <div class="pkgdown">
