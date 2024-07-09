@@ -87,5 +87,5 @@ abide by its terms.
 ## Acknowledgements
 These contributing guidelines are modified from those used by [Jenny Bryan](https://github.com/jennybc).
 
-[repoLink]: https://github.com/pfizer-evgen/deprivateR
-[issuesLink]: https://github.com/pfizer-evgen/deprivateR/issues
+[repoLink]: https://github.com/pfizer-opensource/deprivateR
+[issuesLink]: https://github.com/pfizer-opensource/deprivateR/issues

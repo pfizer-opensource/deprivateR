@@ -4,7 +4,7 @@
 # deprivateR
 
 [![R build
-status](https://github.com/pfizer-evgen/deprivateR/workflows/R-CMD-check/badge.svg)](https://github.com/pfizer-evgen/deprivateR/actions)
+status](https://github.com/pfizer-opensource/deprivateR/workflows/R-CMD-check/badge.svg)](https://github.com/pfizer-opensource/deprivateR/actions)
 
 `deprivateR` is meant to provide a unified API for accessing and
 calculating a number of different measures of socioeconomic deprivation
@@ -35,7 +35,7 @@ The development version of `deprivateR` can be accessed from GitHub with
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("pfizer-evgen/deprivateR")
+remotes::install_github("pfizer-opensource/deprivateR")
 ```
 
 ## Usage
@@ -152,9 +152,9 @@ indices.
 ## Feedback and Code of Conduct
 
 If you have feedback on `deprivateR`, please [open an issue on
-GitHub](https://github.com/pfizer-evgen/deprivateR/issues) after
+GitHub](https://github.com/pfizer-opensource/deprivateR/issues) after
 checking the [contribution
-guidelines](https://github.com/pfizer-evgen/deprivateR/blob/main/.github/CONTRIBUTING.md).
+guidelines](https://github.com/pfizer-opensource/deprivateR/blob/main/.github/CONTRIBUTING.md).
 Please note that this project is released with a Contributor [Code of
-Conduct](https://github.com/pfizer-evgen/deprivateR/blob/main/.github/CODE_OF_CONDUCT.md).
+Conduct](https://github.com/pfizer-opensource/deprivateR/blob/main/.github/CODE_OF_CONDUCT.md).
 By participating in this project you agree to abide by its terms.
