@@ -7,7 +7,11 @@
 ^appveyor\.yml$
 ^codecov\.yml$
 ^\.github
-^data-raw$
+^inst/data-raw$
+^inst/build-data$
+^inst/validate-data$
+^inst/examples$
+^inst/scratch
 ^docs$
 ^deps$
 ^_pkgdown\.yml$
