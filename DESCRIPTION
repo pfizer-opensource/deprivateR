@@ -2,7 +2,7 @@ Package: deprivateR
 Title: Tools for Calculating and Analyzing Measures of Deprivation in the United States
 Version: 0.1.0.9000
 Authors@R: c(
-    person("Christopher", "Prener", ,"chris.prener@gmail.com", c("aut", "cre"),
+    person("Christopher", "Prener", ,"christopher.prener@pfizer.com", c("aut", "cre"),
     comment = c(ORCID = "0000-0002-4310-9888")),
     person("Timothy", "Wiemken", ,"Timothy.Wiemken@pfizer.com", c("aut"),
     comment = c(ORCID = "0000-0002-8251-3007"))
@@ -17,7 +17,7 @@ URL: https://pfizer-opensource.github.io/deprivateR/
 BugReports: https://github.com/pfizer-opensource/deprivateR/issues
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 Imports:
     classInt,
     dplyr,
@@ -33,12 +33,6 @@ Imports:
     tidyr, 
     zippeR
 Suggests:
-    covr,
-    knitr,
     measurements,
-    rmarkdown,
     testthat,
     tigris
-Remotes: 
-    pfizer-opensource/zippeR
-VignetteBuilder: knitr

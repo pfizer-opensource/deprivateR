@@ -36,6 +36,14 @@ This function creates a vector or \code{tibble} containing
     variables included in particular calls.
 }
 \examples{
+# Gini coefficient at the Census tract level
 dep_build_varlist(geography = "tract", index = "gini", year = 2019)
+
+# ADI for 2015 at the county level
+dep_build_varlist(geography = "county", index = "adi", year = 2015)
+
+# NDI by Messer for 2018 at the ZCTA level, tibble output
+dep_build_varlist(geography = "county", index = "ndi_m", year = 2018,
+  output = "tibble")
 
 }

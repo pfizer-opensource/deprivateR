@@ -161,3 +161,19 @@ Downloads raw data and then calculates various measures of
     package create a single point of departure for comparative work using multiple
     measures of deprivation or inequality.
 }
+\examples{
+\donttest{
+  # calculate ADI for all US counties
+  dep_get_index(geography = "county", index = "adi", year = 2022)
+
+  # calculate two forms of SVI for all Missouri ZCTAs
+  dep_get_index(geography = "zcta5", index = c("svi20", "svi20s"), year = 2022,
+    state = "MO")
+
+  # calculate ADI and two forms of NDI for all US counties over three years
+  # percentiles are returned to ease comparison
+  dep_get_index(geography = "county", index = c("adi", "svi14"),
+    year = c(2018:2020), return_percentiles = TRUE)
+}
+
+}
