@@ -255,6 +255,85 @@ written to <code>.Renviron</code> by using <code>Sys.getenv("CENSUS_API_KEY")</c
     measures of deprivation or inequality.</p>
     </div>
 
+    <div id="ref-examples">
+    <h2>Examples</h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span>  <span class="co"># calculate ADI for all US counties</span></span></span>
+<span class="r-in"><span>  <span class="fu">dep_get_index</span><span class="op">(</span>geography <span class="op">=</span> <span class="st">"county"</span>, index <span class="op">=</span> <span class="st">"adi"</span>, year <span class="op">=</span> <span class="fl">2022</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span><span style="color: #00BBBB;">•</span> You have not set a Census API key. Users without a key are limited to 500</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> queries per day and may experience performance limitations.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">ℹ</span> For best results, get a Census API key at</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> http://api.census.gov/data/key_signup.html and then supply the key to the</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> `census_api_key()` function to use it throughout your tidycensus session.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #555555;">This warning is displayed once per session.</span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> The variables C24010_039 and C24010_040 are both present.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> C24010_039 will be used for "civilian females age 16+ in</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> white-collar occupations", which is incorrect for pre-2010 data.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> If seeking pre-2010 estimates, remove C24010_039 from dataset.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Single imputation performed</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3,144 × 3</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    GEOID NAME                       ADI</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 01001 Autauga County, Alabama   88.5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 01003 Baldwin County, Alabama   84.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 01005 Barbour County, Alabama  137. </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 01007 Bibb County, Alabama     124. </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 01009 Blount County, Alabama   109. </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 01011 Bullock County, Alabama  147. </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 01013 Butler County, Alabama   122. </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 01015 Calhoun County, Alabama  115. </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 01017 Chambers County, Alabama 117. </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 01019 Cherokee County, Alabama 107. </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 3,134 more rows</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="co"># calculate two forms of SVI for all Missouri ZCTAs</span></span></span>
+<span class="r-in"><span>  <span class="fu">dep_get_index</span><span class="op">(</span>geography <span class="op">=</span> <span class="st">"zcta5"</span>, index <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"svi20"</span>, <span class="st">"svi20s"</span><span class="op">)</span>, year <span class="op">=</span> <span class="fl">2022</span>,</span></span>
+<span class="r-in"><span>    state <span class="op">=</span> <span class="st">"MO"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 33,642 × 3</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    GEOID SVI_20 SVI_20S</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 01001 0.771   0.766 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 01002 0.676   0.691 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 01003 0.206   0.211 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 01005 0.215   0.202 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 01007 0.362   0.379 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 01008 0.046<span style="text-decoration: underline;">8</span>  0.050<span style="text-decoration: underline;">1</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 01009 0.143   0.154 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 01010 0.240   0.202 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 01011 0.361   0.376 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 01012 0.222   0.147 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 33,632 more rows</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="co"># calculate ADI and two forms of NDI for all US counties over three years</span></span></span>
+<span class="r-in"><span>  <span class="co"># percentiles are returned to ease comparison</span></span></span>
+<span class="r-in"><span>  <span class="fu">dep_get_index</span><span class="op">(</span>geography <span class="op">=</span> <span class="st">"county"</span>, index <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"adi"</span>, <span class="st">"svi14"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    year <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2018</span><span class="op">:</span><span class="fl">2020</span><span class="op">)</span>, return_percentiles <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Single imputation performed</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Single imputation performed</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Single imputation performed</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 9,427 × 5</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    GEOID NAME                     YEAR   SVI   ADI</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 01001 Autauga County, Alabama  <span style="text-decoration: underline;">2</span>018  44.2  28.3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 01001 Autauga County, Alabama  <span style="text-decoration: underline;">2</span>019  38.8  31.6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 01001 Autauga County, Alabama  <span style="text-decoration: underline;">2</span>020  47.5  35.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 01003 Baldwin County, Alabama  <span style="text-decoration: underline;">2</span>018  22.7  16.6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 01003 Baldwin County, Alabama  <span style="text-decoration: underline;">2</span>019  24.1  16.3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 01003 Baldwin County, Alabama  <span style="text-decoration: underline;">2</span>020  22.9  15.5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 01005 Barbour County, Alabama  <span style="text-decoration: underline;">2</span>018  99.6  96.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 01005 Barbour County, Alabama  <span style="text-decoration: underline;">2</span>019  99.7  97.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 01005 Barbour County, Alabama  <span style="text-decoration: underline;">2</span>020  99.5  97.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 01007 Bibb County, Alabama     <span style="text-decoration: underline;">2</span>018  59.5  65.9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 9,417 more rows</span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
+</code></pre></div>
+    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>
@@ -267,7 +346,7 @@ written to <code>.Renviron</code> by using <code>Sys.getenv("CENSUS_API_KEY")</c
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
       </footer></div>
