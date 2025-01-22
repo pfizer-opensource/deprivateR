@@ -28,10 +28,6 @@
 #' # Gini coefficient at the Census tract level
 #' dep_build_varlist(geography = "tract", index = "gini", year = 2019)
 #'
-#' # NDI by Messer for 2018 at the ZCTA level, tibble output
-#' dep_build_varlist(geography = "county", index = "ndi_m", year = 2018,
-#'   output = "tibble")
-#'
 #' @export
 dep_build_varlist <- function(geography, index, year, survey = "acs5", output = "vector"){
 
