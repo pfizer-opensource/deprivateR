@@ -23,7 +23,13 @@ knitr::opts_chunk$set(
 The [`sociome`](https://CRAN.R-project.org/package=sociome) and [`ndi`](https://CRAN.R-project.org/package=ndi) packages are excellent contributions, but offer different APIs for returning their respective indices. `deprivateR` provides a unified interface for accessing these measures of deprivation, as well as the ability to calculate the various forms of the Social Vulnerability Index (SVI) that the Centers for Disease Control and Prevention (CDC) has published. Importantly, SVI can be calculated for a variety of years and geographic levels. This functionality expands the possibilities for implementing these measures in research and public health practice. However, users should also be aware that ADI, NDI, and SVI have not been extensively validated for some Census geographies.
 
 ## Installation
-The development version of `deprivateR` can be accessed from GitHub with `remotes`:
+The easiest way to install `deprivateR` is from CRAN:
+
+```r
+install.packages("deprivateR")
+```
+
+Alternatively, you can install development version of `deprivateR` from GitHub with `remotes`:
 
 ```r
 # install.packages("remotes")
