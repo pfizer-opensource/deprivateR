@@ -108,6 +108,20 @@ states are not listed for the \code{state} argument. It only applies if
 your \code{.Renviron} file. You can check whether an API key has been
 written to \code{.Renviron} by using \code{Sys.getenv("CENSUS_API_KEY")}.}
 }
+\value{
+A tibble with the requested deprivation measures. The number of columns
+    and rows depends upon the input arguments. If \code{output = "wide"}, the
+    number of columns will be equal to the number of deprivation measures
+    requested plus the number of columns needed to store the geographic
+    information. Each unique combination of jurisdiction and year will receive
+    its own row.
+
+    If \code{output = "tidy"}, the number of columns will be equal
+    to the number of deprivation measures requested plus the number of columns
+    needed to store the geographic information. Each unique combination of
+    jurisdiction and year will receive its own row. Each unique combination of
+    jurisdiction, year, and deprivation measure will receive its own row.
+}
 \description{
 Downloads raw data and then calculates various measures of
     deprivation and/or vulnerability, including a range of options for structuring output. The
