@@ -1,5 +1,9 @@
 ## Release summary
-This version of `deprivateR` is a new submission to CRAN.
+This is the first resubmission of `deprivateR` to CRAN as part of our initial release. All reviewer feedback has been addressed, including:
+
+* The title has been adjusted to remove the words "Tools for" as requested
+* The description has been updated to spell out these acronyms: ADI, SVI, and NDI
+* A `@return` tag has been added to the `dep_get_index` function's documentation
 
 ## Test environments
 
