@@ -24,13 +24,16 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">deprivateR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav"><li>
   <a href="../reference/index.html">Reference</a>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
   <a href="https://github.com/pfizer-opensource/deprivateR/" class="external-link">
@@ -205,6 +208,20 @@ your <code>.Renviron</code> file. You can check whether an API key has been
 written to <code>.Renviron</code> by using <code>Sys.getenv("CENSUS_API_KEY")</code>.</p></dd>
 
 </dl></div>
+    <div id="value">
+    <h2>Value</h2>
+    <p>A tibble with the requested deprivation measures. The number of columns
+    and rows depends upon the input arguments. If <code>output = "wide"</code>, the
+    number of columns will be equal to the number of deprivation measures
+    requested plus the number of columns needed to store the geographic
+    information. Each unique combination of jurisdiction and year will receive
+    its own row.</p>
+<p>If <code>output = "tidy"</code>, the number of columns will be equal
+    to the number of deprivation measures requested plus the number of columns
+    needed to store the geographic information. Each unique combination of
+    jurisdiction and year will receive its own row. Each unique combination of
+    jurisdiction, year, and deprivation measure will receive its own row.</p>
+    </div>
     <div id="details">
     <h2>Details</h2>
     <p><code>deprivateR</code> provides a unique implementation of the Centers

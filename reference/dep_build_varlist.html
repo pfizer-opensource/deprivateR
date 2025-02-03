@@ -18,13 +18,16 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">deprivateR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav"><li>
   <a href="../reference/index.html">Reference</a>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
   <a href="https://github.com/pfizer-opensource/deprivateR/" class="external-link">
@@ -100,47 +103,6 @@ discontinued after 2013.</p></dd>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Gini coefficient at the Census tract level</span></span></span>
 <span class="r-in"><span><span class="fu">dep_build_varlist</span><span class="op">(</span>geography <span class="op">=</span> <span class="st">"tract"</span>, index <span class="op">=</span> <span class="st">"gini"</span>, year <span class="op">=</span> <span class="fl">2019</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "B19083_001"</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># ADI for 2015 at the county level</span></span></span>
-<span class="r-in"><span><span class="fu">dep_build_varlist</span><span class="op">(</span>geography <span class="op">=</span> <span class="st">"county"</span>, index <span class="op">=</span> <span class="st">"adi"</span>, year <span class="op">=</span> <span class="fl">2015</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "B11005_001" "B11005_002" "B11005_005" "B15003_001" "B15003_002"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [6] "B15003_003" "B15003_004" "B15003_005" "B15003_006" "B15003_007"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11] "B15003_008" "B15003_009" "B15003_010" "B15003_011" "B15003_012"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [16] "B15003_017" "B15003_018" "B15003_019" "B15003_020" "B15003_021"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [21] "B15003_022" "B15003_023" "B15003_024" "B15003_025" "B17010_001"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [26] "B17010_002" "B19001_002" "B19001_011" "B19001_012" "B19001_013"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [31] "B19001_014" "B19001_015" "B19001_016" "B19001_017" "B19113_001"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [36] "B23025_003" "B23025_005" "B25003_001" "B25003_002" "B25014_001"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [41] "B25014_005" "B25014_006" "B25014_007" "B25014_011" "B25014_012"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [46] "B25014_013" "B25044_001" "B25044_003" "B25044_010" "B25064_001"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [51] "B25077_001" "B25088_002" "C17002_001" "C17002_002" "C17002_003"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [56] "C17002_004" "C17002_005" "C24010_001" "C24010_003" "C24010_039"</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># NDI by Messer for 2018 at the ZCTA level, tibble output</span></span></span>
-<span class="r-in"><span><span class="fu">dep_build_varlist</span><span class="op">(</span>geography <span class="op">=</span> <span class="st">"county"</span>, index <span class="op">=</span> <span class="st">"ndi_m"</span>, year <span class="op">=</span> <span class="fl">2018</span>,</span></span>
-<span class="r-in"><span>  output <span class="op">=</span> <span class="st">"tibble"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 19 × 3</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    name       label                                                      concept</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                                      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> B06009_001 Estimate!!Total                                            PLACE …</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> B06009_002 Estimate!!Total!!Less than high school graduate            PLACE …</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> B17017_002 Estimate!!Total!!Income in the past 12 months below pover… POVERT…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> B19001_002 Estimate!!Total!!Less than $10,000                         HOUSEH…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> B19001_003 Estimate!!Total!!$10,000 to $14,999                        HOUSEH…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> B19001_004 Estimate!!Total!!$15,000 to $19,999                        HOUSEH…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> B19001_005 Estimate!!Total!!$20,000 to $24,999                        HOUSEH…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> B19001_006 Estimate!!Total!!$25,000 to $29,999                        HOUSEH…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> B19058_002 Estimate!!Total!!With cash public assistance or Food Stam… PUBLIC…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> B25115_012 Estimate!!Total!!Owner occupied!!Family households!!Other… TENURE…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span> B25115_025 Estimate!!Total!!Renter occupied!!Family households!!Othe… TENURE…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span> C24030_002 Estimate!!Total!!Male                                      SEX BY…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">13</span> C24030_018 Estimate!!Total!!Male!!Professional, scientific, and mana… SEX BY…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">14</span> C24030_019 Estimate!!Total!!Male!!Professional, scientific, and mana… SEX BY…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">15</span> DP03_0003  Estimate!!EMPLOYMENT STATUS!!Population 16 years and over… SELECT…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">16</span> DP03_0005  Estimate!!EMPLOYMENT STATUS!!Population 16 years and over… SELECT…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">17</span> DP04_0002  Estimate!!HOUSING OCCUPANCY!!Total housing units!!Occupie… SELECT…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">18</span> DP04_0078  Estimate!!OCCUPANTS PER ROOM!!Occupied housing units!!1.0… SELECT…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">19</span> DP04_0079  Estimate!!OCCUPANTS PER ROOM!!Occupied housing units!!1.5… SELECT…</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
