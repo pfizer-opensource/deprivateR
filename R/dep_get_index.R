@@ -138,6 +138,19 @@
 #'     package create a single point of departure for comparative work using multiple
 #'     measures of deprivation or inequality.
 #'
+#' @return A tibble with the requested deprivation measures. The number of columns
+#'     and rows depends upon the input arguments. If \code{output = "wide"}, the
+#'     number of columns will be equal to the number of deprivation measures
+#'     requested plus the number of columns needed to store the geographic
+#'     information. Each unique combination of jurisdiction and year will receive
+#'     its own row.
+#'
+#'     If \code{output = "tidy"}, the number of columns will be equal
+#'     to the number of deprivation measures requested plus the number of columns
+#'     needed to store the geographic information. Each unique combination of
+#'     jurisdiction and year will receive its own row. Each unique combination of
+#'     jurisdiction, year, and deprivation measure will receive its own row.
+#'
 #' @examples
 #' \donttest{
 #'   # calculate ADI for all US counties

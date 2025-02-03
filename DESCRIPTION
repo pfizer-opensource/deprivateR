@@ -1,15 +1,16 @@
 Package: deprivateR
-Title: Tools for Calculating and Analyzing Measures of Deprivation in the United States
-Version: 0.1.0.9000
+Title: Calculating and Analyzing Measures of Deprivation in the United States
+Version: 0.1.0
 Authors@R: c(
     person("Christopher", "Prener", ,"christopher.prener@pfizer.com", c("aut", "cre"),
     comment = c(ORCID = "0000-0002-4310-9888")),
     person("Timothy", "Wiemken", ,"Timothy.Wiemken@pfizer.com", c("aut"),
     comment = c(ORCID = "0000-0002-8251-3007"))
     )
-Description: Provides a unified framework to building ADI, SVI, and NDI deprivation 
-    measures and accessing related data from the U.S. Census Bureau such as Gini
-    coefficient data. Tools are also available for calculating percentiles,
+Description: Provides a unified framework to building Area Deprivation Index (ADI), 
+    Social Vulnerability Index (SVI), and Neighborhood Deprivation Index (NDI)  
+    deprivation measures and accessing related data from the U.S. Census Bureau 
+    such as Gini coefficient data. Tools are also available for calculating percentiles,
     quantiles, and for creating clear map breaks for data visualization.
 Depends: R (>= 3.5)
 License: Apache License (>= 2)

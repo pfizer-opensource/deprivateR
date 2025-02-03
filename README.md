@@ -30,8 +30,14 @@ some Census geographies.
 
 ## Installation
 
-The development version of `deprivateR` can be accessed from GitHub with
-`remotes`:
+The easiest way to install `deprivateR` is from CRAN:
+
+``` r
+install.packages("deprivateR")
+```
+
+Alternatively, you can install development version of `deprivateR` from
+GitHub with `remotes`:
 
 ``` r
 # install.packages("remotes")
