@@ -5,6 +5,10 @@
 
 [![R build
 status](https://github.com/pfizer-opensource/deprivateR/workflows/R-CMD-check/badge.svg)](https://github.com/pfizer-opensource/deprivateR/actions)
+[![CRAN_status_badge](https://www.r-pkg.org/badges/version/deprivateR)](https://cran.r-project.org/package=deprivateR)
+[![cranchecks](https://badges.cranchecks.info/worst/deprivateR.svg)](https://cran.r-project.org/web/checks/check_results_deprivateR.html)
+[![Downloads](https://cranlogs.r-pkg.org/badges/deprivateR?color=brightgreen)](https://www.r-pkg.org/pkg/deprivateR)
+[![DOI](https://img.shields.io/badge/DOI-10.32614%2FCRAN.package.deprivateR-blue)](https://doi.org/10.32614/deprivateR)
 
 `deprivateR` is meant to provide a unified API for accessing and
 calculating a number of different measures of socioeconomic deprivation
