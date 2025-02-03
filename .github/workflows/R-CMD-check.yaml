@@ -23,8 +23,8 @@ jobs:
           - {os: ubuntu-latest,   r: 'devel', http-user-agent: 'release'}
           - {os: ubuntu-latest,   r: 'release'}
           - {os: ubuntu-latest,   r: 'oldrel-1'}
-          # - {os: ubuntu-latest,   r: 'oldrel-2'}
-          # - {os: ubuntu-latest,   r: 'oldrel-3'}
+          - {os: ubuntu-latest,   r: 'oldrel-2'}
+          - {os: ubuntu-latest,   r: 'oldrel-3'}
           # - {os: ubuntu-latest,   r: 'oldrel-4'}
           # - {os: ubuntu-latest,   r: 'oldrel-5'}
 
@@ -51,7 +51,7 @@ jobs:
 
       - name: Cache R packages
         if: runner.os != 'Windows'
-        uses: actions/cache@v1
+        uses: actions/cache@v4
         with:
           path: ${{ env.R_LIBS_USER }}
           key: ${{ runner.os }}-r-${{ matrix.config.r }}-1-${{ hashFiles('.github/depends.Rds') }}
@@ -83,17 +83,3 @@ jobs:
           _R_CHECK_CRAN_INCOMING_: false
         run: rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "warning", check_dir = "check")
         shell: Rscript {0}
-
-      - name: Test Coverage
-        if: matrix.config.r == 'devel'
-        run: |
-          Rscript -e 'install.packages("xml2")'
-          Rscript -e 'remotes::install_github("r-lib/covr@gh-actions")'
-          Rscript -e 'covr::codecov(token = "${{secrets.CODECOV_TOKEN}}")'
-
-      - name: Upload check results
-        if: failure()
-        uses: actions/upload-artifact@main
-        with:
-          name: ${{ runner.os }}-r${{ matrix.config.r }}-results
-          path: check
