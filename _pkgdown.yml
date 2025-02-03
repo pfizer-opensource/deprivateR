@@ -1,2 +1,25 @@
 url: https://pfizer-opensource.github.io/deprivateR/
 
+reference:
+  - title: "Core Functionality"
+    desc: "Calculate Measures of Deprivation"
+    contents:
+    - dep_get_index
+
+  - title: "Manual Calculations"
+    desc: "Intermediate Steps for Calculating Deprivation Measures"
+    contents:
+    - dep_build_varlist
+    - dep_calc_index
+
+  - title: "Helper Functions"
+    desc: "Tools for Reporting Deprivation Measures"
+    contents:
+    - dep_quantiles
+    - dep_percentiles
+    - dep_map_breaks
+
+  - title: "Sample Data"
+    desc: "Data Used for Examples"
+    contents:
+    - dep_sample_data
