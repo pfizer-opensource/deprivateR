@@ -1,8 +1,9 @@
+# Workflow derived from https://github.com/r-lib/actions/tree/v2/examples
+# Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
 on:
   push:
-    branches: main
+    branches: [main, master]
   pull_request:
-    branches: main
 
 name: test-coverage.yaml
 
@@ -36,18 +37,14 @@ jobs:
           covr::to_cobertura(cov)
         shell: Rscript {0}
 
-      - name: Open Checkout
-        uses: actions/checkout@main
-
-      - name: Code Coverage
-        uses: codecov/codecov-action@v5
+      - uses: codecov/codecov-action@v4
         with:
-          fail_ci_if_error: true # optional (default = false)
-          flags: unittests # optional
-          name: codecov-umbrella # optional
-          verbose: true # optional (default = false)
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+          # Fail if error if not on PR, or if on PR and token is given
+          fail_ci_if_error: ${{ github.event_name != 'pull_request' || secrets.CODECOV_TOKEN }}
+          file: ./cobertura.xml
+          plugin: noop
+          disable_search: true
+          token: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Show testthat output
         if: always()
@@ -62,5 +59,3 @@ jobs:
         with:
           name: coverage-test-failures
           path: ${{ runner.temp }}/package
-
-
