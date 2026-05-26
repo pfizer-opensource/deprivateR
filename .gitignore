@@ -84,3 +84,6 @@ vignettes/*.pdf
 .github/skills
 .github/VENDOR_MANIFEST.json
 .github/vendored-decisions
+
+docs/WORKFLOW.md
+docs/README.md
