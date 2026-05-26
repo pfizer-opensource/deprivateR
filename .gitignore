@@ -77,3 +77,10 @@ vignettes/*.pdf
 *.utf8.md
 *.knit.md
 .Rproj.user
+
+# GitHub Copilot agents/skills (vendored, not version-controlled)
+.github/agents
+.github/copilot-instructions.md
+.github/skills
+.github/VENDOR_MANIFEST.json
+.github/vendored-decisions
