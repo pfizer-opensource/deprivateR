@@ -21,7 +21,6 @@ License: Apache License (>= 2)
 URL: https://pfizer-opensource.github.io/deprivateR/, https://github.com/pfizer-opensource/deprivateR
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.3.2
 Imports:
     classInt,
     dplyr,
@@ -40,3 +39,4 @@ Suggests:
     measurements,
     testthat,
     tigris
+Config/roxygen2/version: 8.0.0
