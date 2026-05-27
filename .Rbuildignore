@@ -22,8 +22,8 @@
 ^index\.Rmd$
 ^index\.md$
 ^LICENSE$
-^\.github$
 ^revdep$
 ^CRAN-SUBMISSION$
 ^\.pfizer\.yml$
 ^LICENSE\.md$
+^CHANGELOG\.md$
