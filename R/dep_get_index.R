@@ -151,8 +151,7 @@
 #'     jurisdiction and year will receive its own row. Each unique combination of
 #'     jurisdiction, year, and deprivation measure will receive its own row.
 #'
-#' @examples
-#' \donttest{
+#' @examplesIf nzchar(Sys.getenv("CENSUS_API_KEY"))
 #'   # calculate ADI for all US counties
 #'   dep_get_index(geography = "county", index = "adi", year = 2022)
 #'
@@ -164,7 +163,6 @@
 #'   # percentiles are returned to ease comparison
 #'   dep_get_index(geography = "county", index = c("adi", "svi14"),
 #'     year = c(2018:2020), return_percentiles = TRUE)
-#' }
 #'
 #' @export
 dep_get_index <- function(geography, index, year, survey = "acs5",

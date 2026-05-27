@@ -176,7 +176,7 @@ Downloads raw data and then calculates various measures of
     measures of deprivation or inequality.
 }
 \examples{
-\donttest{
+\dontshow{if (nzchar(Sys.getenv("CENSUS_API_KEY"))) withAutoprint(\{ # examplesIf}
   # calculate ADI for all US counties
   dep_get_index(geography = "county", index = "adi", year = 2022)
 
@@ -188,6 +188,5 @@ Downloads raw data and then calculates various measures of
   # percentiles are returned to ease comparison
   dep_get_index(geography = "county", index = c("adi", "svi14"),
     year = c(2018:2020), return_percentiles = TRUE)
-}
-
+\dontshow{\}) # examplesIf}
 }
