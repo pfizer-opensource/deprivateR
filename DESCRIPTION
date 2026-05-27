@@ -20,6 +20,7 @@ Depends: R (>= 4.1)
 License: Apache License (>= 2)
 URL: https://pfizer-opensource.github.io/deprivateR/, https://github.com/pfizer-opensource/deprivateR
 Encoding: UTF-8
+Language: en-US
 LazyData: true
 Imports:
     classInt,
@@ -37,6 +38,7 @@ Imports:
     zippeR
 Suggests:
     measurements,
+    spelling,
     testthat,
     tigris
 Config/roxygen2/version: 8.0.0
