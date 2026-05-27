@@ -55,7 +55,7 @@ will be returned with row per jurisdiction where individual measures of
 deprivation stored in columns. If \code{"tidy"}, a tibble will be returned
 with one row for each combination of jurisdiction and deprivation measure.
 If \code{"sf"}, a "wide" data set will be returned with geometric data
-appeneded to facilitate mapping and/or spatial statistics.}
+appended to facilitate mapping and/or spatial statistics.}
 
 \item{state}{A character scalar or vector with character state abbreviations
 (e.x. \code{"MO"}) or numeric FIPS codes (e.x. \code{29}).}

@@ -75,9 +75,9 @@ Using FIPS code '29' for state 'MO'
 # ℹ Use `print(n = ...)` to see more rows
 ```
 
-The `index` argument can take multiple indicies at once, as can the
+The `index` argument can take multiple indices at once, as can the
 `year` argument. This gives users the ability to compare multiple
-indicies across multiple years:
+indices across multiple years:
 
 ``` r
 > dep_get_index(geography = "county", state = "MO", index = c("svi20", "svi20s"), year = c(2021, 2022))
@@ -100,7 +100,7 @@ Using FIPS code '29' for state 'MO'
 ```
 
 An alternative to `dep_get_index()` is `dep_calc_index()`, which
-provides users with the ability to calculate indicies using
+provides users with the ability to calculate indices using
 pre-downloaded data. The `dep_sample_data()` function can be used to
 explore how this function works using sample data from the 2018-2022
 5-year American Community Survey for Missouri Counties:

@@ -15,7 +15,7 @@ deprivation index by Messer (\code{"ndi_m"}) and Powell and Wiley
 index (\code{"svi10"}, \code{"svi14"}, \code{"svi20"}, and \code{"svi20s"}).}
 }
 \value{
-A tibble containing the raw 2022 American Community Sruvey data for
+A tibble containing the raw 2022 American Community Survey data for
     the given index. Each tibble will contain observations for the 115
     counties in Missouri.
 }

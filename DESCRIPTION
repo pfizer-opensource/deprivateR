@@ -16,10 +16,11 @@ Description: Provides a unified framework to building Area Deprivation Index (AD
     deprivation measures and accessing related data from the U.S. Census Bureau 
     such as Gini coefficient data. Tools are also available for calculating percentiles,
     quantiles, and for creating clear map breaks for data visualization.
-Depends: R (>= 3.5)
+Depends: R (>= 4.1)
 License: Apache License (>= 2)
 URL: https://pfizer-opensource.github.io/deprivateR/, https://github.com/pfizer-opensource/deprivateR
 Encoding: UTF-8
+Language: en-US
 LazyData: true
 Imports:
     classInt,
@@ -37,6 +38,7 @@ Imports:
     zippeR
 Suggests:
     measurements,
+    spelling,
     testthat,
     tigris
 Config/roxygen2/version: 8.0.0
