@@ -18,6 +18,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - `CHANGELOG.md` excluded from R package tarball via `.Rbuildignore` (#21)
 - Spelling check in CI workflow with `inst/WORDLIST` for domain terms (#27)
 - `Language: en-US` field to DESCRIPTION
+- R package caching (`cache: TRUE`) in pkgdown workflow (#30)
+- System dependency caching (GDAL, PROJ, GEOS, udunits) in R-CMD-check workflow (#30)
 
 ### Fixed
 
