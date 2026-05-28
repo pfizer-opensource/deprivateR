@@ -27,3 +27,4 @@
 ^\.pfizer\.yml$
 ^LICENSE\.md$
 ^CHANGELOG\.md$
+^\.lintr$

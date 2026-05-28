@@ -1,4 +1,3 @@
-context("test dep_sample_data function")
 
 # test errors ------------------------------------------------
 

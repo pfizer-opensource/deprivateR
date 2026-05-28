@@ -1,4 +1,3 @@
-context("test dep_percentiles function")
 
 # setup ------------------------------------------------
 

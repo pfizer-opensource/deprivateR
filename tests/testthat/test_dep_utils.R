@@ -1,4 +1,3 @@
-context("test internal utility functions")
 
 # test dep_quantile_label ------------------------------------------------
 

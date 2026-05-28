@@ -37,8 +37,10 @@ Imports:
     tidyr, 
     zippeR
 Suggests:
+    lintr,
     measurements,
     spelling,
-    testthat,
+    testthat (>= 3.0.0),
     tigris
+Config/testthat/edition: 3
 Config/roxygen2/version: 8.0.0
