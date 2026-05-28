@@ -75,27 +75,36 @@ dep_quantiles <- function(.data, source_var, new_var, n = 4L, return = "label"){
 
   # check inputs
   if (!is.data.frame(.data)) {
-    stop("The object passed to the '.data' argument must be a data frame.")
+    cli::cli_abort("The object passed to {.arg .data} must be a data frame.")
   }
 
   if (!refQ %in% names(.data)) {
-    stop("The variable name passed to the 'source_var' argument does not exist in the data.")
+    cli::cli_abort(c(
+      "The variable name passed to {.arg source_var} does not exist in the data.",
+      "i" = "Column {.val {refQ}} was not found."
+    ))
   }
 
   if (newQ %in% names(.data)){
-    warning("The variable name passed to the 'new_var' argument already exists in the data. It will be overwritten.")
+    cli::cli_warn("The variable name passed to {.arg new_var} already exists in the data. It will be overwritten.")
   }
 
   if (!is.integer(n)){
-    stop("The 'n' argument must be an integer. Include an 'L' suffix to specify an integer value - e.x. 4L.")
+    cli::cli_abort(c(
+      "The {.arg n} argument must be an integer.",
+      "i" = "Include an {.code L} suffix to specify an integer value, e.g. {.code 4L}."
+    ))
   }
 
   if (n < 2L){
-    stop("The 'n' argument must be 2L or greater.")
+    cli::cli_abort("The {.arg n} argument must be {.code 2L} or greater.")
   }
 
   if (!return %in% c("label", "factor")){
-    stop("The 'return' argument must be either 'label' or 'factor'.")
+    cli::cli_abort(c(
+      "The {.arg return} argument must be either {.val label} or {.val factor}.",
+      "i" = "Got {.val {return}}."
+    ))
   }
 
   ## calculate breaks

@@ -3,25 +3,25 @@
 
 test_that("incorrectly specified parameters trigger appropriate errors", {
   expect_error(dep_build_varlist(index = "svi20", year = 2020, survey = "acs5", output = "vector"),
-               "A level of geography must be provided. Please choose one of: 'county', 'zcta3', 'zcta5', or 'tract'.")
+               "geography.*must be provided")
   expect_error(dep_build_varlist(geography = "ham", index = "svi20", year = 2020, survey = "acs5", output = "vector"),
-               "Invalid level of geography provided. Please choose one of: 'county', 'zcta3', 'zcta5', or 'tract'.")
+               "Invalid.*geography")
   expect_error(dep_build_varlist(geography = "tract", year = 2020, survey = "acs5", output = "vector"),
-               "A 'index' value must be provided. Please choose one of: 'adi', 'gini', 'ndi_m', 'ndi_pw', 'svi10', 'svi14', 'svi20', or 'svi20s'.")
+               "index.*must be provided")
   expect_error(dep_build_varlist(geography = "tract", index = "ham", year = 2020, survey = "acs5", output = "vector"),
-               "Invalid index provided. Please choose one of: 'adi', 'gini', 'ndi_m', 'ndi_pw', 'svi10', 'svi14', 'svi20', or 'svi20s'.")
+               "Invalid.*index")
   expect_error(dep_build_varlist(geography = "tract", index = "svi20", year = 2000, survey = "acs5", output = "vector"),
-               "The 'year' value provided is invalid. Please provide a numeric value between 2010 and 2022.")
+               "Invalid.*year")
   expect_error(dep_build_varlist(geography = "tract", index = "svi20", year = "ham", survey = "acs5", output = "vector"),
-               "The 'year' value provided is invalid. Please provide a numeric value between 2010 and 2022.")
+               "Invalid.*year")
   expect_error(dep_build_varlist(geography = "tract", index = "svi20", year = 2020, survey = "acs3", output = "vector"),
-               "The 'acs3' survey was discontinued after 2013. Please select one of 'acs1' or 'acs5'.")
+               "acs3.*after.*2013")
   expect_error(dep_build_varlist(geography = "tract", index = "svi20", year = 2020, survey = "acs3", output = "vector"),
-               "The 'acs3' survey was discontinued after 2013. Please select one of 'acs1' or 'acs5'.")
+               "acs3.*after.*2013")
   expect_error(dep_build_varlist(geography = "tract", index = "svi20", year = 2020, survey = "ham", output = "vector"),
-               "The 'survey' value provided is not valid. Please choose one of 'acs1', 'acs3', or 'acs5'.")
+               "Invalid.*survey")
   expect_error(dep_build_varlist(geography = "tract", index = "svi20", year = 2020, survey = "acs5", output = "ham"),
-               "The 'output' value provided is not valid. Please choose one of 'vector' or 'tibble'.")
+               "Invalid.*output")
 })
 
 # test adi output ------------------------------------------------

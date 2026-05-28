@@ -12,7 +12,7 @@ test_data <- function() {
 test_that("non-data-frame .data triggers error", {
   expect_error(
     dep_quantiles(.data = "not a data frame", source_var = "x", new_var = "y"),
-    "The object passed to the '.data' argument must be a data frame."
+    "object.*\\.data.*must be a data frame"
   )
 })
 
@@ -20,7 +20,7 @@ test_that("nonexistent source_var triggers error", {
   df <- test_data()
   expect_error(
     dep_quantiles(df, source_var = "FAKE_VAR", new_var = "q"),
-    "The variable name passed to the 'source_var' argument does not exist"
+    "source_var.*does not exist"
   )
 })
 
@@ -28,7 +28,7 @@ test_that("non-integer n triggers error", {
   df <- test_data()
   expect_error(
     dep_quantiles(df, source_var = NDI_M, new_var = q, n = 4),
-    "The 'n' argument must be an integer"
+    "n.*must be an integer"
   )
 })
 
@@ -36,7 +36,7 @@ test_that("n < 2L triggers error", {
   df <- test_data()
   expect_error(
     dep_quantiles(df, source_var = NDI_M, new_var = q, n = 1L),
-    "The 'n' argument must be 2L or greater"
+    "n.*must be.*2L.*or greater"
   )
 })
 
@@ -44,7 +44,7 @@ test_that("invalid return triggers error", {
   df <- test_data()
   expect_error(
     dep_quantiles(df, source_var = NDI_M, new_var = q, return = "ham"),
-    "The 'return' argument must be either 'label' or 'factor'"
+    "return.*must be.*label.*or.*factor"
   )
 })
 

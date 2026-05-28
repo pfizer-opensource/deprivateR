@@ -4,7 +4,7 @@
 test_that("missing geography triggers error", {
   expect_error(
     dep_get_index(index = "ndi_m", year = 2020, survey = "acs5"),
-    "A level of geography must be provided"
+    "geography.*must be provided"
   )
 })
 
@@ -12,39 +12,39 @@ test_that("invalid geography triggers error", {
 
   expect_error(
     dep_get_index(geography = "hamlet", index = "ndi_m", year = 2020, survey = "acs5"),
-    "Invalid level of geography provided"
+    "Invalid.*geography"
   )
 })
 
 test_that("missing index triggers error", {
   expect_error(
     dep_get_index(geography = "county", year = 2020, survey = "acs5"),
-    "A 'index' value must be provided"
+    "index.*must be provided"
   )
 })
 
 test_that("invalid index triggers error", {
   expect_error(
     dep_get_index(geography = "county", index = "ham", year = 2020, survey = "acs5"),
-    "Invalid index provided"
+    "Invalid.*index"
   )
 })
 
 test_that("missing year triggers error", {
   expect_error(
     dep_get_index(geography = "county", index = "ndi_m", survey = "acs5"),
-    "A 'year' value must be provided"
+    "year.*must be provided"
   )
 })
 
 test_that("invalid year triggers error", {
   expect_error(
     dep_get_index(geography = "county", index = "ndi_m", year = 2000, survey = "acs5"),
-    "The 'year' value provided is invalid"
+    "year.*invalid"
   )
   expect_error(
     dep_get_index(geography = "county", index = "ndi_m", year = "ham", survey = "acs5"),
-    "The 'year' value provided is invalid"
+    "year.*invalid"
   )
 })
 
@@ -69,14 +69,14 @@ test_that("svi20s year constraint triggers error", {
 test_that("invalid survey triggers error", {
   expect_error(
     dep_get_index(geography = "county", index = "ndi_m", year = 2020, survey = "ham"),
-    "The 'survey' value provided is not valid"
+    "survey.*not valid"
   )
 })
 
 test_that("discontinued acs3 survey triggers error", {
   expect_error(
     dep_get_index(geography = "county", index = "ndi_m", year = 2020, survey = "acs3"),
-    "The 'acs3' survey was discontinued after 2013"
+    "acs3.*discontinued"
   )
 })
 
@@ -84,7 +84,7 @@ test_that("non-logical return_percentiles triggers error", {
   expect_error(
     dep_get_index(geography = "county", index = "ndi_m", year = 2020, survey = "acs5",
                   return_percentiles = "yes"),
-    "Please provide a logical scalar for 'return_percentiles'"
+    "logical scalar.*return_percentiles"
   )
 })
 
@@ -92,7 +92,7 @@ test_that("non-logical keep_subscales triggers error", {
   expect_error(
     dep_get_index(geography = "county", index = "ndi_m", year = 2020, survey = "acs5",
                   keep_subscales = "yes"),
-    "Please provide a logical scalar for 'keep_subscales'"
+    "logical scalar.*keep_subscales"
   )
 })
 
@@ -100,7 +100,7 @@ test_that("non-logical keep_components triggers error", {
   expect_error(
     dep_get_index(geography = "county", index = "ndi_m", year = 2020, survey = "acs5",
                   keep_components = "yes"),
-    "Please provide a logical scalar for 'keep_components'"
+    "logical scalar.*keep_components"
   )
 })
 
@@ -116,7 +116,7 @@ test_that("state and county both specified triggers error", {
   expect_error(
     dep_get_index(geography = "county", index = "ndi_m", year = 2020, survey = "acs5",
                   state = "MO", county = "29510"),
-    "Please choose values for either 'state' or 'county' but not both"
+    "state.*or.*county.*not both"
   )
 })
 
@@ -124,7 +124,7 @@ test_that("non-logical puerto_rico triggers error", {
   expect_error(
     dep_get_index(geography = "county", index = "ndi_m", year = 2020, survey = "acs5",
                   puerto_rico = "yes"),
-    "Please provide a logical scalar for 'puerto_rico'"
+    "logical scalar.*puerto_rico"
   )
 })
 
@@ -132,7 +132,7 @@ test_that("invalid output triggers error", {
   expect_error(
     dep_get_index(geography = "county", index = "ndi_m", year = 2020, survey = "acs5",
                   output = "ham"),
-    "The 'output' requested is invalid"
+    "output.*invalid"
   )
 })
 
@@ -140,7 +140,7 @@ test_that("tidy output with keep_components triggers error", {
   expect_error(
     dep_get_index(geography = "county", index = "ndi_m", year = 2020, survey = "acs5",
                   output = "tidy", keep_components = TRUE),
-    "Tidy output is only available if 'keep_components' is 'FALSE'"
+    "Tidy output.*keep_components.*FALSE"
   )
 })
 
@@ -148,7 +148,7 @@ test_that("non-logical zcta_cb triggers error", {
   expect_error(
     dep_get_index(geography = "county", index = "ndi_m", year = 2020, survey = "acs5",
                   zcta_cb = "yes"),
-    "Please provide a logical scalar for 'zcta_cb'"
+    "logical scalar.*zcta_cb"
   )
 })
 
@@ -156,6 +156,6 @@ test_that("non-logical shift_geo triggers error", {
   expect_error(
     dep_get_index(geography = "county", index = "ndi_m", year = 2020, survey = "acs5",
                   shift_geo = "yes"),
-    "Please provide a logical scalar for 'shift_geo'"
+    "logical scalar.*shift_geo"
   )
 })

@@ -65,20 +65,20 @@ dep_map_breaks <- function(.data, var, new_var, classes, style, breaks,
 
   # check return
   if (return %in% c("col", "breaks") == FALSE){
-    stop("The 'return' argument only accepts 'col' or 'breaks' as arguments.")
+    cli::cli_abort("{.arg return} only accepts {.val col} or {.val breaks}.")
   }
 
   # check for correct combination of parameters
   if (missing(breaks) == FALSE & return == "breaks"){
-    stop("Returning breaks is only possible if breaks are not first supplied.")
+    cli::cli_abort(c("Returning breaks is only possible when {.arg breaks} is not supplied.", "i" = "Omit {.arg breaks} or set {.arg return} to {.val col}."))
   }
 
   if ((missing(classes) == TRUE | missing(style) == TRUE) & missing(breaks) == TRUE){
-    stop("Values must be supplied for both 'classes' and 'style', or 'breaks'.")
+    cli::cli_abort(c("Supply values for both {.arg classes} and {.arg style}, or supply {.arg breaks}.", "i" = "Use {.arg classes} with {.arg style} to compute breaks, or provide {.arg breaks} directly."))
   }
 
   if (return == "col" & missing(new_var) == TRUE){
-    stop("A variable name for a new column must be supplied if 'return' is 'col'.")
+    cli::cli_abort(c("A name for {.arg new_var} must be supplied when {.arg return} is {.val col}.", "i" = "Provide {.arg new_var} or set {.arg return} to {.val breaks}."))
   }
 
   # save parameters to list
@@ -105,17 +105,17 @@ dep_map_breaks <- function(.data, var, new_var, classes, style, breaks,
 
   # check that source variable exists and is numeric
   if (refQ %in% names(.data) == FALSE){
-    stop("The variable supplied for 'var' cannot be found in the data object.")
+    cli::cli_abort("The variable supplied for {.arg var} cannot be found in {.arg .data}.")
   }
 
   if (class(.data[[refQ]]) %in% c("numeric", "integer") == FALSE){
-    stop("The variable supplied for 'var' is not formatted as a numeric or integer variable.")
+    cli::cli_abort("The variable supplied for {.arg var} must be numeric or integer.")
   }
 
   # check other arguments
   if (missing(classes) == FALSE){
     if (class(classes) %in% c("numeric", "integer") == FALSE){
-      stop("The value supplied for 'classes' is not formatted as a numeric or integer value.")
+      cli::cli_abort("The value supplied for {.arg classes} must be numeric or integer.")
     }
   }
 
@@ -124,26 +124,26 @@ dep_map_breaks <- function(.data, var, new_var, classes, style, breaks,
                 "bclust", "fisher", "jenks", "dpih", "headtails", "maximum", "box")
 
     if (style %in% styles == FALSE){
-      stop("The style provided is not supported by classIn::classIntervals. Please select an alternative.")
+      cli::cli_abort(c("{.arg style} is not supported by classInt::classIntervals().", "i" = "Use one of: {.val fixed}, {.val sd}, {.val equal}, {.val pretty}, {.val quantile}, {.val kmeans}, {.val hclust}, {.val bclust}, {.val fisher}, {.val jenks}, {.val dpih}, {.val headtails}, {.val maximum}, or {.val box}."))
     }
   }
 
   if (missing(breaks) == FALSE){
     if (class(breaks) %in% c("numeric", "integer") == FALSE){
-      stop("The vector supplied for 'breaks' is not formatted as a numeric or integer vector.")
+      cli::cli_abort("The vector supplied for {.arg breaks} must be numeric or integer.")
     }
 
     if (length(breaks) < 3){
-      stop("At least three values must be supplied to create a choropleth map with two breaks, which is the minimum supported.")
+      cli::cli_abort(c("At least three values must be supplied for {.arg breaks}.", "i" = "This is the minimum needed to create two choropleth intervals."))
     }
   }
 
   if (class(sig_digits) %in% c("numeric", "integer") == FALSE){
-    stop("The value supplied for 'sig_digits' is not formatted as a numeric or integer value.")
+    cli::cli_abort("The value supplied for {.arg sig_digits} must be numeric or integer.")
   }
 
   if (is.logical(show_warnings) == FALSE){
-    stop("The value supplied for 'show_warnings' is not valid - please provide a logical value.")
+    cli::cli_abort(c("The value supplied for {.arg show_warnings} must be logical.", "i" = "Use either {.val TRUE} or {.val FALSE}."))
   }
 
   # create breaks object, rounded to specified significant digits

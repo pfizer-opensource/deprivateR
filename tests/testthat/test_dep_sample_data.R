@@ -3,9 +3,9 @@
 
 test_that("incorrectly specified parameters trigger appropriate errors", {
   expect_error(dep_sample_data(),
-               "A 'index' value must be provided. Please choose one of: 'adi', 'ndi_m', 'ndi_pw', 'svi10', 'svi14', 'svi20', or 'svi20s'.")
+               "index.*value must be provided")
   expect_error(dep_sample_data(index = "ham"),
-               "Invalid index provided. Please choose one of: 'adi', 'ndi_m', 'ndi_pw', 'svi10', 'svi14', 'svi20', or 'svi20s'.")
+               "Invalid.*index.*provided")
 })
 
 # test adi output ------------------------------------------------

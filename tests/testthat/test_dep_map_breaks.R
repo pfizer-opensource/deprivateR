@@ -13,7 +13,7 @@ test_that("invalid return argument triggers error", {
   expect_error(
     dep_map_breaks(df, var = "NDI_M", new_var = "breaks", classes = 5,
                    style = "fisher", return = "ham"),
-    "The 'return' argument only accepts 'col' or 'breaks' as arguments."
+    "return.*only accepts.*col.*breaks"
   )
 })
 
@@ -22,7 +22,7 @@ test_that("supplying breaks and return = 'breaks' triggers error", {
   expect_error(
     dep_map_breaks(df, var = "NDI_M", new_var = "breaks",
                    breaks = c(0, 25, 50, 75, 100), return = "breaks"),
-    "Returning breaks is only possible if breaks are not first supplied."
+    "Returning breaks.*only possible.*breaks"
   )
 })
 
@@ -30,15 +30,15 @@ test_that("missing both classes/style and breaks triggers error", {
   df <- test_data()
   expect_error(
     dep_map_breaks(df, var = "NDI_M", new_var = "breaks"),
-    "Values must be supplied for both 'classes' and 'style', or 'breaks'."
+    "classes.*style.*breaks"
   )
   expect_error(
     dep_map_breaks(df, var = "NDI_M", new_var = "breaks", classes = 5),
-    "Values must be supplied for both 'classes' and 'style', or 'breaks'."
+    "classes.*style.*breaks"
   )
   expect_error(
     dep_map_breaks(df, var = "NDI_M", new_var = "breaks", style = "fisher"),
-    "Values must be supplied for both 'classes' and 'style', or 'breaks'."
+    "classes.*style.*breaks"
   )
 })
 
@@ -46,7 +46,7 @@ test_that("missing new_var with return = 'col' triggers error", {
   df <- test_data()
   expect_error(
     dep_map_breaks(df, var = "NDI_M", classes = 5, style = "fisher"),
-    "A variable name for a new column must be supplied if 'return' is 'col'."
+    "new_var.*return.*col"
   )
 })
 
@@ -55,7 +55,7 @@ test_that("nonexistent source variable triggers error", {
   expect_error(
     dep_map_breaks(df, var = "FAKE_VAR", new_var = "breaks", classes = 5,
                    style = "fisher"),
-    "The variable supplied for 'var' cannot be found in the data object."
+    "var.*cannot be found"
   )
 })
 
@@ -64,7 +64,7 @@ test_that("non-numeric source variable triggers error", {
   expect_error(
     dep_map_breaks(df, var = "NAME", new_var = "breaks", classes = 5,
                    style = "fisher"),
-    "The variable supplied for 'var' is not formatted as a numeric or integer variable."
+    "var.*numeric.*integer"
   )
 })
 
@@ -73,7 +73,7 @@ test_that("non-numeric classes triggers error", {
   expect_error(
     dep_map_breaks(df, var = "NDI_M", new_var = "breaks", classes = "five",
                    style = "fisher"),
-    "The value supplied for 'classes' is not formatted as a numeric or integer value."
+    "classes.*numeric.*integer"
   )
 })
 
@@ -82,7 +82,7 @@ test_that("invalid style triggers error", {
   expect_error(
     dep_map_breaks(df, var = "NDI_M", new_var = "breaks", classes = 5,
                    style = "invalid_style"),
-    "The style provided is not supported"
+    "style.*not supported"
   )
 })
 
@@ -91,7 +91,7 @@ test_that("non-numeric breaks triggers error", {
   expect_error(
     dep_map_breaks(df, var = "NDI_M", new_var = "breaks",
                    breaks = c("a", "b", "c")),
-    "The vector supplied for 'breaks' is not formatted as a numeric or integer vector."
+    "breaks.*numeric.*integer"
   )
 })
 
@@ -99,7 +99,7 @@ test_that("too few breaks triggers error", {
   df <- test_data()
   expect_error(
     dep_map_breaks(df, var = "NDI_M", new_var = "breaks", breaks = c(0, 100)),
-    "At least three values must be supplied"
+    "At least three values.*breaks"
   )
 })
 
@@ -108,7 +108,7 @@ test_that("non-numeric sig_digits triggers error", {
   expect_error(
     dep_map_breaks(df, var = "NDI_M", new_var = "breaks", classes = 5,
                    style = "fisher", sig_digits = "two"),
-    "The value supplied for 'sig_digits' is not formatted as a numeric or integer value."
+    "sig_digits.*numeric.*integer"
   )
 })
 
@@ -117,7 +117,7 @@ test_that("non-logical show_warnings triggers error", {
   expect_error(
     dep_map_breaks(df, var = "NDI_M", new_var = "breaks", classes = 5,
                    style = "fisher", show_warnings = "yes"),
-    "The value supplied for 'show_warnings' is not valid"
+    "show_warnings.*logical"
   )
 })
 

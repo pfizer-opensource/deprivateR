@@ -41,13 +41,10 @@ validate_state <- function(state, .msg=interactive()) {
       # but warn the caller
       state_sub <- substr(state, 1, 2)
       if (state_sub %in% states_lookup$fips) {
-        message(sprintf("Using first two digits of %s - '%s' (%s) - for FIPS code.",
-                        state, state_sub,
-                        states_lookup[states_lookup$fips == state_sub, "name"]),
-                call.=FALSE)
+        cli::cli_inform("Using first two digits of {state} - {.val {state_sub}} ({states_lookup[states_lookup$fips == state_sub, 'name']}) - for FIPS code.")
         return(state_sub)
       } else {
-        warning(sprintf("'%s' is not a valid FIPS code or state name/abbreviation", state), call.=FALSE)
+        cli::cli_warn("{.val {state}} is not a valid FIPS code or state name/abbreviation.")
         return(NULL)
       }
     }
@@ -57,26 +54,22 @@ validate_state <- function(state, .msg=interactive()) {
     if (nchar(state) == 2 & state %in% states_lookup$abb) { # yay, an abbrev!
 
       if (.msg)
-        message(sprintf("Using FIPS code '%s' for state '%s'",
-                        states_lookup[states_lookup$abb == state, "fips"],
-                        toupper(state)))
+        cli::cli_inform("Using FIPS code {.val {states_lookup[states_lookup$abb == state, 'fips']}} for state {.val {toupper(state)}}.")
       return(states_lookup[states_lookup$abb == state, "fips"])
 
     } else if (nchar(state) > 2 & state %in% states_lookup$name) { # yay, a name!
 
       if (.msg)
-        message(sprintf("Using FIPS code '%s' for state '%s'",
-                        states_lookup[states_lookup$name == state, "fips"],
-                        simpleCapSO(state)))
+        cli::cli_inform("Using FIPS code {.val {states_lookup[states_lookup$name == state, 'fips']}} for state {.val {simpleCapSO(state)}}.")
       return(states_lookup[states_lookup$name == state, "fips"])
 
     } else {
-      warning(sprintf("'%s' is not a valid FIPS code or state name/abbreviation", state), call.=FALSE)
+      cli::cli_warn("{.val {state}} is not a valid FIPS code or state name/abbreviation.")
       return(NULL)
     }
 
   } else {
-    warning(sprintf("'%s' is not a valid FIPS code or state name/abbreviation", state), call.=FALSE)
+    cli::cli_warn("{.val {state}} is not a valid FIPS code or state name/abbreviation.")
     return(NULL)
   }
 

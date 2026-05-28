@@ -163,7 +163,7 @@ dep_get_zcta5 <- function(varlist, year, survey, state, county,
                                         key = key,
                                         debug = debug)
   } else if (debug == "test"){
-    stop("testing debug mode not enabled yet!")
+    cli::cli_abort("Testing debug mode not enabled yet.")
   }
 
   ## optionally filter based on zcta
@@ -262,7 +262,7 @@ dep_get_zcta3 <- function(varlist, year, survey, state, county,
                                         key = key,
                                         debug = debug)
   } else if (debug == "test"){
-    stop("testing debug mode not enabled yet!")
+    cli::cli_abort("Testing debug mode not enabled yet.")
   }
 
   ## optionally filter based on zcta
@@ -305,7 +305,7 @@ dep_get_zcta3 <- function(varlist, year, survey, state, county,
                                  zcta = zcta, key = key,
                                  debug = debug)
   } else if (debug == "test"){
-    stop("testing debug mode not enabled yet!")
+    cli::cli_abort("Testing debug mode not enabled yet.")
   }
 
   ### rename id
@@ -411,7 +411,7 @@ dep_get_census <- function(geography, varlist, year, survey, state, county,
                                show_call = TRUE,
                                key = key)
   } else if (debug == "test"){
-    stop("testing debug mode not enabled yet!")
+    cli::cli_abort("Testing debug mode not enabled yet.")
   }
 
   ## return output

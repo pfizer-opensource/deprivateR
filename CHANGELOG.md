@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Changed
 
+- Migrated all `stop()`/`warning()`/`message()` calls to `cli::cli_abort()`/`cli::cli_warn()`/`cli::cli_inform()` for tidyverse-style formatted error messages (#28)
 - Bumped minimum R version from 4.1 to 4.4 (required by Matrix package dependency chain)
 - Bumped minimum R version from 3.5 to 4.1 (#5)
 - Removed stale `CRAN-SUBMISSION` file from v0.1.0 (#7)
