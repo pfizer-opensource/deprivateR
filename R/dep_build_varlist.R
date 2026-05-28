@@ -33,47 +33,80 @@ dep_build_varlist <- function(geography, index, year, survey = "acs5", output = 
 
   # check inputs
   if (missing(geography) == TRUE) {
-    stop("A level of geography must be provided. Please choose one of: 'county', 'zcta3', 'zcta5', or 'tract'.")
+    cli::cli_abort(c(
+      "A {.arg geography} value must be provided.",
+      "i" = "Choose one of: {.val county}, {.val zcta3}, {.val zcta5}, or {.val tract}."
+    ))
   }
 
   if (geography %in% c("county", "zcta3", "zcta5", "tract") == FALSE){
-    stop("Invalid level of geography provided. Please choose one of: 'county', 'zcta3', 'zcta5', or 'tract'.")
+    cli::cli_abort(c(
+      "Invalid {.arg geography} provided: {.val {geography}}.",
+      "i" = "Choose one of: {.val county}, {.val zcta3}, {.val zcta5}, or {.val tract}."
+    ))
   }
 
   if (missing(index) == TRUE){
-    stop("A 'index' value must be provided. Please choose one of: 'adi', 'gini', 'ndi_m', 'ndi_pw', 'svi10', 'svi14', 'svi20', or 'svi20s'.")
+    cli::cli_abort(c(
+      "A {.arg index} value must be provided.",
+      "i" = "Choose one of: {.val adi}, {.val gini}, {.val ndi_m}, {.val ndi_pw}, {.val svi10}, {.val svi14}, {.val svi20}, or {.val svi20s}."
+    ))
   }
 
   if (all(index %in% c("adi", "gini", "ndi_m", "ndi_pw", "svi10", "svi14", "svi20", "svi20s")) == FALSE){
-    stop("Invalid index provided. Please choose one of: 'adi', 'gini', 'ndi_m', 'ndi_pw', 'svi10', 'svi14', 'svi20', or 'svi20s'.")
+    cli::cli_abort(c(
+      "Invalid {.arg index} provided: {.val {index}}.",
+      "i" = "Choose one of: {.val adi}, {.val gini}, {.val ndi_m}, {.val ndi_pw}, {.val svi10}, {.val svi14}, {.val svi20}, or {.val svi20s}."
+    ))
   }
 
   if (missing(year) == TRUE){
-    stop("A 'year' value must be provided. Please choose a numeric value between 2010 and 2022.")
+    cli::cli_abort(c(
+      "A {.arg year} value must be provided.",
+      "i" = "Choose a numeric value between {.val 2010} and {.val 2022}."
+    ))
   }
 
   if (is.numeric(year) == FALSE | (min(year) < 2010 | max(year) > 2022)){
-    stop("The 'year' value provided is invalid. Please provide a numeric value between 2010 and 2022.")
+    cli::cli_abort(c(
+      "Invalid {.arg year} provided: {.val {year}}.",
+      "i" = "Provide a numeric value between {.val 2010} and {.val 2022}."
+    ))
   }
 
   if (any(index %in% c("svi14", "svi20")) == TRUE & min(year) < 2012){
-    stop("The 'year' value provided is not valid for 2014 or 2020 SVI specifications. Each of those can be calculated from 2012 onward. Please use 'svi10' for 2010 or 2011.")
+    cli::cli_abort(c(
+      "Invalid {.arg year} provided for {.arg index}: {.val {year}}.",
+      "i" = "{.val svi14} and {.val svi20} can be calculated from {.val 2012} onward. Use {.val svi10} for {.val 2010} or {.val 2011}."
+    ))
   }
 
   if (any(index == "svi20s") == TRUE & min(year) < 2019){
-    stop("The 'year' value provided is not valid for the 2020 SVI specification with the alternate single parent measure. This can only be calculated for 2019 onward.")
+    cli::cli_abort(c(
+      "Invalid {.arg year} provided for {.arg index}: {.val {year}}.",
+      "i" = "{.val svi20s} can only be calculated from {.val 2019} onward."
+    ))
   }
 
   if (survey %in% c("acs1", "acs3", "acs5") == FALSE){
-    stop("The 'survey' value provided is not valid. Please choose one of 'acs1', 'acs3', or 'acs5'.")
+    cli::cli_abort(c(
+      "Invalid {.arg survey} provided: {.val {survey}}.",
+      "i" = "Choose one of: {.val acs1}, {.val acs3}, or {.val acs5}."
+    ))
   }
 
   if (survey == "acs3" & year > 2013){
-    stop("The 'acs3' survey was discontinued after 2013. Please select one of 'acs1' or 'acs5'.")
+    cli::cli_abort(c(
+      "The {.val acs3} survey is not available after {.val 2013}.",
+      "i" = "Choose one of: {.val acs1} or {.val acs5}."
+    ))
   }
 
   if (output %in% c("vector", "tibble") == FALSE){
-    stop("The 'output' value provided is not valid. Please choose one of 'vector' or 'tibble'.")
+    cli::cli_abort(c(
+      "Invalid {.arg output} provided: {.val {output}}.",
+      "i" = "Choose one of: {.val vector} or {.val tibble}."
+    ))
   }
 
   ## gini

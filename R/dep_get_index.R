@@ -174,55 +174,85 @@ dep_get_index <- function(geography, index, year, survey = "acs5",
 
   # check inputs
   if (missing(geography) == TRUE) {
-    stop("A level of geography must be provided. Please choose one of: 'county', 'zcta3', 'zcta5', or 'tract'.")
+    cli::cli_abort(c(
+      "A {.arg geography} value must be provided.",
+      "i" = "Choose one of: {.val county}, {.val zcta3}, {.val zcta5}, or {.val tract}."
+    ))
   }
 
   if (geography %in% c("county", "zcta3", "zcta5", "tract") == FALSE){
-    stop("Invalid level of geography provided. Please choose one of: 'county', 'zcta3', 'zcta5', or 'tract'.")
+    cli::cli_abort(c(
+      "Invalid {.arg geography} provided: {.val {geography}}.",
+      "i" = "Choose one of: {.val county}, {.val zcta3}, {.val zcta5}, or {.val tract}."
+    ))
   }
 
   if (missing(index) == TRUE){
-    stop("A 'index' value must be provided. Please choose one of: 'adi', 'gini', 'ndi_m', 'ndi_pw', 'svi10', 'svi14', 'svi20', or 'svi20s'.")
+    cli::cli_abort(c(
+      "A {.arg index} value must be provided.",
+      "i" = "Choose one of: {.val adi}, {.val gini}, {.val ndi_m}, {.val ndi_pw}, {.val svi10}, {.val svi14}, {.val svi20}, or {.val svi20s}."
+    ))
   }
 
   if (all(index %in% c("adi", "gini", "ndi_m", "ndi_pw", "svi10", "svi14", "svi20", "svi20s")) == FALSE){
-    stop("Invalid index provided. Please choose one of: 'adi', 'gini', 'ndi_m', 'ndi_pw', 'svi10', 'svi14', or 'svi20'.")
+    cli::cli_abort(c(
+      "Invalid {.arg index} provided: {.val {index}}.",
+      "i" = "Choose one of: {.val adi}, {.val gini}, {.val ndi_m}, {.val ndi_pw}, {.val svi10}, {.val svi14}, {.val svi20}, or {.val svi20s}."
+    ))
   }
 
   if (missing(year) == TRUE){
-    stop("A 'year' value must be provided. Please choose a numeric value between 2010 and 2022.")
+    cli::cli_abort(c(
+      "A {.arg year} value must be provided.",
+      "i" = "Choose a numeric value between 2010 and 2022."
+    ))
   }
 
   if (is.numeric(year) == FALSE | (min(year) < 2010 | max(year) > 2022)){
-    stop("The 'year' value provided is invalid. Please provide a numeric value between 2010 and 2022.")
+    cli::cli_abort(c(
+      "The {.arg year} value provided is invalid.",
+      "i" = "Please provide a numeric value between 2010 and 2022."
+    ))
   }
 
   if (any(index %in% c("svi14", "svi20")) == TRUE & min(year) < 2012){
-    stop("The 'year' value provided is not valid for 2014 or 2020 SVI specifications. Each of those can be calculated from 2012 onward. Please use 'svi10' for 2010 or 2011.")
+    cli::cli_abort(c(
+      "The {.arg year} value is not valid for 2014 or 2020 SVI specifications.",
+      "i" = "Each of those can be calculated from 2012 onward. Use {.val svi10} for 2010 or 2011."
+    ))
   }
 
   if (any(index == "svi20s") == TRUE & min(year) < 2019){
-    stop("The 'year' value provided is not valid for the 2020 SVI specification with the alternate single parent measure. This can only be calculated for 2019 onward.")
+    cli::cli_abort(c(
+      "The {.arg year} value is not valid for the 2020 SVI specification with the alternate single parent measure.",
+      "i" = "This can only be calculated for 2019 onward."
+    ))
   }
 
   if (survey %in% c("acs1", "acs3", "acs5") == FALSE){
-    stop("The 'survey' value provided is not valid. Please choose one of 'acs1', 'acs3', or 'acs5'.")
+    cli::cli_abort(c(
+      "The {.arg survey} value provided is not valid: {.val {survey}}.",
+      "i" = "Choose one of: {.val acs1}, {.val acs3}, or {.val acs5}."
+    ))
   }
 
   if (survey == "acs3" & max(year) > 2013){
-    stop("The 'acs3' survey was discontinued after 2013. Please select one of 'acs1' or 'acs5'.")
+    cli::cli_abort(c(
+      "The {.val acs3} survey was discontinued after 2013.",
+      "i" = "Please select one of {.val acs1} or {.val acs5}."
+    ))
   }
 
   if (is.logical(return_percentiles) == FALSE){
-    stop("Please provide a logical scalar for 'return_percentiles'.")
+    cli::cli_abort("Please provide a logical scalar for {.arg return_percentiles}.")
   }
 
   if (is.logical(keep_subscales) == FALSE){
-    stop("Please provide a logical scalar for 'keep_subscales'.")
+    cli::cli_abort("Please provide a logical scalar for {.arg keep_subscales}.")
   }
 
   if (is.logical(keep_components) == FALSE){
-    stop("Please provide a logical scalar for 'keep_components'.")
+    cli::cli_abort("Please provide a logical scalar for {.arg keep_components}.")
   }
 
   if (is.null(state) == FALSE){
@@ -230,39 +260,53 @@ dep_get_index <- function(geography, index, year, survey = "acs5",
   }
 
   if (any(state %in% c("AS", "GU", "MP", "PR", "VI")) == TRUE){
-    stop("Territories cannot be specified using the 'state' argument. Use the 'puerto_rico' argument for Puerto Rico. Deprivation measures are not available for other territories.")
+    cli::cli_abort(c(
+      "Territories cannot be specified using the {.arg state} argument.",
+      "i" = "Use the {.arg puerto_rico} argument for Puerto Rico.",
+      "i" = "Deprivation measures are not available for other territories."
+    ))
   }
 
   if (is.null(county) == FALSE & is.null(state) == FALSE){
-    stop("Please choose values for either 'state' or 'county' but not both.")
+    cli::cli_abort("Please choose values for either {.arg state} or {.arg county} but not both.")
   }
 
   if (is.logical(puerto_rico) == FALSE){
-    stop("Please provide a logical scalar for 'puerto_rico'.")
+    cli::cli_abort("Please provide a logical scalar for {.arg puerto_rico}.")
   }
 
   ## need to check for zcta3_method
 
   if (geography != "zcta5" & is.null(zcta) == FALSE){
-    warning("The 'zcta' argument was ignored because the geography requested is not 'zcta5'.")
+    cli::cli_warn("The {.arg zcta} argument was ignored because the geography requested is not {.val zcta5}.")
   } else if (geography == "zcta5" & is.null(zcta) == FALSE){
     valid <- zippeR::zi_validate(zcta, style = geography)
 
     if (valid == FALSE){
-      stop("ZCTA data passed to the 'zcta' argument are invalid. Please use 'zippeR::zi_validate()' with the 'verbose = TRUE' option to investgiate further. The 'zippeR::zi_repair()' function may be used to address isses.")
+      cli::cli_abort(c(
+        "ZCTA data passed to the {.arg zcta} argument are invalid.",
+        "i" = "Use {.fn zippeR::zi_validate} with {.code verbose = TRUE} to investigate further.",
+        "i" = "The {.fn zippeR::zi_repair} function may be used to address issues."
+      ))
     }
   }
 
   if (output %in% c("tidy", "wide", "sf") == FALSE){
-    stop("The 'output' requested is invalid. Please choose one of 'tidy', 'wide', or 'sf'.")
+    cli::cli_abort(c(
+      "The {.arg output} requested is invalid: {.val {output}}.",
+      "i" = "Choose one of: {.val tidy}, {.val wide}, or {.val sf}."
+    ))
   }
 
   if (output == "tidy" & keep_components == TRUE){
-    stop("The 'output' requested is invalid. Tidy output is only available if 'keep_components' is 'FALSE'.")
+    cli::cli_abort(c(
+      "The {.arg output} requested is invalid.",
+      "i" = "Tidy output is only available if {.arg keep_components} is {.code FALSE}."
+    ))
   }
 
   if (is.logical(zcta_cb) == FALSE){
-    stop("Please provide a logical scalar for 'zcta_cb'.")
+    cli::cli_abort("Please provide a logical scalar for {.arg zcta_cb}.")
   }
 
   # if (is.logical(keep_geo_vars) == FALSE){
@@ -271,7 +315,7 @@ dep_get_index <- function(geography, index, year, survey = "acs5",
   keep_geo_vars <- FALSE
 
   if (is.logical(shift_geo) == FALSE){
-    stop("Please provide a logical scalar for 'shift_geo'.")
+    cli::cli_abort("Please provide a logical scalar for {.arg shift_geo}.")
   }
 
   # if (units %in% c("mi2", "km2") == FALSE){

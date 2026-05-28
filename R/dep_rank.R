@@ -30,13 +30,16 @@ dep_percentiles <- function(.data, source_var, new_var){
 
   # check inputs
   if (!inherits(.data, what = "data.frame")){
-    stop("The '.data' object provided is not a data frame or sf object.")
+    cli::cli_abort("The {.arg .data} object provided is not a data frame or sf object.")
   }
 
   source_varQN <- as.character(substitute(source_var))
 
   if (source_varQN %in% names(.data) == FALSE){
-    stop("The given 'source_var' column is not found in your data object.")
+    cli::cli_abort(c(
+      "The given {.arg source_var} column is not found in your data object.",
+      "i" = "Column {.val {source_varQN}} does not exist."
+    ))
   }
 
   # if (!inherits(.data[[source_varQN]], what = "numeric")){
@@ -49,7 +52,7 @@ dep_percentiles <- function(.data, source_var, new_var){
     new_varQN <- as.character(substitute(new_var))
 
     if (new_varQN %in% names(.data) == TRUE){
-      warning("The given 'new_var' column exists in your data and will be overwritten.")
+      cli::cli_warn("The given {.arg new_var} column exists in your data and will be overwritten.")
     }
   }
 

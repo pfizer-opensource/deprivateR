@@ -10,7 +10,7 @@ test_data <- function() {
 test_that("non-data-frame .data triggers error", {
   expect_error(
     dep_percentiles(.data = "not a data frame", source_var = x, new_var = y),
-    "The '.data' object provided is not a data frame"
+    ".data.*not a data frame"
   )
 })
 
@@ -18,7 +18,7 @@ test_that("nonexistent source_var triggers error", {
   df <- test_data()
   expect_error(
     dep_percentiles(df, source_var = FAKE_VAR, new_var = pctile),
-    "The given 'source_var' column is not found in your data object."
+    "source_var.*not found"
   )
 })
 
@@ -50,7 +50,7 @@ test_that("existing new_var produces a warning", {
   df <- test_data()
   expect_warning(
     dep_percentiles(df, source_var = B06009_001E, new_var = GEOID),
-    "The given 'new_var' column exists in your data and will be overwritten."
+    "new_var.*exists.*overwritten"
   )
 })
 

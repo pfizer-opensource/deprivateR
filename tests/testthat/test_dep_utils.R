@@ -50,7 +50,7 @@ test_that("validate_state handles valid abbreviations", {
 test_that("validate_state returns NULL for invalid input", {
   expect_warning(
     result <- deprivateR:::validate_state("ZZ", .msg = FALSE),
-    "is not a valid FIPS code"
+    "not a valid FIPS code"
   )
   expect_null(result)
 })

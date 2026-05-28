@@ -78,63 +78,99 @@ dep_calc_index <- function(.data, geography, index, year, survey = "acs5",
 
   # check inputs
   if (missing(geography) == TRUE) {
-    stop("A level of geography must be provided. Please choose one of: 'county', 'zcta3', 'zcta5', or 'tract'.")
+    cli::cli_abort(c(
+      "A {.arg geography} value must be provided.",
+      "i" = "Choose one of: {.val county}, {.val zcta3}, {.val zcta5}, or {.val tract}."
+    ))
   }
 
   if (geography %in% c("county", "zcta3", "zcta5", "tract") == FALSE){
-    stop("Invalid level of geography provided. Please choose one of: 'county', 'zcta3', 'zcta5', or 'tract'.")
+    cli::cli_abort(c(
+      "Invalid {.arg geography} provided: {.val {geography}}.",
+      "i" = "Choose one of: {.val county}, {.val zcta3}, {.val zcta5}, or {.val tract}."
+    ))
   }
 
   if (missing(index) == TRUE){
-    stop("A 'index' value must be provided. Please choose one of: 'adi', 'gini', 'ndi_m', 'ndi_pw', 'svi10', 'svi14', 'svi20', or 'svi20s'.")
+    cli::cli_abort(c(
+      "A {.arg index} value must be provided.",
+      "i" = "Choose one of: {.val adi}, {.val gini}, {.val ndi_m}, {.val ndi_pw}, {.val svi10}, {.val svi14}, {.val svi20}, or {.val svi20s}."
+    ))
   }
 
   if (all(index %in% c("adi", "gini", "ndi_m", "ndi_pw", "svi10", "svi14", "svi20", "svi20s")) == FALSE){
-    stop("Invalid index provided. Please choose one of: 'adi', 'gini', 'ndi_m', 'ndi_pw', 'svi10', 'svi14', 'svi20', or 'svi20s'.")
+    cli::cli_abort(c(
+      "Invalid {.arg index} provided: {.val {index}}.",
+      "i" = "Choose one of: {.val adi}, {.val gini}, {.val ndi_m}, {.val ndi_pw}, {.val svi10}, {.val svi14}, {.val svi20}, or {.val svi20s}."
+    ))
   }
 
   if (missing(year) == TRUE){
-    stop("A 'year' value must be provided. Please choose a numeric value between 2010 and 2021.")
+    cli::cli_abort(c(
+      "A {.arg year} value must be provided.",
+      "i" = "Choose a numeric value between 2010 and 2022."
+    ))
   }
 
   if (is.numeric(year) == FALSE | (min(year) < 2010 | max(year) > 2022)){
-    stop("The 'year' value provided is invalid. Please provide a numeric value between 2010 and 2022.")
+    cli::cli_abort(c(
+      "The {.arg year} value provided is invalid.",
+      "i" = "Please provide a numeric value between 2010 and 2022."
+    ))
   }
 
   if (any(index %in% c("svi14", "svi20")) == TRUE & min(year) < 2012){
-    stop("The 'year' value provided is not valid for 2014 or 2020 SVI specifications. Each of those can be calculated from 2012 onward. Please use 'svi10' for 2010 or 2011.")
+    cli::cli_abort(c(
+      "The {.arg year} value is not valid for 2014 or 2020 SVI specifications.",
+      "i" = "Each of those can be calculated from 2012 onward. Use {.val svi10} for 2010 or 2011."
+    ))
   }
 
   if (any(index == "svi20s") == TRUE & min(year) < 2019){
-    stop("The 'year' value provided is not valid for the 2020 SVI specification with the alternate single parent measure. This can only be calculated for 2019 onward.")
+    cli::cli_abort(c(
+      "The {.arg year} value is not valid for the 2020 SVI specification with the alternate single parent measure.",
+      "i" = "This can only be calculated for 2019 onward."
+    ))
   }
 
   if (survey %in% c("acs1", "acs3", "acs5") == FALSE){
-    stop("The 'survey' value provided is not valid. Please choose one of 'acs1', 'acs3', or 'acs5'.")
+    cli::cli_abort(c(
+      "The {.arg survey} value provided is not valid: {.val {survey}}.",
+      "i" = "Choose one of: {.val acs1}, {.val acs3}, or {.val acs5}."
+    ))
   }
 
   if (survey == "acs3" & year > 2013){
-    stop("The 'acs3' survey was discontinued after 2013. Please select one of 'acs1' or 'acs5'.")
+    cli::cli_abort(c(
+      "The {.val acs3} survey was discontinued after 2013.",
+      "i" = "Please select one of {.val acs1} or {.val acs5}."
+    ))
   }
 
   if (is.logical(return_percentiles) == FALSE){
-    stop("Please provide a logical scalar for 'return_percentiles'.")
+    cli::cli_abort("Please provide a logical scalar for {.arg return_percentiles}.")
   }
 
   if (is.logical(keep_subscales) == FALSE){
-    stop("Please provide a logical scalar for 'keep_subscales'.")
+    cli::cli_abort("Please provide a logical scalar for {.arg keep_subscales}.")
   }
 
   if (is.logical(keep_components) == FALSE){
-    stop("Please provide a logical scalar for 'keep_components'.")
+    cli::cli_abort("Please provide a logical scalar for {.arg keep_components}.")
   }
 
   if (output %in% c("wide", "tidy") == FALSE){
-    stop("The 'output' value provided is not valid. Please choose one of 'wide' or 'tidy'.")
+    cli::cli_abort(c(
+      "The {.arg output} value provided is not valid: {.val {output}}.",
+      "i" = "Choose one of: {.val wide} or {.val tidy}."
+    ))
   }
 
   if (output == "tidy" & keep_components == TRUE){
-    stop("The 'output' requested is invalid. Tidy output is only available if 'keep_components' is 'FALSE'.")
+    cli::cli_abort(c(
+      "The {.arg output} requested is invalid.",
+      "i" = "Tidy output is only available if {.arg keep_components} is {.code FALSE}."
+    ))
   }
 
   # prep extra inputs
@@ -170,7 +206,10 @@ dep_calc_index <- function(.data, geography, index, year, survey = "acs5",
 
   ## test variable names
   if (all(var_expected %in% names(.data)) == FALSE){
-    stop("Variables necessary for the given year(s) and index/indicies are missing. Please double check your input data.")
+    cli::cli_abort(c(
+      "Variables necessary for the given year(s) and index/indices are missing.",
+      "i" = "Please double check your input data."
+    ))
   }
 
   # split data frame
@@ -215,7 +254,7 @@ dep_calc_index <- function(.data, geography, index, year, survey = "acs5",
 
   ## throw warning
   if (any(out_names %in% names(.data)) == TRUE){
-    warning("Variable conflicts present between input data and deprivation output. Only output returned.")
+    cli::cli_warn("Variable conflicts present between input data and deprivation output. Only output returned.")
   } else if (any(out_names %in% names(.data)) == FALSE){
     if (length(year) > 1){
       out <- merge(x = .data, y = out, by = c("GEOID", "YEAR"), all.x = TRUE)
