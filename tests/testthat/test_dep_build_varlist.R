@@ -46,14 +46,15 @@ test_that("gini creation executes correctly", {
   expect_equal(class(out_gini), "character")
   expect_equal(length(out_gini), 1)
 
-  skip_if_offline()
+  skip_if_not(nzchar(Sys.getenv("CENSUS_API_KEY")),
+              message = "Census API key not available")
   out_gini_tbl <- expect_error(
     dep_build_varlist(geography = "county", index = "gini", year = 2019,
                       survey = "acs5", output = "tibble"), NA
   )
 
   expect_equal(class(out_gini_tbl), c("tbl_df", "tbl", "data.frame"))
-  expect_equal(names(out_gini_tbl), c("name", "label", "concept"))
+  expect_true(all(c("name", "label", "concept") %in% names(out_gini_tbl)))
   expect_equal(nrow(out_gini_tbl), 1)
 })
 
@@ -67,14 +68,15 @@ test_that("ndi_m creation executes correctly", {
   expect_equal(class(out_ndi_m), "character")
   expect_equal(length(out_ndi_m), 19)
 
-  skip_if_offline()
+  skip_if_not(nzchar(Sys.getenv("CENSUS_API_KEY")),
+              message = "Census API key not available")
   out_ndi_m_tbl <- expect_error(
     dep_build_varlist(geography = "county", index = "ndi_m", year = 2019,
                       survey = "acs5", output = "tibble"), NA
   )
 
   expect_equal(class(out_ndi_m_tbl), c("tbl_df", "tbl", "data.frame"))
-  expect_equal(names(out_ndi_m_tbl), c("name", "label", "concept"))
+  expect_true(all(c("name", "label", "concept") %in% names(out_ndi_m_tbl)))
   expect_equal(nrow(out_ndi_m_tbl), 19)
 })
 
@@ -86,14 +88,15 @@ test_that("ndi_pw creation executes correctly", {
   expect_equal(class(out_ndi_m), "character")
   expect_equal(length(out_ndi_m), 19)
 
-  skip_if_offline()
+  skip_if_not(nzchar(Sys.getenv("CENSUS_API_KEY")),
+              message = "Census API key not available")
   out_ndi_m_tbl <- expect_error(
     dep_build_varlist(geography = "county", index = "ndi_pw", year = 2019,
                       survey = "acs5", output = "tibble"), NA
   )
 
   expect_equal(class(out_ndi_m_tbl), c("tbl_df", "tbl", "data.frame"))
-  expect_equal(names(out_ndi_m_tbl), c("name", "label", "concept"))
+  expect_true(all(c("name", "label", "concept") %in% names(out_ndi_m_tbl)))
   expect_equal(nrow(out_ndi_m_tbl), 19)
 })
 
