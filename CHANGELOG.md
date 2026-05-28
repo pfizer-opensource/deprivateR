@@ -16,6 +16,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Added
 
 - Unit tests for `dep_get_index`, `dep_map_breaks`, `dep_quantiles`, `dep_percentiles`, and internal helpers — 179 assertions across 8 test files (#3)
+- testthat 3rd edition adopted (`Config/testthat/edition: 3` in DESCRIPTION) (#4)
+- lintr CI workflow with `.lintr` config; currently enforces `linters_with_defaults()` minus style-only linters that conflict with existing code (#12)
 - `LICENSE.md` with full Apache 2.0 text for pkgdown site rendering (#9)
 - `CHANGELOG.md` excluded from R package tarball via `.Rbuildignore` (#21)
 - Spelling check in CI workflow with `inst/WORDLIST` for domain terms (#27)

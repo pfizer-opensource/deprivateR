@@ -1,4 +1,3 @@
-context("test dep_quantiles function")
 
 # setup ------------------------------------------------
 

@@ -1,4 +1,3 @@
-context("test dep_build_varlist function")
 
 # test errors ------------------------------------------------
 

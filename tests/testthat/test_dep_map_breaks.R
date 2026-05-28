@@ -1,4 +1,3 @@
-context("test dep_map_breaks function")
 
 # setup ------------------------------------------------
 

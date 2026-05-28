@@ -1,4 +1,3 @@
-context("test dep_get_index function")
 
 # test errors ------------------------------------------------
 
