@@ -132,7 +132,7 @@ test_that("invalid output triggers error", {
   expect_error(
     dep_get_index(geography = "county", index = "ndi_m", year = 2020, survey = "acs5",
                   output = "ham"),
-    "output.*invalid"
+    "output.*not valid"
   )
 })
 
