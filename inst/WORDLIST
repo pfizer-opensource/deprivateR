@@ -8,6 +8,7 @@ classInt
 classIntervals
 cranchecks
 deciles
+dep
 dplyr
 FIPS
 GEOID
@@ -26,6 +27,7 @@ pre
 rlang
 roxygen
 SES
+signup
 sociome
 stringr
 subscales
