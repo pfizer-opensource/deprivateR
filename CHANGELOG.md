@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 - Test coverage analysis report at `docs/audits/2026-05-29-coverage-analysis.md` — establishes 34.7% baseline and identifies critical gaps (#51)
 - `dep_set_api_key()` — wrapper around `tidycensus::census_api_key()` with cascading key lookup (explicit key → env var → interactive prompt) (#11)
+- Unit tests for `dep_process()` dispatcher, SVI sub-theme functions, NDI (Messer + Powell-Wiley), ADI, Gini, and `validate_state()` — 173 new tests (#55, #57, #56)
 
 ### Fixed
 
