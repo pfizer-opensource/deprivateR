@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
+- Test coverage analysis report at `docs/audits/2026-05-29-coverage-analysis.md` — establishes 34.7% baseline and identifies critical gaps (#51)
 - `dep_set_api_key()` — wrapper around `tidycensus::census_api_key()` with cascading key lookup (explicit key → env var → interactive prompt) (#11)
 
 ### Fixed
