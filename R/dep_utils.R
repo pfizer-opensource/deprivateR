@@ -1,6 +1,6 @@
 pivot_demos <- function(.data, vars){
 
-  out <- tidyr::pivot_longer(.data, cols = tidyselect::all_of(vars), names_to = "variable", values_to = "values")
+  out <- tidyr::pivot_longer(.data, cols = dplyr::all_of(vars), names_to = "variable", values_to = "values")
   out$variable <- ifelse(grepl("E", out$variable, fixed = TRUE) == TRUE, "estimate", "moe")
 
   out <- suppressWarnings(tidyr::pivot_wider(out, id_cols = GEOID, names_from = variable, values_from = values))

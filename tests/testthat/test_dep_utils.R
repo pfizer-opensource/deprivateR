@@ -64,7 +64,7 @@ test_that("validate_state returns NULL for NULL input", {
 
 test_that("pivot_demos aggregates estimate and moe columns", {
   # Create minimal test data mimicking Census format
-  test_df <- tibble::tibble(
+  test_df <- dplyr::tibble(
     GEOID = rep(c("29001", "29003"), each = 1),
     B01001_001E = c(100, 200),
     B01001_001M = c(10, 20)

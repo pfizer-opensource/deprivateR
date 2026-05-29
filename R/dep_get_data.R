@@ -229,7 +229,7 @@ dep_get_zcta5 <- function(varlist, year, survey, state, county,
     }
 
   } else if (geometry == FALSE){
-    geo <- tibble::as_tibble(data.frame(GEOID = demo$GEOID))
+    geo <- dplyr::as_tibble(data.frame(GEOID = demo$GEOID))
   }
 
   ## construct output
@@ -346,7 +346,7 @@ dep_get_zcta3 <- function(varlist, year, survey, state, county,
     }
 
   } else if (geometry == FALSE){
-    geo <- tibble::as_tibble(data.frame(GEOID = demo$GEOID))
+    geo <- dplyr::as_tibble(data.frame(GEOID = demo$GEOID))
   }
 
   ## construct output

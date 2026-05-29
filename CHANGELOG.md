@@ -18,6 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 - Removed manual `@usage` roxygen2 tags from function documentation; usage is now auto-generated from signatures (#40)
 - Migrated all `stop()`/`warning()`/`message()` calls to `cli::cli_abort()`/`cli::cli_warn()`/`cli::cli_inform()` for tidyverse-style formatted error messages (#28)
+- Removed `english`, `tibble`, and `tidyselect` from Imports; replaced with `dplyr` re-exports (14 → 11 dependencies) (#44)
 - Bumped minimum R version from 4.1 to 4.4 (required by Matrix package dependency chain)
 - Bumped minimum R version from 3.5 to 4.1 (#5)
 - Removed stale `CRAN-SUBMISSION` file from v0.1.0 (#7)

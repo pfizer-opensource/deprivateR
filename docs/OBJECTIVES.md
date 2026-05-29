@@ -23,6 +23,7 @@ quadrant: governance
 
 **Supporting epics:**
 - [Epic C] Documentation and User Onboarding (#17)
+- [Epic F] Code Quality & Test Coverage (#52)
 
 **Completed epics:**
 - [Epic A] CRAN Compliance and Release Readiness (#15) - closed 2026-05-27

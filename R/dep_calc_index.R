@@ -262,7 +262,7 @@ dep_calc_index <- function(.data, geography, index, year, survey = "acs5",
 
   # prep output
   if (output == "wide"){
-    out <- tibble::as_tibble(out)
+    out <- dplyr::as_tibble(out)
   }
 
   # return output

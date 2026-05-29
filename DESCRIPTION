@@ -26,15 +26,12 @@ Imports:
     classInt,
     cli,
     dplyr,
-    english,
     ndi,
     rlang,
     sf,
     sociome,
     stringr,
-    tibble,
     tidycensus,
-    tidyselect,
     tidyr, 
     zippeR
 Suggests:

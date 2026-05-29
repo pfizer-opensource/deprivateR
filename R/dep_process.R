@@ -162,7 +162,7 @@ dep_process <- function(.data, geography, index, year, survey,
   # prep output
   if (output == "wide"){
 
-    out <- tibble::as_tibble(out)
+    out <- dplyr::as_tibble(out)
 
   } else if (output == "tidy"){
 
