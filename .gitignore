@@ -88,3 +88,6 @@ vignettes/*.pdf
 docs/WORKFLOW.md
 docs/README.md
 .positai
+
+# pkgdown output
+_site/
