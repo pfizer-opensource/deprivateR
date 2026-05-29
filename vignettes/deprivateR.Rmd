@@ -1,0 +1,274 @@
+---
+title: "Getting Started with deprivateR"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting Started with deprivateR}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Overview
+
+`deprivateR` provides a unified framework for calculating measures of area-level
+deprivation in the United States. These measures are commonly used in social
+determinants of health research to quantify neighborhood disadvantage.
+
+The package supports the following indices:
+ 
+- **Area Deprivation Index (ADI)** (`"adi"`) - a factor-based measure of
+  socioeconomic deprivation (via `sociome`)
+- **Gini Coefficient** (`"gini"`) - a measure of income inequality (via
+  `tidycensus`)
+- **Neighborhood Deprivation Index, Messer** (`"ndi_m"`) - a factor-based
+  deprivation measure (via `ndi`)
+- **Neighborhood Deprivation Index, Powell-Wiley** (`"ndi_pw"`) - an alternative
+  NDI formulation (via `ndi`)
+- **Social Vulnerability Index (SVI)** (`"svi10"`, `"svi14"`, `"svi20"`,
+  `"svi20s"`) - the CDC's composite vulnerability measure, with four methodology
+  variants
+
+Data can be retrieved at the county, census tract, ZCTA5, or ZCTA3 level for
+years 2010 through 2022.
+
+## Setup
+
+### Installation
+
+You can install `deprivateR` from GitHub:
+
+```{r install, eval = FALSE}
+# install.packages("remotes")
+remotes::install_github("pfizer-opensource/deprivateR")
+```
+
+### Census API Key
+
+To download data from the Census Bureau, you need a free API key. You can
+request one at <https://api.census.gov/data/key_signup.html>.
+
+Once you have your key, store it for use with `tidycensus`:
+ 
+```{r api-key, eval = FALSE}
+tidycensus::census_api_key("YOUR_KEY_HERE", install = TRUE)
+```
+
+This saves the key to your `.Renviron` file so it is available across sessions.
+
+## Quick Start with Sample Data
+
+The package includes sample data so you can explore functionality without an
+API key. The sample data contains 2022 ACS 5-year estimates for all 115
+counties in Missouri.
+
+```{r load}
+library(deprivateR)
+```
+
+### Load and Calculate an Index
+
+```{r sample-calc}
+# load sample data for the Messer NDI
+ndi_data <- dep_sample_data(index = "ndi_m")
+
+# calculate the index
+ndi_results <- dep_calc_index(
+  ndi_data,
+  geography = "county",
+  index = "ndi_m",
+  year = 2022,
+  return_percentiles = TRUE
+)
+
+# view the results
+ndi_results[, c("GEOID", "NAME", "NDI_M")]
+```
+
+The `NDI_M` column contains the calculated Neighborhood Deprivation Index
+scores. Higher values indicate greater deprivation.
+
+### Quantiles for Analysis
+
+To use deprivation scores as categorical variables in statistical models, you
+can split them into quantiles:
+
+```{r quantiles}
+# split NDI into quartiles
+ndi_results <- dep_quantiles(
+  ndi_results,
+  source_var = NDI_M,
+  new_var = ndi_quartile,
+  n = 4L,
+  return = "label"
+)
+
+# view the distribution
+table(ndi_results$ndi_quartile)
+```
+
+### Map Breaks for Visualization
+
+To create choropleth maps, use `dep_map_breaks()` to calculate appropriate
+classification breaks:
+
+```{r map-breaks}
+# calculate Fisher-Jenks breaks with 5 classes
+ndi_results <- dep_map_breaks(
+  ndi_results,
+  var = "NDI_M",
+  new_var = "map_class",
+  classes = 5,
+  style = "fisher"
+)
+
+# view the break labels
+levels(ndi_results$map_class)
+```
+ 
+You can also specify manual breaks:
+
+```{r manual-breaks}
+# define custom break points
+my_breaks <- c(
+  min(ndi_results$NDI_M, na.rm = TRUE),
+  25, 50, 75,
+  max(ndi_results$NDI_M, na.rm = TRUE)
+)
+
+# apply manual breaks
+ndi_results <- dep_map_breaks(
+  ndi_results,
+  var = "NDI_M",
+  new_var = "map_class_manual",
+  breaks = my_breaks
+)
+
+levels(ndi_results$map_class_manual)
+```
+
+## Downloading Data with dep_get_index()
+
+When you have a Census API key configured, `dep_get_index()` handles the full
+workflow of downloading raw data and computing indices in one step:
+
+```{r get-index, eval = FALSE}
+# download and calculate SVI for Missouri tracts
+mo_svi <- dep_get_index(
+
+  geography = "tract",
+  index = "svi20",
+  year = 2020,
+  state = "MO"
+)
+```
+
+### Multiple Indices at Once
+
+You can request multiple indices in a single call:
+
+```{r multi-index, eval = FALSE}
+# calculate ADI and Gini together for Missouri counties
+mo_multi <- dep_get_index(
+  geography = "county",
+  index = c("adi", "gini"),
+  year = 2022,
+  state = "MO"
+)
+```
+
+### Spatial Output for Mapping
+
+Set `output = "sf"` to get results with geometry attached, ready for mapping
+with `ggplot2` or `leaflet`:
+
+```{r sf-output, eval = FALSE}
+# get SVI with geometry for mapping
+mo_svi_sf <- dep_get_index(
+  geography = "tract",
+  index = "svi20",
+  year = 2020,
+  state = "MO",
+  output = "sf"
+)
+
+# plot with ggplot2
+library(ggplot2)
+ggplot(mo_svi_sf) +
+  geom_sf(aes(fill = SVI20), color = NA) +
+  scale_fill_viridis_c(direction = -1) +
+  theme_void() +
+  labs(title = "Social Vulnerability Index, Missouri Tracts (2020)")
+```
+
+### Subscales and Components
+
+For deeper analysis, you can retain subscales and the underlying component
+variables:
+
+```{r subscales, eval = FALSE}
+# keep SVI theme subscales and all component variables
+mo_detailed <- dep_get_index(
+  geography = "county",
+  index = "svi20",
+  year = 2020,
+  state = "MO",
+  keep_subscales = TRUE,
+  keep_components = TRUE
+)
+```
+
+## Two-Step Workflow
+
+For more control, you can separate data retrieval from calculation. This is
+useful when you want to inspect or modify the raw data before computing scores:
+
+```{r two-step, eval = FALSE}
+# step 1: build the variable list and download data
+library(tidycensus)
+
+vars <- dep_build_varlist(
+  geography = "county",
+  index = "ndi_m",
+  year = 2022
+)
+
+raw_data <- get_acs(
+  geography = "county",
+  variables = vars,
+  year = 2022,
+  state = "MO",
+  output = "wide"
+)
+
+# step 2: calculate the index on your data
+results <- dep_calc_index(
+  raw_data,
+  geography = "county",
+  index = "ndi_m",
+  year = 2022
+)
+```
+
+## Summary of Key Functions
+
+| Function | Purpose |
+|----------|---------|
+| `dep_get_index()` | Download data and calculate indices (one step) |
+| `dep_calc_index()` | Calculate indices on existing data |
+| `dep_build_varlist()` | Get the Census variable names needed for an index |
+| `dep_sample_data()` | Load bundled sample data (no API key required) |
+| `dep_quantiles()` | Split scores into quantile categories |
+| `dep_percentiles()` | Calculate percentile ranks |
+| `dep_map_breaks()` | Create classification breaks for choropleth maps |
+
+## Further Resources
+
+- [Package documentation site](https://pfizer-opensource.github.io/deprivateR/)
+- [GitHub repository](https://github.com/pfizer-opensource/deprivateR)
+- [Census API key signup](https://api.census.gov/data/key_signup.html)
