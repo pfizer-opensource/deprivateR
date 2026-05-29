@@ -6,7 +6,7 @@
 
 ## Next
 
-_(empty)_
+- [Epic F] Code Quality & Test Coverage (#52) — `priority: medium`
 
 ## Later
 
