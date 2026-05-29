@@ -419,9 +419,9 @@ dep_expand_varlist <- function(geography, index, year, survey,
                           "svi10, eng", "svi14, eng", "svi20, eng", "svi20s, eng",
                           "svi10, htt", "svi14, htt", "svi20, htt", "svi20s, htt") == TRUE){
 
-    req <- paste0(stringr::word(index, 2),"_vars")
+    req <- paste0(.dep_str_word(index, 2),"_vars")
 
-    if (stringr::word(index, 1) == "svi10,"){
+    if (.dep_str_word(index, 1) == "svi10,"){
 
       if (year %in% c(2010:2014) == TRUE){
         out <- request_vars$svi10_10[[req]]
@@ -431,7 +431,7 @@ dep_expand_varlist <- function(geography, index, year, survey,
         out <- request_vars$svi10_17[[req]]
       }
 
-    } else if (stringr::word(index, 1) == "svi14,"){
+    } else if (.dep_str_word(index, 1) == "svi14,"){
 
       if (year %in% c(2012:2014) == TRUE){
         out <- request_vars$svi14_12[[req]]
@@ -441,7 +441,7 @@ dep_expand_varlist <- function(geography, index, year, survey,
         out <- request_vars$svi14_17[[req]]
       }
 
-    } else if (stringr::word(index, 1) == "svi20,"){
+    } else if (.dep_str_word(index, 1) == "svi20,"){
 
       if (year == 2012){
         out <- request_vars$svi20_12[[req]]
@@ -452,7 +452,7 @@ dep_expand_varlist <- function(geography, index, year, survey,
       } else if (year %in% c(2017:2022) == TRUE){
         out <- request_vars$svi20_17[[req]]
       }
-    } else if (stringr::word(index, 1) == "svi20s,"){
+    } else if (.dep_str_word(index, 1) == "svi20s,"){
       out <- request_vars$svi20s_19[[req]]
     }
   }
@@ -509,5 +509,17 @@ dep_build_multi_varlist <- function(geography, index, year, survey){
   ## return output
   return(out)
 
+}
+
+
+# Internal helper: extract the nth word from a string (space-separated)
+# Matches stringr::word() behavior: returns NA for NA input, empty strings,
+# or out-of-bounds index
+.dep_str_word <- function(x, n) {
+  if (is.na(x)) return(NA_character_)
+  if (!nzchar(x)) return("")
+  words <- strsplit(trimws(x), "\\s+")[[1]]
+  if (n > length(words) || n < 1) return(NA_character_)
+  words[n]
 }
 

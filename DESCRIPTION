@@ -30,7 +30,6 @@ Imports:
     rlang,
     sf,
     sociome,
-    stringr,
     tidycensus,
     tidyr, 
     zippeR
