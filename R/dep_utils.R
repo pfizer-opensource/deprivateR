@@ -14,6 +14,30 @@ pivot_demos <- function(.data, vars){
 }
 
 
+# Safe percentage calculation ---------------------------------------------
+# Returns NA_real_ when denominator is 0 or NA instead of Inf/NaN
+dep_safe_pct <- function(numerator, denominator) {
+  result <- ifelse(denominator == 0 | is.na(denominator),
+                   NA_real_,
+                   numerator / denominator * 100)
+  return(result)
+}
+
+
+# Derived margin of error for proportions ---------------------------------
+# Census-standard derived MOE formula:
+#   ((sqrt(M^2 - ((EP/100)^2 * DM^2))) / DM) * 100
+# Returns NA_real_ when denominator is 0/NA or radicand is negative
+dep_derived_moe <- function(estimate_moe, proportion, denominator_moe, denominator) {
+  radicand <- estimate_moe^2 - ((proportion / 100)^2 * denominator_moe^2)
+  invalid <- denominator == 0 | is.na(denominator) | radicand < 0 | is.na(radicand)
+  # Use pmax to avoid sqrt(negative) warnings; invalid cases are replaced with NA below
+  safe_radicand <- ifelse(invalid, 0, radicand)
+  result <- ifelse(invalid, NA_real_, (sqrt(safe_radicand) / denominator) * 100)
+  return(result)
+}
+
+
 # the functions below are from the tigris package that are not exported
 # https://github.com/walkerke/tigris/blob/master/R/utils.R
 # used based on terms of the MIT License used by the package's author, Kyle Walker
