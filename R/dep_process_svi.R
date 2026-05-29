@@ -283,31 +283,31 @@ dep_process_svi_ses <- function(.data, style, geography, year, survey, keep_comp
   }
 
   ## calculate metrics
-  out$EP_NOHSDP <- out$E_NOHSDP/out$D_NOHSDP*100
-  out$MP_NOHSDP <- ((sqrt(out$M_NOHSDP^2-((out$EP_NOHSDP/100)^2*out$DM_NOHSDP^2)))/out$DM_NOHSDP)*100
+  out$EP_NOHSDP <- dep_safe_pct(out$E_NOHSDP, out$D_NOHSDP)
+  out$MP_NOHSDP <- dep_derived_moe(out$M_NOHSDP, out$EP_NOHSDP, out$DM_NOHSDP, out$DM_NOHSDP)
 
-  out$EP_UNEMP <- out$E_UNEMP/out$D_UNEMP*100
-  out$MP_UNEMP <- ((sqrt(out$M_UNEMP^2-((out$EP_UNEMP/100)^2*out$DM_UNEMP^2)))/out$DM_UNEMP)*100
+  out$EP_UNEMP <- dep_safe_pct(out$E_UNEMP, out$D_UNEMP)
+  out$MP_UNEMP <- dep_derived_moe(out$M_UNEMP, out$EP_UNEMP, out$DM_UNEMP, out$DM_UNEMP)
 
   if (style %in% c("svi10", "svi14") == TRUE){
 
-    out$EP_POV <- out$E_POV/out$D_POV*100
-    out$MP_POV <- ((sqrt(out$M_POV^2-((out$EP_POV/100)^2*out$DM_POV^2)))/out$DM_POV)*100
+    out$EP_POV <- dep_safe_pct(out$E_POV, out$D_POV)
+    out$MP_POV <- dep_derived_moe(out$M_POV, out$EP_POV, out$DM_POV, out$DM_POV)
 
   } else if (style %in% c("svi20", "svi20s") == TRUE){
 
-    out$EP_POV150 <- out$E_POV150/out$D_POV150*100
-    out$MP_POV150 <- ((sqrt(out$M_POV150^2-((out$EP_POV150/100)^2*out$DM_POV150^2)))/out$DM_POV150)*100
+    out$EP_POV150 <- dep_safe_pct(out$E_POV150, out$D_POV150)
+    out$MP_POV150 <- dep_derived_moe(out$M_POV150, out$EP_POV150, out$DM_POV150, out$DM_POV150)
 
-    out$EP_UNINSUR <- out$E_UNINSUR/out$D_UNINSUR*100
-    out$MP_UNINSUR <- ((sqrt(out$M_UNINSUR^2-((out$EP_UNINSUR/100)^2*out$DM_UNINSUR^2)))/out$DM_UNINSUR)*100
+    out$EP_UNINSUR <- dep_safe_pct(out$E_UNINSUR, out$D_UNINSUR)
+    out$MP_UNINSUR <- dep_derived_moe(out$M_UNINSUR, out$EP_UNINSUR, out$DM_UNINSUR, out$DM_UNINSUR)
 
     if (year < 2017){
       out$EP_HBURD <- out$E_HBURD
       out$MP_HBURD <- out$M_HBURD
     } else if (year >= 2017){
-      out$EP_HBURD <- out$E_HBURD/out$D_HBURD*100
-      out$MP_HBURD <- ((sqrt(out$M_HBURD^2-((out$EP_HBURD/100)^2*out$DM_HBURD^2)))/out$DM_HBURD)*100
+      out$EP_HBURD <- dep_safe_pct(out$E_HBURD, out$D_HBURD)
+      out$MP_HBURD <- dep_derived_moe(out$M_HBURD, out$EP_HBURD, out$DM_HBURD, out$DM_HBURD)
     }
 
   }
@@ -501,23 +501,23 @@ dep_process_svi_hhd <- function(.data, style, geography, year, survey, keep_comp
   }
 
   ## calculate metrics
-  out$EP_AGE17 <- out$E_AGE17/out$D_AGE*100
-  out$MP_AGE17 <- ((sqrt(out$M_AGE17^2-((out$EP_AGE17/100)^2*out$DM_AGE^2)))/out$DM_AGE)*100
+  out$EP_AGE17 <- dep_safe_pct(out$E_AGE17, out$D_AGE)
+  out$MP_AGE17 <- dep_derived_moe(out$M_AGE17, out$EP_AGE17, out$DM_AGE, out$DM_AGE)
 
-  out$EP_AGE65 <- out$E_AGE65/out$D_AGE*100
-  out$MP_AGE65 <- ((sqrt(out$M_AGE65^2-((out$EP_AGE65/100)^2*out$DM_AGE^2)))/out$DM_AGE)*100
+  out$EP_AGE65 <- dep_safe_pct(out$E_AGE65, out$D_AGE)
+  out$MP_AGE65 <- dep_derived_moe(out$M_AGE65, out$EP_AGE65, out$DM_AGE, out$DM_AGE)
 
-  out$EP_SNGPNT <- out$E_SNGPNT/out$D_SNGPNT*100
-  out$MP_SNGPNT <- ((sqrt(out$M_SNGPNT^2-((out$EP_SNGPNT/100)^2*out$DM_SNGPNT^2)))/out$DM_SNGPNT)*100
+  out$EP_SNGPNT <- dep_safe_pct(out$E_SNGPNT, out$D_SNGPNT)
+  out$MP_SNGPNT <- dep_derived_moe(out$M_SNGPNT, out$EP_SNGPNT, out$DM_SNGPNT, out$DM_SNGPNT)
 
   if (style %in% c("svi14", "svi20", "svi20s") == TRUE){
-    out$EP_DISABL <- out$E_DISABL/out$D_DISABL*100
-    out$MP_DISABL <- ((sqrt(out$M_DISABL^2-((out$EP_DISABL/100)^2*out$DM_DISABL^2)))/out$DM_DISABL)*100
+    out$EP_DISABL <- dep_safe_pct(out$E_DISABL, out$D_DISABL)
+    out$MP_DISABL <- dep_derived_moe(out$M_DISABL, out$EP_DISABL, out$DM_DISABL, out$DM_DISABL)
   }
 
   if (style %in% c("svi20", "svi20s") == TRUE){
-    out$EP_LIMENG <- out$E_LIMENG/out$D_LIMENG*100
-    out$MP_LIMENG <- ((sqrt(out$M_LIMENG^2-((out$EP_LIMENG/100)^2*out$DM_LIMENG^2)))/out$DM_LIMENG)*100
+    out$EP_LIMENG <- dep_safe_pct(out$E_LIMENG, out$D_LIMENG)
+    out$MP_LIMENG <- dep_derived_moe(out$M_LIMENG, out$EP_LIMENG, out$DM_LIMENG, out$DM_LIMENG)
   }
 
   ## calculate percentiles
@@ -628,12 +628,12 @@ dep_process_svi_msl <- function(.data, style, geography, year, survey, keep_comp
   }
 
   ### calculate metrics
-  out$EP_MINRTY <- out$E_MINRTY/out$D_MINRTY*100
-  out$MP_MINRTY <- ((sqrt(out$M_MINRTY^2-((out$EP_MINRTY/100)^2*out$DM_MINRTY^2)))/out$DM_MINRTY)*100
+  out$EP_MINRTY <- dep_safe_pct(out$E_MINRTY, out$D_MINRTY)
+  out$MP_MINRTY <- dep_derived_moe(out$M_MINRTY, out$EP_MINRTY, out$DM_MINRTY, out$DM_MINRTY)
 
   if (style %in% c("svi10", "svi14")){
-    out$EP_LIMENG <- out$E_LIMENG/out$D_LIMENG*100
-    out$MP_LIMENG <- ((sqrt(out$M_LIMENG^2-((out$EP_LIMENG/100)^2*out$DM_LIMENG^2)))/out$DM_LIMENG)*100
+    out$EP_LIMENG <- dep_safe_pct(out$E_LIMENG, out$D_LIMENG)
+    out$MP_LIMENG <- dep_derived_moe(out$M_LIMENG, out$EP_LIMENG, out$DM_LIMENG, out$DM_LIMENG)
   }
 
   ## calculate percentiles
@@ -738,20 +738,20 @@ dep_process_svi_htt <- function(.data, style, geography, year, survey, keep_comp
   }
 
   ## calculate metrics
-  .data$EP_MUNIT <- .data$E_MUNIT/.data$D_HOUSE*100
-  .data$MP_MUNIT <- ((sqrt(.data$M_MUNIT^2-((.data$EP_MUNIT/100)^2*.data$DM_HOUSE^2)))/.data$DM_HOUSE)*100
+  .data$EP_MUNIT <- dep_safe_pct(.data$E_MUNIT, .data$D_HOUSE)
+  .data$MP_MUNIT <- dep_derived_moe(.data$M_MUNIT, .data$EP_MUNIT, .data$DM_HOUSE, .data$DM_HOUSE)
 
-  .data$EP_MOBILE <- .data$E_MOBILE/.data$D_HOUSE*100
-  .data$MP_MOBILE <- ((sqrt(.data$M_MOBILE^2-((.data$EP_MOBILE/100)^2*.data$DM_HOUSE^2)))/.data$DM_HOUSE)*100
+  .data$EP_MOBILE <- dep_safe_pct(.data$E_MOBILE, .data$D_HOUSE)
+  .data$MP_MOBILE <- dep_derived_moe(.data$M_MOBILE, .data$EP_MOBILE, .data$DM_HOUSE, .data$DM_HOUSE)
 
-  .data$EP_CROWD <- .data$E_CROWD/.data$D_CROWD*100
-  .data$MP_CROWD <- ((sqrt(.data$M_CROWD^2-((.data$EP_CROWD/100)^2*.data$DM_CROWD^2)))/.data$DM_CROWD)*100
+  .data$EP_CROWD <- dep_safe_pct(.data$E_CROWD, .data$D_CROWD)
+  .data$MP_CROWD <- dep_derived_moe(.data$M_CROWD, .data$EP_CROWD, .data$DM_CROWD, .data$DM_CROWD)
 
-  .data$EP_NOVEH <- .data$E_NOVEH/.data$D_NOVEH*100
-  .data$MP_NOVEH <- ((sqrt(.data$M_NOVEH^2-((.data$EP_NOVEH/100)^2*.data$DM_NOVEH^2)))/.data$DM_NOVEH)*100
+  .data$EP_NOVEH <- dep_safe_pct(.data$E_NOVEH, .data$D_NOVEH)
+  .data$MP_NOVEH <- dep_derived_moe(.data$M_NOVEH, .data$EP_NOVEH, .data$DM_NOVEH, .data$DM_NOVEH)
 
-  .data$EP_GROUPQ <- .data$E_GROUPQ/.data$S0101_C01_001E*100
-  .data$MP_GROUPQ <- ((sqrt(.data$M_GROUPQ^2-((.data$EP_GROUPQ/100)^2*.data$S0101_C01_001M^2)))/.data$S0101_C01_001M)*100
+  .data$EP_GROUPQ <- dep_safe_pct(.data$E_GROUPQ, .data$S0101_C01_001E)
+  .data$MP_GROUPQ <- dep_derived_moe(.data$M_GROUPQ, .data$EP_GROUPQ, .data$S0101_C01_001M, .data$S0101_C01_001M)
 
   ## calculate percentiles
   .data$EPL_MUNIT <- dep_percent_rank(.data$EP_MUNIT)

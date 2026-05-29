@@ -30,14 +30,14 @@ dep_process_ndi_m <- function(.data, geography, year, survey, keep_components,
     .data$B19001_005E+.data$B19001_006E
 
   ## calculate metrics
-  .data$EP_MPRO <- .data$E_MPRO/.data$D_MPRO*100
-  .data$EP_CROWD <- .data$E_CROWD/.data$E_HH*100
-  .data$EP_POVH <- .data$E_POVH/.data$E_HH*100
-  .data$EP_FFH <- .data$E_FFH/.data$E_HH*100
-  .data$EP_ASSIST <- .data$E_ASSIST/.data$E_HH*100
-  .data$EP_LOWINC <- .data$E_LOWINC/.data$E_HH*100
-  .data$EP_LTHS <- .data$E_LTHS/.data$D_EDU*100
-  .data$EP_UNEMP <- .data$E_UNEMP/.data$D_UNEMP*100
+  .data$EP_MPRO <- dep_safe_pct(.data$E_MPRO, .data$D_MPRO)
+  .data$EP_CROWD <- dep_safe_pct(.data$E_CROWD, .data$E_HH)
+  .data$EP_POVH <- dep_safe_pct(.data$E_POVH, .data$E_HH)
+  .data$EP_FFH <- dep_safe_pct(.data$E_FFH, .data$E_HH)
+  .data$EP_ASSIST <- dep_safe_pct(.data$E_ASSIST, .data$E_HH)
+  .data$EP_LOWINC <- dep_safe_pct(.data$E_LOWINC, .data$E_HH)
+  .data$EP_LTHS <- dep_safe_pct(.data$E_LTHS, .data$D_EDU)
+  .data$EP_UNEMP <- dep_safe_pct(.data$E_UNEMP, .data$D_UNEMP)
 
   ## prep for scoring
   ndi_m_score <- subset(.data, select = c(GEOID, EP_MPRO, EP_CROWD, EP_POVH, EP_FFH,
@@ -82,14 +82,14 @@ dep_process_ndi_m <- function(.data, geography, year, survey, keep_components,
     .data$M_LOWINC <- sqrt(.data$B19001_002M^2+.data$B19001_003M^2+.data$B19001_004M^2+
                              .data$B19001_005M^2+.data$B19001_006M^2)
 
-    .data$MP_MPRO <- ((sqrt(.data$M_MPRO^2-((.data$EP_MPRO/100)^2*.data$DM_MPRO^2)))/.data$DM_MPRO)*100
-    .data$MP_CROWD <- ((sqrt(.data$M_CROWD^2-((.data$EP_CROWD/100)^2*.data$M_HH^2)))/.data$M_HH)*100
-    .data$MP_POVH <- ((sqrt(.data$M_POVH^2-((.data$EP_POVH/100)^2*.data$M_HH^2)))/.data$M_HH)*100
-    .data$MP_FFH <- ((sqrt(.data$M_FFH^2-((.data$EP_FFH/100)^2*.data$M_HH^2)))/.data$M_HH)*100
-    .data$MP_ASSIST <- ((sqrt(.data$M_ASSIST^2-((.data$EP_ASSIST/100)^2*.data$M_HH^2)))/.data$M_HH)*100
-    .data$MP_LOWINC <- ((sqrt(.data$M_LOWINC^2-((.data$EP_LOWINC/100)^2*.data$M_HH^2)))/.data$M_HH)*100
-    .data$MP_LTHS <- ((sqrt(.data$M_LTHS^2-((.data$EP_LTHS/100)^2*.data$DM_EDU^2)))/.data$DM_EDU)*100
-    .data$MP_UNEMP <- ((sqrt(.data$M_UNEMP^2-((.data$EP_UNEMP/100)^2*.data$DM_UNEMP^2)))/.data$DM_UNEMP)*100
+    .data$MP_MPRO <- dep_derived_moe(.data$M_MPRO, .data$EP_MPRO, .data$DM_MPRO, .data$DM_MPRO)
+    .data$MP_CROWD <- dep_derived_moe(.data$M_CROWD, .data$EP_CROWD, .data$M_HH, .data$M_HH)
+    .data$MP_POVH <- dep_derived_moe(.data$M_POVH, .data$EP_POVH, .data$M_HH, .data$M_HH)
+    .data$MP_FFH <- dep_derived_moe(.data$M_FFH, .data$EP_FFH, .data$M_HH, .data$M_HH)
+    .data$MP_ASSIST <- dep_derived_moe(.data$M_ASSIST, .data$EP_ASSIST, .data$M_HH, .data$M_HH)
+    .data$MP_LOWINC <- dep_derived_moe(.data$M_LOWINC, .data$EP_LOWINC, .data$M_HH, .data$M_HH)
+    .data$MP_LTHS <- dep_derived_moe(.data$M_LTHS, .data$EP_LTHS, .data$DM_EDU, .data$DM_EDU)
+    .data$MP_UNEMP <- dep_derived_moe(.data$M_UNEMP, .data$EP_UNEMP, .data$DM_UNEMP, .data$DM_UNEMP)
 
     ### reorder variables
     .data <- subset(.data, select = c(GEOID, E_HH, M_HH,
@@ -144,23 +144,23 @@ dep_process_ndi_pw <- function(.data, geography, year, survey, keep_components,
   names(.data)[names(.data) == "DP03_0005E"] <- "E_UNEMP"
 
   ## calculate components
-  .data$EP_INVINC <- .data$E_INVINC/.data$E_HH*100
+  .data$EP_INVINC <- dep_safe_pct(.data$E_INVINC, .data$E_HH)
   .data$EP_NO_INVINC <- 100 - .data$EP_INVINC
-  .data$EP_ASSIST <- .data$E_ASSIST/.data$E_HH*100
+  .data$EP_ASSIST <- dep_safe_pct(.data$E_ASSIST, .data$E_HH)
   .data$EP_NO_ASSIST <- 100 - .data$EP_ASSIST
-  .data$EP_MANAGE <- .data$E_MANAGE/.data$D_MANAGE*100
+  .data$EP_MANAGE <- dep_safe_pct(.data$E_MANAGE, .data$D_MANAGE)
   .data$EP_WORKER <- 100 - .data$EP_MANAGE
   .data$E_FEMHH <- .data$B11005_007E + .data$B11005_010E
-  .data$EP_FEMHH <- .data$E_FEMHH/.data$E_HH*100
-  .data$EP_OWNOCC <- .data$E_OWNOCC/.data$E_HH*100
+  .data$EP_FEMHH <- dep_safe_pct(.data$E_FEMHH, .data$E_HH)
+  .data$EP_OWNOCC <- dep_safe_pct(.data$E_OWNOCC, .data$E_HH)
   .data$EP_NO_OWNOCC <- 100 - .data$EP_OWNOCC
-  .data$EP_NOPLUMB <- .data$E_NOPLUMB/.data$E_HH*100
-  .data$EP_NOPHONE <- .data$E_NOPHONE/.data$E_HH*100
-  .data$EP_HSPLUS <- .data$E_HSPLUS/.data$D_HIGHDEG*100
+  .data$EP_NOPLUMB <- dep_safe_pct(.data$E_NOPLUMB, .data$E_HH)
+  .data$EP_NOPHONE <- dep_safe_pct(.data$E_NOPHONE, .data$E_HH)
+  .data$EP_HSPLUS <- dep_safe_pct(.data$E_HSPLUS, .data$D_HIGHDEG)
   .data$EP_LTHS <- 100 - .data$EP_HSPLUS
-  .data$EP_BAPLUS <- .data$E_BAPLUS/.data$D_HIGHDEG*100
+  .data$EP_BAPLUS <- dep_safe_pct(.data$E_BAPLUS, .data$D_HIGHDEG)
   .data$EP_LTBA <- 100 - .data$EP_BAPLUS
-  .data$EP_UNEMP <- .data$E_UNEMP/.data$D_UNEMP*100
+  .data$EP_UNEMP <- dep_safe_pct(.data$E_UNEMP, .data$D_UNEMP)
 
   ## calculate metrics
   .data$EL_HHINC <- log(.data$E_HHINC)
@@ -230,17 +230,17 @@ dep_process_ndi_pw <- function(.data, geography, year, survey, keep_components,
     names(.data)[names(.data) == "DP03_0005M"] <- "M_UNEMP"
 
     ### calculate margins of error
-    .data$MP_INVINC <- ((sqrt(.data$M_INVINC^2-((.data$EP_INVINC/100)^2*.data$M_HH^2)))/.data$M_HH)*100
-    .data$MP_ASSIST <- ((sqrt(.data$M_ASSIST^2-((.data$EP_ASSIST/100)^2*.data$M_HH^2)))/.data$M_HH)*100
-    .data$MP_MANAGE <- ((sqrt(.data$M_MANAGE^2-((.data$EP_MANAGE/100)^2*.data$DM_MANAGE^2)))/.data$DM_MANAGE)*100
+    .data$MP_INVINC <- dep_derived_moe(.data$M_INVINC, .data$EP_INVINC, .data$M_HH, .data$M_HH)
+    .data$MP_ASSIST <- dep_derived_moe(.data$M_ASSIST, .data$EP_ASSIST, .data$M_HH, .data$M_HH)
+    .data$MP_MANAGE <- dep_derived_moe(.data$M_MANAGE, .data$EP_MANAGE, .data$DM_MANAGE, .data$DM_MANAGE)
     .data$M_FEMHH <- sqrt(.data$B11005_007M^2+.data$B11005_010M^2)
-    .data$MP_FEMHH <- ((sqrt(.data$M_FEMHH^2-((.data$EP_FEMHH/100)^2*.data$M_HH^2)))/.data$M_HH)*100
-    .data$MP_OWNOCC <- ((sqrt(.data$M_OWNOCC^2-((.data$EP_OWNOCC/100)^2*.data$M_HH^2)))/.data$M_HH)*100
-    .data$MP_NOPLUMB <- ((sqrt(.data$M_NOPLUMB^2-((.data$EP_NOPLUMB/100)^2*.data$M_HH^2)))/.data$M_HH)*100
-    .data$MP_NOPHONE <- ((sqrt(.data$M_NOPHONE^2-((.data$EP_NOPHONE/100)^2*.data$M_HH^2)))/.data$M_HH)*100
-    .data$MP_HSPLUS <- ((sqrt(.data$M_HSPLUS^2-((.data$EP_HSPLUS/100)^2*.data$DM_HIGHDEG^2)))/.data$DM_HIGHDEG)*100
-    .data$MP_BAPLUS <- ((sqrt(.data$M_BAPLUS^2-((.data$EP_BAPLUS/100)^2*.data$DM_HIGHDEG^2)))/.data$DM_HIGHDEG)*100
-    .data$MP_UNEMP <- ((sqrt(.data$M_UNEMP^2-((.data$EP_UNEMP/100)^2*.data$DM_UNEMP^2)))/.data$DM_UNEMP)*100
+    .data$MP_FEMHH <- dep_derived_moe(.data$M_FEMHH, .data$EP_FEMHH, .data$M_HH, .data$M_HH)
+    .data$MP_OWNOCC <- dep_derived_moe(.data$M_OWNOCC, .data$EP_OWNOCC, .data$M_HH, .data$M_HH)
+    .data$MP_NOPLUMB <- dep_derived_moe(.data$M_NOPLUMB, .data$EP_NOPLUMB, .data$M_HH, .data$M_HH)
+    .data$MP_NOPHONE <- dep_derived_moe(.data$M_NOPHONE, .data$EP_NOPHONE, .data$M_HH, .data$M_HH)
+    .data$MP_HSPLUS <- dep_derived_moe(.data$M_HSPLUS, .data$EP_HSPLUS, .data$DM_HIGHDEG, .data$DM_HIGHDEG)
+    .data$MP_BAPLUS <- dep_derived_moe(.data$M_BAPLUS, .data$EP_BAPLUS, .data$DM_HIGHDEG, .data$DM_HIGHDEG)
+    .data$MP_UNEMP <- dep_derived_moe(.data$M_UNEMP, .data$EP_UNEMP, .data$DM_UNEMP, .data$DM_UNEMP)
 
     ### reorder variables
     .data <- subset(.data, select = c(GEOID, E_TOTPOP, M_TOTPOP, E_HH, M_HH,
