@@ -74,101 +74,12 @@ dep_calc_index <- function(.data, geography, index, year, survey = "acs5",
                            keep_components = FALSE, output = "wide"){
 
   # check inputs
-  if (missing(geography) == TRUE) {
-    cli::cli_abort(c(
-      "A {.arg geography} value must be provided.",
-      "i" = "Choose one of: {.val county}, {.val zcta3}, {.val zcta5}, or {.val tract}."
-    ))
-  }
-
-  if (geography %in% c("county", "zcta3", "zcta5", "tract") == FALSE){
-    cli::cli_abort(c(
-      "Invalid {.arg geography} provided: {.val {geography}}.",
-      "i" = "Choose one of: {.val county}, {.val zcta3}, {.val zcta5}, or {.val tract}."
-    ))
-  }
-
-  if (missing(index) == TRUE){
-    cli::cli_abort(c(
-      "A {.arg index} value must be provided.",
-      "i" = "Choose one of: {.val adi}, {.val gini}, {.val ndi_m}, {.val ndi_pw}, {.val svi10}, {.val svi14}, {.val svi20}, or {.val svi20s}."
-    ))
-  }
-
-  if (all(index %in% c("adi", "gini", "ndi_m", "ndi_pw", "svi10", "svi14", "svi20", "svi20s")) == FALSE){
-    cli::cli_abort(c(
-      "Invalid {.arg index} provided: {.val {index}}.",
-      "i" = "Choose one of: {.val adi}, {.val gini}, {.val ndi_m}, {.val ndi_pw}, {.val svi10}, {.val svi14}, {.val svi20}, or {.val svi20s}."
-    ))
-  }
-
-  if (missing(year) == TRUE){
-    cli::cli_abort(c(
-      "A {.arg year} value must be provided.",
-      "i" = "Choose a numeric value between 2010 and 2022."
-    ))
-  }
-
-  if (is.numeric(year) == FALSE | (min(year) < 2010 | max(year) > 2022)){
-    cli::cli_abort(c(
-      "The {.arg year} value provided is invalid.",
-      "i" = "Please provide a numeric value between 2010 and 2022."
-    ))
-  }
-
-  if (any(index %in% c("svi14", "svi20")) == TRUE & min(year) < 2012){
-    cli::cli_abort(c(
-      "The {.arg year} value is not valid for 2014 or 2020 SVI specifications.",
-      "i" = "Each of those can be calculated from 2012 onward. Use {.val svi10} for 2010 or 2011."
-    ))
-  }
-
-  if (any(index == "svi20s") == TRUE & min(year) < 2019){
-    cli::cli_abort(c(
-      "The {.arg year} value is not valid for the 2020 SVI specification with the alternate single parent measure.",
-      "i" = "This can only be calculated for 2019 onward."
-    ))
-  }
-
-  if (survey %in% c("acs1", "acs3", "acs5") == FALSE){
-    cli::cli_abort(c(
-      "The {.arg survey} value provided is not valid: {.val {survey}}.",
-      "i" = "Choose one of: {.val acs1}, {.val acs3}, or {.val acs5}."
-    ))
-  }
-
-  if (survey == "acs3" & year > 2013){
-    cli::cli_abort(c(
-      "The {.val acs3} survey was discontinued after 2013.",
-      "i" = "Please select one of {.val acs1} or {.val acs5}."
-    ))
-  }
-
-  if (is.logical(return_percentiles) == FALSE){
-    cli::cli_abort("Please provide a logical scalar for {.arg return_percentiles}.")
-  }
-
-  if (is.logical(keep_subscales) == FALSE){
-    cli::cli_abort("Please provide a logical scalar for {.arg keep_subscales}.")
-  }
-
-  if (is.logical(keep_components) == FALSE){
-    cli::cli_abort("Please provide a logical scalar for {.arg keep_components}.")
-  }
-
-  if (output %in% c("wide", "tidy") == FALSE){
-    cli::cli_abort(c(
-      "The {.arg output} value provided is not valid: {.val {output}}.",
-      "i" = "Choose one of: {.val wide} or {.val tidy}."
-    ))
-  }
-
-  if (output == "tidy" & keep_components == TRUE){
-    cli::cli_abort(c(
-      "The {.arg output} requested is invalid.",
-      "i" = "Tidy output is only available if {.arg keep_components} is {.code FALSE}."
-    ))
-  }
+  dep_validate_inputs(
+    geography = geography, index = index, year = year, survey = survey,
+    return_percentiles = return_percentiles, keep_subscales = keep_subscales,
+    keep_components = keep_components, output = output,
+    valid_output = c("wide", "tidy")
+  )
 
   # prep extra inputs
   ## fix input type
