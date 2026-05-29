@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Added
+
+- `dep_set_api_key()` — wrapper around `tidycensus::census_api_key()` with cascading key lookup (explicit key → env var → interactive prompt) (#11)
+
 ### Fixed
 
 - pkgdown CI build failure caused by `docs/` directory conflict — pkgdown now outputs to `_site/` (#35)
