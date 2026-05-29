@@ -10,6 +10,7 @@ cranchecks
 deciles
 dep
 dplyr
+env
 FIPS
 GEOID
 gini
