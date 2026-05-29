@@ -30,3 +30,4 @@
 ^\.lintr$
 ^\.positai$
 ^\.claude$
+^_site$
