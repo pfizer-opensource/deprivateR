@@ -4,12 +4,25 @@
 \alias{dep_get_index}
 \title{Calculate Deprivation Measures}
 \usage{
-dep_get_index(geography, index, year, survey = "acs5",
-    return_percentiles = FALSE, keep_subscales = FALSE,
-    keep_components = FALSE, output = "wide",
-    state = NULL, county = NULL, puerto_rico = FALSE, zcta = NULL,
-    zcta_geo_method = NULL, zcta_cb = FALSE, zcta3_method = NULL,
-    shift_geo = FALSE, key = NULL)
+dep_get_index(
+  geography,
+  index,
+  year,
+  survey = "acs5",
+  return_percentiles = FALSE,
+  keep_subscales = FALSE,
+  keep_components = FALSE,
+  output = "wide",
+  state = NULL,
+  county = NULL,
+  puerto_rico = FALSE,
+  zcta = NULL,
+  zcta_geo_method = NULL,
+  zcta_cb = FALSE,
+  zcta3_method = NULL,
+  shift_geo = FALSE,
+  key = NULL
+)
 }
 \arguments{
 \item{geography}{A character scalar; one of \code{"county"}, \code{"zcta3"},

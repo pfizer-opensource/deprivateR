@@ -4,8 +4,6 @@
 #'     \code{ggplot2} or \code{leaflet}. The function can create the bins
 #'     automatically or will accept pre-specified breaks.
 #'
-#' @usage dep_map_breaks(.data, var, new_var, classes, style, breaks,
-#'     sig_digits = 2, return = "col", show_warnings = TRUE)
 #'
 #' @param .data A data object, either sf, tibble, or data.frame
 #' @param var Variable breaks should be based on, can be quoted or unquoted

@@ -9,12 +9,6 @@
 #'     the neighborhood deprivation index (NDI; via \code{ndi}). Both ADI and NDI
 #'     contain variations as well. See Details for more information.
 #'
-#' @usage dep_get_index(geography, index, year, survey = "acs5",
-#'     return_percentiles = FALSE, keep_subscales = FALSE,
-#'     keep_components = FALSE, output = "wide",
-#'     state = NULL, county = NULL, puerto_rico = FALSE, zcta = NULL,
-#'     zcta_geo_method = NULL, zcta_cb = FALSE, zcta3_method = NULL,
-#'     shift_geo = FALSE, key = NULL)
 #'
 #' @param geography A character scalar; one of \code{"county"}, \code{"zcta3"},
 #'     \code{"zcta5"}, or \code{"tract"}

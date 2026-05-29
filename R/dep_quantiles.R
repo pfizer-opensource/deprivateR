@@ -6,7 +6,6 @@
 #'     function supports splitting a distribution at the median (2 quantiles)
 #'     through deciles (10 quantiles) if character labels are desired.
 #'
-#' @usage dep_quantiles(.data, source_var, new_var, n = 4L, return = "label")
 #'
 #' @param .data A tibble containing the data to be used for calculating quantiles.
 #' @param source_var Required; the quoted or unquoted source variable to be

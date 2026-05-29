@@ -4,9 +4,17 @@
 \alias{dep_calc_index}
 \title{Perform Deprivation Calculations}
 \usage{
-dep_calc_index(.data, geography, index, year, survey = "acs5",
-    return_percentiles = FALSE, keep_subscales = FALSE, keep_components = FALSE,
-    output = "wide")
+dep_calc_index(
+  .data,
+  geography,
+  index,
+  year,
+  survey = "acs5",
+  return_percentiles = FALSE,
+  keep_subscales = FALSE,
+  keep_components = FALSE,
+  output = "wide"
+)
 }
 \arguments{
 \item{.data}{A data frame, tibble, or \code{sf} object that contains all

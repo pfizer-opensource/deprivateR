@@ -3,7 +3,6 @@
 #' @description This function creates a vector or \code{tibble} containing
 #'     variables included in particular calls.
 #'
-#' @usage dep_build_varlist(geography, index, year, survey = "acs5", output = "vector")
 #'
 #' @param geography A character scalar; one of \code{"state"}, \code{"county"}, or
 #'     \code{"tract"}

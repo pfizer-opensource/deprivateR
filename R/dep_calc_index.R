@@ -6,9 +6,6 @@
 #'     more information. For information about structuring your data prior to
 #'     using this function, see Details below.
 #'
-#' @usage dep_calc_index(.data, geography, index, year, survey = "acs5",
-#'     return_percentiles = FALSE, keep_subscales = FALSE, keep_components = FALSE,
-#'     output = "wide")
 #'
 #' @param .data A data frame, tibble, or \code{sf} object that contains all
 #'     of the columns needed to calculate your selected deprivation measure(s).

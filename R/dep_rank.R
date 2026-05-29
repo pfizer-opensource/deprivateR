@@ -3,7 +3,6 @@
 #' @description Calculate percentiles for a given variable in a data frame. This
 #'     is the method used to calculate ranked percentiles for SVI.
 #'
-#' @usage dep_percentiles(.data, source_var, new_var)
 #'
 #' @param .data A tibble containing the data to be used for calculating percentiles.
 #' @param source_var Required; the quoted or unquoted source variable to be
