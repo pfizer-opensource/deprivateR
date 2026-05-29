@@ -4,8 +4,17 @@
 \alias{dep_map_breaks}
 \title{Calculating Map Breaks}
 \usage{
-dep_map_breaks(.data, var, new_var, classes, style, breaks,
-    sig_digits = 2, return = "col", show_warnings = TRUE)
+dep_map_breaks(
+  .data,
+  var,
+  new_var,
+  classes,
+  style,
+  breaks,
+  sig_digits = 2,
+  return = "col",
+  show_warnings = TRUE
+)
 }
 \arguments{
 \item{.data}{A data object, either sf, tibble, or data.frame}
