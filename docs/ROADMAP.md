@@ -2,7 +2,7 @@
 
 ## Now
 
-- [Epic D] New Features (v0.2.0) (#18) — `priority: low`
+- [Epic E] Dependency Reduction (#46) — `priority: medium`
 
 ## Next
 
@@ -10,7 +10,7 @@ _(empty)_
 
 ## Later
 
-_(empty)_
+- [Epic D] New Features (v0.2.0) (#18) — `priority: low`
 
 ## Recently Shipped
 
