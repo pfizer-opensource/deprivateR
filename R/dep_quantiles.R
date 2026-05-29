@@ -199,12 +199,27 @@ dep_quantile_label <- function(x){
 
 dep_ordinal <- function(x){
 
-  ## create title case after ordinal conversion
-  out <- paste0(toupper(substr(english::ordinal(x), 1, 1)),
-                substr(english::ordinal(x), 2,
-                       nchar(english::ordinal(x))
-                       )
-                )
+  ## lookup table for word-form ordinals (title case)
+  ordinal_words <- c(
+    "First", "Second", "Third", "Fourth", "Fifth",
+    "Sixth", "Seventh", "Eighth", "Ninth", "Tenth",
+    "Eleventh", "Twelfth", "Thirteenth", "Fourteenth", "Fifteenth",
+    "Sixteenth", "Seventeenth", "Eighteenth", "Nineteenth", "Twentieth"
+  )
+
+  ## use lookup for 1-20, fallback to numeric suffix for higher values
+  suffix_map <- c("1" = "st", "2" = "nd", "3" = "rd")
+  numeric_suffix <- ifelse(
+    x %% 100 %in% 11:13, "th",
+    ifelse(as.character(x %% 10) %in% names(suffix_map),
+           suffix_map[as.character(x %% 10)], "th")
+  )
+
+  out <- ifelse(
+    x >= 1 & x <= 20,
+    ordinal_words[x],
+    paste0(x, numeric_suffix)
+  )
 
   ## return output
   return(out)
