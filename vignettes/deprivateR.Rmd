@@ -41,9 +41,15 @@ years 2010 through 2022.
 
 ### Installation
 
-You can install `deprivateR` from GitHub:
+The easiest way to install `deprivateR` is from CRAN:
 
-```{r install, eval = FALSE}
+```{r install-cran, eval = FALSE}
+install.packages("deprivateR")
+```
+
+Alternatively, you can install `deprivateR` from GitHub:
+
+```{r install-gh, eval = FALSE}
 # install.packages("remotes")
 remotes::install_github("pfizer-opensource/deprivateR")
 ```
@@ -184,8 +190,8 @@ mo_multi <- dep_get_index(
 
 ### Spatial Output for Mapping
 
-Set `output = "sf"` to get results with geometry attached, ready for mapping
-with `ggplot2` or `leaflet`:
+Set `output = "sf"` to get results as an `sf` object with geometry attached, 
+ready for mapping with `ggplot2` or `leaflet`:
 
 ```{r sf-output, eval = FALSE}
 # get SVI with geometry for mapping
