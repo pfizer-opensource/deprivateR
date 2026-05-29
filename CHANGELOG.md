@@ -6,9 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
-### Added
+### Fixed
 
-- Dependency reduction recommendations document with phased removal strategy (#36)
+- pkgdown CI build failure caused by `docs/` directory conflict — pkgdown now outputs to `_site/` (#35)
 
 ### Changed
 
@@ -20,6 +20,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
+- Dependency reduction recommendations document with phased removal strategy (#36)
 - Introductory "Getting Started" vignette covering all supported indices, sample data workflow, `dep_get_index()` one-step workflow, quantiles, map breaks, and spatial output (#6)
 - Substantive content for `docs/ARCHITECTURE.md`, `docs/GLOSSARY.md`, `docs/OBJECTIVES.md`, and `docs/decisions/` (#19)
 - Unit tests for `dep_get_index`, `dep_map_breaks`, `dep_quantiles`, `dep_percentiles`, and internal helpers — 179 assertions across 8 test files (#3)

@@ -1,4 +1,5 @@
 url: https://pfizer-opensource.github.io/deprivateR/
+destination: _site
 
 reference:
   - title: "Core Functionality"
