@@ -38,10 +38,13 @@ Imports:
     tidyr, 
     zippeR
 Suggests:
+    knitr,
     lintr,
     measurements,
+    rmarkdown,
     spelling,
     testthat (>= 3.0.0),
     tigris
+VignetteBuilder: knitr
 Config/testthat/edition: 3
 Config/roxygen2/version: 8.0.0

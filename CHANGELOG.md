@@ -16,6 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
+- Introductory "Getting Started" vignette covering all supported indices, sample data workflow, `dep_get_index()` one-step workflow, quantiles, map breaks, and spatial output (#6)
 - Unit tests for `dep_get_index`, `dep_map_breaks`, `dep_quantiles`, `dep_percentiles`, and internal helpers — 179 assertions across 8 test files (#3)
 - testthat 3rd edition adopted (`Config/testthat/edition: 3` in DESCRIPTION) (#4)
 - lintr CI workflow with `.lintr` config; currently enforces `linters_with_defaults()` minus style-only linters that conflict with existing code (#12)
