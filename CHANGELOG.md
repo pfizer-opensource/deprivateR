@@ -18,6 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Changed
 
+- Extracted `dep_safe_pct()` and `dep_derived_moe()` internal helpers, replacing ~78 hand-written formula instances across NDI and SVI processing functions; zero denominators now produce `NA` instead of `Inf`/`NaN` (#60, #61)
 - Removed manual `@usage` roxygen2 tags from function documentation; usage is now auto-generated from signatures (#40)
 - Migrated all `stop()`/`warning()`/`message()` calls to `cli::cli_abort()`/`cli::cli_warn()`/`cli::cli_inform()` for tidyverse-style formatted error messages (#28)
 - Removed `english`, `tibble`, and `tidyselect` from Imports; replaced with `dplyr` re-exports (14 → 11 dependencies) (#44)
