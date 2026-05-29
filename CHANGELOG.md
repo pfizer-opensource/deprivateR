@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Fixed
+
+- pkgdown CI build failure caused by `docs/` directory conflict — pkgdown now outputs to `_site/` (#35)
+
 ### Changed
 
 - Migrated all `stop()`/`warning()`/`message()` calls to `cli::cli_abort()`/`cli::cli_warn()`/`cli::cli_inform()` for tidyverse-style formatted error messages (#28)
