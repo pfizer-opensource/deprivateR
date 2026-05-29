@@ -2,10 +2,10 @@
 
 Completed:
 * Minor updates to documentation
+* Added `dep_set_api_key()` — a wrapper around `tidycensus::census_api_key()` that checks for the `key` argument, then `CENSUS_API_KEY` env var, and prompts interactively if neither is found
 
 Planned:
 * Addition of Theil's H index
-* Wrapper around `tidycensus::census_api_key()` and checks to ensure that if the `key` argument is not included, the user is prompted to enter their own key if they have not set their environment variable
 
 # deprivateR 0.1.0
 
