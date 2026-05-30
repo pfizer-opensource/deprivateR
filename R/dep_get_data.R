@@ -10,136 +10,119 @@ dep_get_data <- function(geography, varlist, year, survey, state, county,
                          shift_geo, key, debug){
 
   ## pull data based on geography type
-  if (geography == "zcta5"){
-
-    out <- dep_get_zcta5(varlist = varlist, year = year, survey = survey,
+  if (geography == "zcta5") {
+    return(dep_get_zcta5(varlist = varlist, year = year, survey = survey,
                          state = state, county = county, puerto_rico = puerto_rico,
                          zcta = zcta, zcta_geo_method = zcta_geo_method, geometry = geometry,
                          cb = cb, keep_geo_vars = keep_geo_vars,
-                         shift_geo = shift_geo, key = key, debug = debug)
+                         shift_geo = shift_geo, key = key, debug = debug))
+  }
 
-  } else if (geography == "zcta3"){
-
-    out <- dep_get_zcta3(varlist = varlist, year = year, survey = survey,
+  if (geography == "zcta3") {
+    return(dep_get_zcta3(varlist = varlist, year = year, survey = survey,
                          state = state, county = county, puerto_rico = puerto_rico,
                          zcta = zcta, zcta3_method = zcta3_method, geometry = geometry,
-                         shift_geo = shift_geo, key = key, debug = debug)
+                         shift_geo = shift_geo, key = key, debug = debug))
+  }
 
-  } else if (geography %in% c("county", "tract")){
-
-    if (is.null(county) == FALSE){
-
-      ## create vector of unique states
-      states <- unique(substr(county, 1,2))
-
-      ## iterate over unique states and pull data
-      out <- lapply(states, function(states_vec) {
-        dep_get_census(geography = geography, varlist = varlist,
-                       year = year, survey = survey,
-                       state = states_vec, county = county,
-                       geometry = geometry, keep_geo_vars = keep_geo_vars,
-                       key = key, debug = debug)
-      })
-
-      ## combine results
-      out <- do.call(rbind, out)
-
-    } else if (is.null(county) == TRUE){
-
-      if (geography == "county"){
-
-        # pull data
-        out <- dep_get_census(geography = geography, varlist = varlist,
+  ## county/tract geography
+  out <- dep_get_county_tract(geography = geography, varlist = varlist,
                               year = year, survey = survey,
                               state = state, county = county,
-                              geometry = geometry,
-                              keep_geo_vars = keep_geo_vars,
+                              puerto_rico = puerto_rico,
+                              geometry = geometry, keep_geo_vars = keep_geo_vars,
                               key = key, debug = debug)
 
-        # manage territories
-        ## set vector
-        if (puerto_rico == FALSE){
-          territory_vec <- c("60", "66", "69", "72", "78")
-        } else if (puerto_rico == TRUE){
-          territory_vec <- c("60", "66", "69", "78")
-        }
+  ## finalize: split into geo and demo
+  out <- dep_finalize_output(out, varlist = varlist, geometry = geometry,
+                             keep_geo_vars = keep_geo_vars, shift_geo = shift_geo)
 
-        ## exclude
-        out <- subset(out, substr(GEOID, 1,2) %in% territory_vec == FALSE)
+  return(out)
+}
 
-      } else if (geography == "tract"){
+# Helper: retrieve county or tract data with flattened logic
+dep_get_county_tract <- function(geography, varlist, year, survey,
+                                 state, county, puerto_rico,
+                                 geometry, keep_geo_vars, key, debug) {
 
-        # manage states and territories
-        if (is.null(state) == TRUE){
-          if (puerto_rico == FALSE){
-            states <- state.abb
-          } else if (puerto_rico == TRUE){
-            states <- c(state.abb, "PR")
-          }
-        } else if (is.null(state) == FALSE){
-          if (puerto_rico == FALSE){
-            states <- state
-          } else if (puerto_rico == TRUE){
-            states <- c(state, "PR")
-          }
-        }
+  # when county is specified, iterate over unique states in county FIPS
 
-        # pull data
-        out <- lapply(states, function(states_vec) {
-          dep_get_census(geography = geography, varlist = varlist,
-                         year = year, survey = survey,
-                         state = states_vec, county = county,
-                         geometry = geometry, keep_geo_vars = keep_geo_vars,
-                         key = key, debug = debug)
-        })
-
-        ## combine results
-        out <- do.call(rbind, out)
-
-      }
-
-    }
-
+  if (!is.null(county)) {
+    states <- unique(substr(county, 1, 2))
+    out <- lapply(states, function(states_vec) {
+      dep_get_census(geography = geography, varlist = varlist,
+                     year = year, survey = survey,
+                     state = states_vec, county = county,
+                     geometry = geometry, keep_geo_vars = keep_geo_vars,
+                     key = key, debug = debug)
+    })
+    return(do.call(rbind, out))
   }
 
-  ## finalize output
-  if (geography %in% c("zcta3", "zcta5") == FALSE){
+  # county geography without county filter
+  if (geography == "county") {
+    out <- dep_get_census(geography = geography, varlist = varlist,
+                          year = year, survey = survey,
+                          state = state, county = county,
+                          geometry = geometry,
+                          keep_geo_vars = keep_geo_vars,
+                          key = key, debug = debug)
 
-    ## optionally handle geometric data
-    if (geometry == TRUE){
+    territory_vec <- dep_territory_fips(puerto_rico)
+    out <- subset(out, !substr(GEOID, 1, 2) %in% territory_vec)
+    return(out)
+  }
 
-      ## break apart geo and demo data
-      if (keep_geo_vars == TRUE){
-        geo <- subset(out, select = -c(varlist))
-        demo <- data.frame(rep(NA, nrow(out)))
+  # tract geography without county filter
+  states <- dep_build_states(state = state, puerto_rico = puerto_rico)
 
-      } else if (keep_geo_vars == FALSE){
-        geo <- subset(out, select = c(GEOID, NAME))
-        demo <- subset(out, select = -NAME)
-        sf::st_geometry(demo) <- NULL
-      }
+  out <- lapply(states, function(states_vec) {
+    dep_get_census(geography = geography, varlist = varlist,
+                   year = year, survey = survey,
+                   state = states_vec, county = county,
+                   geometry = geometry, keep_geo_vars = keep_geo_vars,
+                   key = key, debug = debug)
+  })
 
-      ## shift geometry
-      if (shift_geo == TRUE){
-        geo <- tigris::shift_geometry(geo, position = "below")
-      }
+  do.call(rbind, out)
+}
 
-    } else if (geometry == FALSE){
+# Helper: territory FIPS codes to exclude
+dep_territory_fips <- function(puerto_rico) {
+  if (puerto_rico) {
+    c("60", "66", "69", "78")
+  } else {
+    c("60", "66", "69", "72", "78")
+  }
+}
+
+# Helper: build state vector for tract iteration
+dep_build_states <- function(state, puerto_rico) {
+  base <- if (is.null(state)) state.abb else state
+  if (puerto_rico) c(base, "PR") else base
+}
+
+# Helper: split raw output into geo/demo list
+dep_finalize_output <- function(out, varlist, geometry, keep_geo_vars, shift_geo) {
+  if (geometry) {
+    if (keep_geo_vars) {
+      geo <- subset(out, select = -c(varlist))
+      demo <- data.frame(rep(NA, nrow(out)))
+    } else {
       geo <- subset(out, select = c(GEOID, NAME))
       demo <- subset(out, select = -NAME)
+      sf::st_geometry(demo) <- NULL
     }
 
-    ## construct output
-    out <- list(
-      geo = geo,
-      demo = demo
-    )
-
+    if (shift_geo) {
+      geo <- tigris::shift_geometry(geo, position = "below")
+    }
+  } else {
+    geo <- subset(out, select = c(GEOID, NAME))
+    demo <- subset(out, select = -NAME)
   }
 
-  ## return output
-  return(out)
-
+  list(geo = geo, demo = demo)
 }
 
 

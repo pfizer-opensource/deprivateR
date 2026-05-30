@@ -52,6 +52,43 @@ test_that("validate_state handles whitespace in input", {
   expect_equal(validate_state(" 29 ", .msg = FALSE), "29")
 })
 
+# test dep_territory_fips ---------------------------------------------------
+
+test_that("dep_territory_fips excludes PR when puerto_rico is FALSE", {
+  result <- dep_territory_fips(FALSE)
+  expect_true("72" %in% result)
+  expect_equal(length(result), 5)
+})
+
+test_that("dep_territory_fips includes PR when puerto_rico is TRUE", {
+  result <- dep_territory_fips(TRUE)
+  expect_false("72" %in% result)
+  expect_equal(length(result), 4)
+})
+
+# test dep_build_states ---------------------------------------------------
+
+test_that("dep_build_states returns state.abb when state is NULL", {
+  result <- dep_build_states(state = NULL, puerto_rico = FALSE)
+  expect_equal(result, state.abb)
+})
+
+test_that("dep_build_states adds PR when puerto_rico is TRUE", {
+  result <- dep_build_states(state = NULL, puerto_rico = TRUE)
+  expect_true("PR" %in% result)
+  expect_equal(length(result), length(state.abb) + 1)
+})
+
+test_that("dep_build_states respects specific state input", {
+  result <- dep_build_states(state = c("MO", "IL"), puerto_rico = FALSE)
+  expect_equal(result, c("MO", "IL"))
+})
+
+test_that("dep_build_states adds PR to specific state input", {
+  result <- dep_build_states(state = "MO", puerto_rico = TRUE)
+  expect_equal(result, c("MO", "PR"))
+})
+
 # test dep_get_census county subsetting -----------------------------------
 
 test_that("dep_get_census subsets county FIPS to match state", {

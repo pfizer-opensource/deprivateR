@@ -146,6 +146,87 @@ test_that("dep_process with output = 'tidy' returns long format", {
   expect_true("GEOID" %in% names(result))
 })
 
+# test multi-SVI dispatcher ------------------------------------------------
+
+test_that("dep_process handles multiple SVI styles with multi_svi = TRUE", {
+  multi_data <- dep_sample_data(index = c("svi10", "svi20"))
+
+  result <- dep_process(multi_data, geography = "county",
+                        index = c("svi10", "svi20"),
+                        year = 2022, survey = "acs5",
+                        return_percentiles = FALSE, keep_subscales = FALSE,
+                        keep_components = FALSE,
+                        state = NULL, county = NULL, puerto_rico = FALSE,
+                        zcta = NULL, zcta_geo_method = NULL, zcta3_method = NULL,
+                        geometry = FALSE, cb = FALSE, keep_geo_vars = FALSE,
+                        shift_geo = FALSE, key = NULL,
+                        debug = FALSE, input = "user", output = "wide",
+                        label_year = FALSE, multi_svi = TRUE)
+
+  expect_true("GEOID" %in% names(result))
+  # First SVI style columns present (svi10 uses full names)
+  expect_true("SVI_10" %in% names(result))
+  # Second SVI style columns present (svi20 uses postfix)
+  expect_true("SVI_20" %in% names(result))
+  expect_s3_class(result, "tbl_df")
+  # No duplicate GEOID columns
+  expect_equal(sum(names(result) == "GEOID"), 1)
+})
+
+test_that("dep_process routes svi10 correctly", {
+  svi10_data <- dep_sample_data(index = "svi10")
+
+  result <- dep_process(svi10_data, geography = "county", index = "svi10",
+                        year = 2022, survey = "acs5",
+                        return_percentiles = FALSE, keep_subscales = FALSE,
+                        keep_components = FALSE,
+                        state = NULL, county = NULL, puerto_rico = FALSE,
+                        zcta = NULL, zcta_geo_method = NULL, zcta3_method = NULL,
+                        geometry = FALSE, cb = FALSE, keep_geo_vars = FALSE,
+                        shift_geo = FALSE, key = NULL,
+                        debug = FALSE, input = "user", output = "wide",
+                        label_year = FALSE, multi_svi = FALSE)
+
+  expect_true("SVI" %in% names(result))
+  expect_true(is.numeric(result$SVI))
+})
+
+test_that("dep_process routes svi14 correctly", {
+  svi14_data <- dep_sample_data(index = "svi14")
+
+  result <- dep_process(svi14_data, geography = "county", index = "svi14",
+                        year = 2022, survey = "acs5",
+                        return_percentiles = FALSE, keep_subscales = FALSE,
+                        keep_components = FALSE,
+                        state = NULL, county = NULL, puerto_rico = FALSE,
+                        zcta = NULL, zcta_geo_method = NULL, zcta3_method = NULL,
+                        geometry = FALSE, cb = FALSE, keep_geo_vars = FALSE,
+                        shift_geo = FALSE, key = NULL,
+                        debug = FALSE, input = "user", output = "wide",
+                        label_year = FALSE, multi_svi = FALSE)
+
+  expect_true("SVI" %in% names(result))
+  expect_true(is.numeric(result$SVI))
+})
+
+test_that("dep_process routes svi20s correctly", {
+  svi20s_data <- dep_sample_data(index = "svi20s")
+
+  result <- dep_process(svi20s_data, geography = "county", index = "svi20s",
+                        year = 2022, survey = "acs5",
+                        return_percentiles = FALSE, keep_subscales = FALSE,
+                        keep_components = FALSE,
+                        state = NULL, county = NULL, puerto_rico = FALSE,
+                        zcta = NULL, zcta_geo_method = NULL, zcta3_method = NULL,
+                        geometry = FALSE, cb = FALSE, keep_geo_vars = FALSE,
+                        shift_geo = FALSE, key = NULL,
+                        debug = FALSE, input = "user", output = "wide",
+                        label_year = FALSE, multi_svi = FALSE)
+
+  expect_true("SVI" %in% names(result))
+  expect_true(is.numeric(result$SVI))
+})
+
 # test multiple indices ---------------------------------------------------
 
 test_that("dep_process handles multiple indices via dep_calc_index", {
