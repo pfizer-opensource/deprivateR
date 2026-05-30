@@ -149,7 +149,11 @@ test_that("dep_process with output = 'tidy' returns long format", {
 # test multi-SVI dispatcher ------------------------------------------------
 
 test_that("dep_process handles multiple SVI styles with multi_svi = TRUE", {
-  multi_data <- dep_sample_data(index = c("svi10", "svi20"))
+  svi10_raw <- dep_sample_data(index = "svi10")
+  svi20_raw <- dep_sample_data(index = "svi20")
+  # combine columns from both datasets (same rows — Missouri counties)
+  multi_data <- cbind(svi10_raw,
+                      svi20_raw[, setdiff(names(svi20_raw), names(svi10_raw)), drop = FALSE])
 
   result <- dep_process(multi_data, geography = "county",
                         index = c("svi10", "svi20"),
