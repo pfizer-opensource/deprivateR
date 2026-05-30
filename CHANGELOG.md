@@ -18,6 +18,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Changed
 
+- Refactored SVI dispatcher in `dep_process()` from 4 repetitive if-blocks (~76 lines) to a single loop (~17 lines); no behavior changes (#62)
+- Reduced nesting depth in `dep_get_data()` using early returns and extracted `dep_get_county_tract()`, `dep_territory_fips()`, `dep_build_states()`, and `dep_finalize_output()` internal helpers; max nesting reduced from 4 levels to 2 (#64)
 - Extracted `dep_validate_inputs()` internal helper, consolidating ~90 lines of duplicated input validation from `dep_get_index()` and `dep_calc_index()` into a single reusable function (#59)
 - Extracted `dep_safe_pct()` and `dep_derived_moe()` internal helpers, replacing ~78 hand-written formula instances across NDI and SVI processing functions; zero denominators now produce `NA` instead of `Inf`/`NaN` (#60, #61)
 - Removed manual `@usage` roxygen2 tags from function documentation; usage is now auto-generated from signatures (#40)

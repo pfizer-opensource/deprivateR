@@ -55,82 +55,21 @@ dep_process <- function(.data, geography, index, year, survey,
   }
 
   # create svi output
-  ## 2010 SVI style
-  if ("svi10" %in% index == TRUE){
-
-    ## build svi scores
-    svi <- dep_process_svi(demo, style = "svi10",
+  svi_styles <- intersect(c("svi10", "svi14", "svi20", "svi20s"), index)
+  for (style in svi_styles) {
+    svi <- dep_process_svi(demo, style = style,
                            geography = geography, year = year, survey = survey,
                            keep_subscales = keep_subscales,
                            keep_components = keep_components,
                            return_percentiles = return_percentiles,
                            multi_svi = multi_svi, debug = debug)
 
-    ## combine with output
-    out <- merge(x = out, y = svi, by = "GEOID", all.x = TRUE)
-  }
-
-  ## 2014 SVI style
-  if ("svi14" %in% index == TRUE){
-
-    ## build svi scores
-    svi <- dep_process_svi(demo, style = "svi14",
-                           geography = geography, year = year, survey = survey,
-                           keep_subscales = keep_subscales,
-                           keep_components = keep_components,
-                           return_percentiles = return_percentiles,
-                           multi_svi = multi_svi, debug = debug)
-
-    ## optionally limit output to unique cols
-    if (multi_svi == TRUE){
+    # limit to unique columns for second+ SVI style when multi_svi is active
+    if (multi_svi && style != svi_styles[1]) {
       excess_vars <- c("GEOID", setdiff(names(svi), names(out)))
       svi <- subset(svi, select = excess_vars)
     }
 
-    ## combine with output
-    out <- merge(x = out, y = svi, by = "GEOID", all.x = TRUE)
-
-  }
-
-  ## 2020 SVI style
-  if ("svi20" %in% index == TRUE){
-
-    ## build svi scores
-    svi <- dep_process_svi(demo, style = "svi20",
-                           geography = geography, year = year, survey = survey,
-                           keep_subscales = keep_subscales,
-                           keep_components = keep_components,
-                           return_percentiles = return_percentiles,
-                           multi_svi = multi_svi, debug = debug)
-
-    ## optionally limit output to unique cols
-    if (multi_svi == TRUE){
-      excess_vars <- c("GEOID", setdiff(names(svi), names(out)))
-      svi <- subset(svi, select = excess_vars)
-    }
-
-    ## combine with output
-    out <- merge(x = out, y = svi, by = "GEOID", all.x = TRUE)
-  }
-
-  ## 2020 svi style with alternate single parent definition
-  if ("svi20s" %in% index == TRUE){
-
-    ## build svi scores
-    svi <- dep_process_svi(demo, style = "svi20s",
-                           geography = geography, year = year, survey = survey,
-                           keep_subscales = keep_subscales,
-                           keep_components = keep_components,
-                           return_percentiles = return_percentiles,
-                           multi_svi = multi_svi, debug = debug)
-
-    ## optionally limit output to unique cols
-    if (multi_svi == TRUE){
-      excess_vars <- c("GEOID", setdiff(names(svi), names(out)))
-      svi <- subset(svi, select = excess_vars)
-    }
-
-    ## combine with output
     out <- merge(x = out, y = svi, by = "GEOID", all.x = TRUE)
   }
 
