@@ -2,11 +2,11 @@
 
 ## Now
 
-- [Epic E] Dependency Reduction (#46) — `priority: medium`
+_(empty)_
 
 ## Next
 
-_(empty)_
+- [Epic E] Dependency Reduction (#46) — `priority: medium`
 
 ## Later
 
