@@ -113,7 +113,7 @@ dep_calc_index <- function(.data, geography, index, year, survey = "acs5",
   }
 
   ## test variable names
-  if (all(var_expected %in% names(.data)) == FALSE){
+  if (!all(var_expected %in% names(.data))){
     cli::cli_abort(c(
       "Variables necessary for the given year(s) and index/indices are missing.",
       "i" = "Please double check your input data."
@@ -148,22 +148,22 @@ dep_calc_index <- function(.data, geography, index, year, survey = "acs5",
 
   # re-construct output
   ## remove name if present
-  if ("NAME" %in% names(.data) == TRUE){
-    out_names <- names(out)[names(out) %in% c("NAME") == FALSE]
+  if ("NAME" %in% names(.data)){
+    out_names <- names(out)[!(names(out) %in% c("NAME"))]
     out <- subset(out, select = out_names)
   }
 
   ## check for variable conflicts
   if (length(year) > 1){
-    out_names <- names(out)[names(out) %in% c("GEOID", "YEAR") == FALSE]
+    out_names <- names(out)[!(names(out) %in% c("GEOID", "YEAR"))]
   } else if (length(year) == 1){
-    out_names <- names(out)[names(out) %in% c("GEOID") == FALSE]
+    out_names <- names(out)[!(names(out) %in% c("GEOID"))]
   }
 
   ## throw warning
-  if (any(out_names %in% names(.data)) == TRUE){
+  if (any(out_names %in% names(.data))){
     cli::cli_warn("Variable conflicts present between input data and deprivation output. Only output returned.")
-  } else if (any(out_names %in% names(.data)) == FALSE){
+  } else if (!any(out_names %in% names(.data))){
     if (length(year) > 1){
       out <- merge(x = .data, y = out, by = c("GEOID", "YEAR"), all.x = TRUE)
     } else if (length(year) == 1){

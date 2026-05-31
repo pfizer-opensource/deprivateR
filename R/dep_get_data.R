@@ -150,20 +150,20 @@ dep_get_zcta5 <- function(varlist, year, survey, state, county,
   }
 
   ## optionally filter based on zcta
-  if (is.null(zcta) == FALSE){
-    demo <- subset(demo, GEOID %in% zcta == TRUE)
+  if (!is.null(zcta)){
+    demo <- subset(demo, GEOID %in% zcta)
   }
 
   ## manage territories
   ### set territory vector
-  if (puerto_rico == FALSE){
+  if (!puerto_rico){
     territory_vec <- c("006", "007", "008", "009", "969")
-  } else if (puerto_rico == TRUE){
+  } else if (puerto_rico){
     territory_vec <- c("008", "969")
   }
 
   ### all territories not including American Samoa
-  demo <- subset(demo, substr(GEOID, 1,3) %in% territory_vec == FALSE)
+  demo <- subset(demo, !(substr(GEOID, 1,3) %in% territory_vec))
 
   ### American Samoa
   demo <- subset(demo, GEOID != "96799")
@@ -176,7 +176,7 @@ dep_get_zcta5 <- function(varlist, year, survey, state, county,
   }
 
   ## optionally add geometry
-  if (geometry == TRUE){
+  if (geometry){
 
     ## set return
     # if (keep_geo_vars == TRUE){
@@ -188,9 +188,9 @@ dep_get_zcta5 <- function(varlist, year, survey, state, county,
     return_type <- "id"
 
     ## set PR flag
-    if (puerto_rico == FALSE){
+    if (!puerto_rico){
       pr <- NULL
-    } else if (puerto_rico == TRUE){
+    } else if (puerto_rico){
       pr <- "PR"
     }
 
@@ -207,11 +207,11 @@ dep_get_zcta5 <- function(varlist, year, survey, state, county,
                                    shift_geo = shift_geo)
 
     ## optionally filter based on zcta
-    if (is.null(zcta) == FALSE){
-      geo <- subset(geo, GEOID %in% zcta == TRUE)
+    if (!is.null(zcta)){
+      geo <- subset(geo, GEOID %in% zcta)
     }
 
-  } else if (geometry == FALSE){
+  } else if (!geometry){
     geo <- dplyr::as_tibble(data.frame(GEOID = demo$GEOID))
   }
 
@@ -249,20 +249,20 @@ dep_get_zcta3 <- function(varlist, year, survey, state, county,
   }
 
   ## optionally filter based on zcta
-  if (is.null(zcta) == FALSE){
-    demo <- subset(demo, GEOID %in% zcta == TRUE)
+  if (!is.null(zcta)){
+    demo <- subset(demo, GEOID %in% zcta)
   }
 
   ## manage territories
   ### set territory vector
-  if (puerto_rico == FALSE){
+  if (!puerto_rico){
     territory_vec <- c("006", "007", "008", "009", "969")
-  } else if (puerto_rico == TRUE){
+  } else if (puerto_rico){
     territory_vec <- c("008", "969")
   }
 
   ### all territories not including American Samoa
-  demo <- subset(demo, substr(GEOID, 1,3) %in% territory_vec == FALSE)
+  demo <- subset(demo, !(substr(GEOID, 1,3) %in% territory_vec))
 
   ### American Samoa
   demo <- subset(demo, GEOID != "96799")
@@ -303,12 +303,12 @@ dep_get_zcta3 <- function(varlist, year, survey, state, county,
   }
 
   ## optionally add geometry
-  if (geometry == TRUE){
+  if (geometry){
 
     ## set PR flag
-    if (puerto_rico == FALSE){
+    if (!puerto_rico){
       pr <- NULL
-    } else if (puerto_rico == TRUE){
+    } else if (puerto_rico){
       pr <- "PR"
     }
 
@@ -324,11 +324,11 @@ dep_get_zcta3 <- function(varlist, year, survey, state, county,
     names(demo)[names(demo) == "ZCTA3"] <- "GEOID"
 
     ## optionally filter based on zcta
-    if (is.null(zcta) == FALSE){
-      geo <- subset(geo, GEOID %in% zcta == TRUE)
+    if (!is.null(zcta)){
+      geo <- subset(geo, GEOID %in% zcta)
     }
 
-  } else if (geometry == FALSE){
+  } else if (!geometry){
     geo <- dplyr::as_tibble(data.frame(GEOID = demo$GEOID))
   }
 
@@ -348,7 +348,7 @@ dep_get_census <- function(geography, varlist, year, survey, state, county,
                            shift_geo, key, debug){
 
   ## subset county to only counties that match state fips
-  if (is.null(county) == FALSE){
+  if (!is.null(county)){
 
     ## isolate state
     county <- county[substr(county, 1, 2) == state]

@@ -18,6 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Changed
 
+- Adopted idiomatic logical comparisons across 12 source files — removed all `== TRUE`/`== FALSE` anti-patterns (#65)
 - Refactored SVI dispatcher in `dep_process()` from 4 repetitive if-blocks (~76 lines) to a single loop (~17 lines); no behavior changes (#62)
 - Reduced nesting depth in `dep_get_data()` using early returns and extracted `dep_get_county_tract()`, `dep_territory_fips()`, `dep_build_states()`, and `dep_finalize_output()` internal helpers; max nesting reduced from 4 levels to 2 (#64)
 - Extracted `dep_validate_inputs()` internal helper, consolidating ~90 lines of duplicated input validation from `dep_get_index()` and `dep_calc_index()` into a single reusable function (#59)

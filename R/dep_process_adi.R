@@ -25,24 +25,24 @@ dep_process_adi <- function(.data, geography, year, survey,
   .data <- subset(.data, select = -B11005_001)
 
   ## prep output
-  if (return_percentiles == TRUE){
+  if (return_percentiles){
     .data$ADI <- dep_percent_rank(.data$ADI)
     .data$ADI <- .data$ADI*100
   }
 
-  if (keep_subscales == FALSE){
+  if (!keep_subscales){
 
     .data <- subset(.data, select = -c(Financial_Strength,
                                        Economic_Hardship_and_Inequality,
                                        Educational_Attainment))
 
-  } else if (keep_subscales == TRUE){
+  } else if (keep_subscales){
 
     names(.data)[names(.data) == "Financial_Strength"] <- "ADI3_FINS"
     names(.data)[names(.data) == "Economic_Hardship_and_Inequality"] <- "ADI3_ECON"
     names(.data)[names(.data) == "Educational_Attainment"] <- "ADI3_EDU"
 
-    if (return_percentiles == TRUE){
+    if (return_percentiles){
       .data$ADI3_FINS <- dep_percent_rank(.data$ADI3_FINS)
       .data$ADI3_FINS <- .data$ADI3_FINS*100
 

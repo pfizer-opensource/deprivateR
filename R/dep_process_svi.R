@@ -5,9 +5,9 @@ dep_process_svi <- function(.data, style, geography, year, survey,
                             multi_svi, debug){
 
   ## subscale creation
-  if ("warnings" %in% debug == TRUE){
+  if ("warnings" %in% debug){
 
-    if (keep_components == TRUE){
+    if (keep_components){
       pri <- dep_process_svi_pri(.data, style = style, geography = geography,
                                  year = year, survey = survey)
     }
@@ -21,8 +21,8 @@ dep_process_svi <- function(.data, style, geography, year, survey,
     theme4 <- dep_process_svi_htt(.data, style = style, geography = geography, year = year,
                                   survey = survey, keep_components = keep_components)
 
-  } else if ("warnings" %in% debug == FALSE){
-    if (keep_components == TRUE){
+  } else if (!("warnings" %in% debug)){
+    if (keep_components){
       pri <- suppressWarnings(dep_process_svi_pri(.data, style = style, geography = geography, year = year,
                                                   survey = survey))
     }
@@ -38,12 +38,12 @@ dep_process_svi <- function(.data, style, geography, year, survey,
   }
 
   ## combine subscales
-  if (keep_components == TRUE){
+  if (keep_components){
 
     out <- merge(x = pri, y = theme1, by = "GEOID", all.x = TRUE)
     out <- merge(x = out, y = theme2, by = "GEOID", all.x = TRUE)
 
-  } else if (keep_components == FALSE){
+  } else if (!keep_components){
 
     out <- merge(x = theme1, y = theme2, by = "GEOID", all.x = TRUE)
 
@@ -58,24 +58,24 @@ dep_process_svi <- function(.data, style, geography, year, survey,
   ## calculate svi percentile
   out$SVI <- dep_percent_rank(out$SPL_THEMES)
 
-  if (return_percentiles == TRUE){
+  if (return_percentiles){
     out$SVI <- out$SVI*100
   }
 
   ## format output
   final_vars <- c("GEOID", "SVI", "SVI_SES", "SVI_HCD", "SVI_MSL", "SVI_HTT")
 
-  if (keep_components == FALSE){
+  if (!keep_components){
 
-    if (keep_subscales == FALSE){
+    if (!keep_subscales){
 
       out <- subset(out, select = c("GEOID", "SVI"))
 
-    } else if (keep_subscales == TRUE){
+    } else if (keep_subscales){
 
       out <- subset(out, select = final_vars)
 
-      if (return_percentiles == TRUE){
+      if (return_percentiles){
 
         out$SVI_SES <- out$SVI_SES*100
         out$SVI_HCD <- out$SVI_HCD*100
@@ -85,10 +85,10 @@ dep_process_svi <- function(.data, style, geography, year, survey,
 
     }
 
-  } else if (keep_components == TRUE){
+  } else if (keep_components){
 
     ## store other variable names in vector
-    other_vars <- names(out)[names(out) %in% final_vars == FALSE]
+    other_vars <- names(out)[!(names(out) %in% final_vars)]
 
     ## combine with final variable vector
     final_vars <- c(final_vars, other_vars)
@@ -99,7 +99,7 @@ dep_process_svi <- function(.data, style, geography, year, survey,
   }
 
   ## create unique variable names
-  if (multi_svi == TRUE){
+  if (multi_svi){
 
     ## get year of style to create postfix
     if (style != "svi20s"){
@@ -111,20 +111,20 @@ dep_process_svi <- function(.data, style, geography, year, survey,
     ## update columns that need to remain unique with postfix
     names(out)[names(out) == "SVI"] <- paste0("SVI", post)
 
-    if (keep_subscales == TRUE){
+    if (keep_subscales){
       names(out)[names(out) == "SVI_SES"] <- paste0("SVI_SES", post)
       names(out)[names(out) == "SVI_HTT"] <- paste0("SVI_HTT", post)
 
-      if (style %in% c("svi20", "svi20s") == TRUE){
+      if (style %in% c("svi20", "svi20s")){
         names(out)[names(out) == "SVI_HCD"] <- paste0("SVI_HOU", post)
         names(out)[names(out) == "SVI_MSL"] <- paste0("SVI_REM", post)
-      } else if (style %in% c("svi10", "svi14") == TRUE){
+      } else if (style %in% c("svi10", "svi14")){
         names(out)[names(out) == "SVI_HCD"] <- paste0("SVI_HCD", post)
         names(out)[names(out) == "SVI_MSL"] <- paste0("SVI_MSL", post)
       }
     }
 
-    if (keep_components == TRUE){
+    if (keep_components){
       names(out)[names(out) == "SP_THEME1"] <- paste0("SP_THEME1", post)
       names(out)[names(out) == "SP_THEME2"] <- paste0("SP_THEME2", post)
       names(out)[names(out) == "SP_THEME3"] <- paste0("SP_THEME3", post)
@@ -132,8 +132,8 @@ dep_process_svi <- function(.data, style, geography, year, survey,
       names(out)[names(out) == "SP_THEMES"] <- paste0("SP_THEMES", post)
     }
 
-  } else if (multi_svi == FALSE){
-    if (style %in% c("svi20", "svi20s") == TRUE & keep_subscales == TRUE){
+  } else if (!multi_svi){
+    if (style %in% c("svi20", "svi20s") & keep_subscales){
       names(out)[names(out) == "SVI_HCD"] <- "SVI_HOU"
       names(out)[names(out) == "SVI_MSL"] <- "SVI_REM"
     }
@@ -198,7 +198,7 @@ dep_process_svi_ses <- function(.data, style, geography, year, survey, keep_comp
   names(out)[names(out) == "DP03_0005E"] <- "E_UNEMP"
   names(out)[names(out) == "DP03_0005M"] <- "M_UNEMP"
 
-  if (style %in% c("svi10", "svi14") == TRUE){
+  if (style %in% c("svi10", "svi14")){
 
     names(out)[names(out) == "B17001_001E"] <- "D_POV"
     names(out)[names(out) == "B17001_001M"] <- "DM_POV"
@@ -207,7 +207,7 @@ dep_process_svi_ses <- function(.data, style, geography, year, survey, keep_comp
     names(out)[names(out) == "B19301_001E"] <- "E_PCI"
     names(out)[names(out) == "B19301_001M"] <- "M_PCI"
 
-  } else if (style %in% c("svi20", "svi20s") == TRUE){
+  } else if (style %in% c("svi20", "svi20s")){
 
     names(out)[names(out) == "S1701_C01_001E"] <- "D_POV150"
     names(out)[names(out) == "S1701_C01_001M"] <- "DM_POV150"
@@ -226,7 +226,7 @@ dep_process_svi_ses <- function(.data, style, geography, year, survey, keep_comp
         names(out)[names(out) == "S2701_C02_001E"] <- "E_UNINSUR"
         names(out)[names(out) == "S2701_C02_001M"] <- "M_UNINSUR"
 
-      } else if (year %in% c(2013, 2014) == TRUE){
+      } else if (year %in% c(2013, 2014)){
 
         names(out)[names(out) == "S2701_C04_062E"] <- "E_UNINSUR"
         names(out)[names(out) == "S2701_C04_062M"] <- "M_UNINSUR"
@@ -270,7 +270,7 @@ dep_process_svi_ses <- function(.data, style, geography, year, survey, keep_comp
 
   }
 
-  if (style %in% c("svi20", "svi20s") == TRUE){
+  if (style %in% c("svi20", "svi20s")){
 
     if (year < 2015){
       out$E_HBURD <- out$S2503_C01_032E+out$S2503_C01_036E+out$S2503_C01_040E+out$S2503_C01_044E
@@ -289,12 +289,12 @@ dep_process_svi_ses <- function(.data, style, geography, year, survey, keep_comp
   out$EP_UNEMP <- dep_safe_pct(out$E_UNEMP, out$D_UNEMP)
   out$MP_UNEMP <- dep_derived_moe(out$M_UNEMP, out$EP_UNEMP, out$DM_UNEMP, out$DM_UNEMP)
 
-  if (style %in% c("svi10", "svi14") == TRUE){
+  if (style %in% c("svi10", "svi14")){
 
     out$EP_POV <- dep_safe_pct(out$E_POV, out$D_POV)
     out$MP_POV <- dep_derived_moe(out$M_POV, out$EP_POV, out$DM_POV, out$DM_POV)
 
-  } else if (style %in% c("svi20", "svi20s") == TRUE){
+  } else if (style %in% c("svi20", "svi20s")){
 
     out$EP_POV150 <- dep_safe_pct(out$E_POV150, out$D_POV150)
     out$MP_POV150 <- dep_derived_moe(out$M_POV150, out$EP_POV150, out$DM_POV150, out$DM_POV150)
@@ -316,12 +316,12 @@ dep_process_svi_ses <- function(.data, style, geography, year, survey, keep_comp
   out$EPL_NOHSDP <- dep_percent_rank(out$EP_NOHSDP)
   out$EPL_UNEMP <- dep_percent_rank(out$EP_UNEMP)
 
-  if (style %in% c("svi10", "svi14") == TRUE){
+  if (style %in% c("svi10", "svi14")){
 
     out$EPL_POV <- dep_percent_rank(out$EP_POV)
     out$EPL_PCI <- 1-dep_percent_rank(out$E_PCI)
 
-  } else if (style %in% c("svi20", "svi20s") == TRUE){
+  } else if (style %in% c("svi20", "svi20s")){
 
     out$EPL_POV150 <- dep_percent_rank(out$EP_POV150)
     out$EPL_UNINSUR <- 1-dep_percent_rank(out$EP_UNINSUR)
@@ -330,9 +330,9 @@ dep_process_svi_ses <- function(.data, style, geography, year, survey, keep_comp
   }
 
   ## calculate theme
-  if (style %in% c("svi10", "svi14") == TRUE){
+  if (style %in% c("svi10", "svi14")){
     out$SPL_THEME1 <- out$EPL_POV + out$EPL_UNEMP + out$EPL_PCI + out$EPL_NOHSDP
-  } else if (style %in% c("svi20", "svi20s") == TRUE){
+  } else if (style %in% c("svi20", "svi20s")){
     out$SPL_THEME1 <- out$EPL_POV150 + out$EPL_UNEMP + out$EPL_NOHSDP + out$EPL_UNINSUR + out$EPL_HBURD
   }
 
@@ -340,16 +340,16 @@ dep_process_svi_ses <- function(.data, style, geography, year, survey, keep_comp
   out$SVI_SES <- dep_percent_rank(out$SPL_THEME1)
 
   ## update output order
-  if (keep_components == TRUE){
+  if (keep_components){
 
-    if (style %in% c("svi10", "svi14") == TRUE){
+    if (style %in% c("svi10", "svi14")){
       out <- subset(out, select = c(GEOID,
                                     D_POV, DM_POV, E_POV, M_POV, EP_POV, MP_POV, EPL_POV,
                                     D_UNEMP, DM_UNEMP, E_UNEMP, M_UNEMP, EP_UNEMP, MP_UNEMP, EPL_UNEMP,
                                     E_PCI, M_PCI, EPL_PCI,
                                     D_NOHSDP, DM_NOHSDP, E_NOHSDP, M_NOHSDP, EP_NOHSDP, MP_NOHSDP, EPL_NOHSDP,
                                     SPL_THEME1, SVI_SES))
-    } else if (style %in% c("svi20", "svi20s") == TRUE){
+    } else if (style %in% c("svi20", "svi20s")){
 
       if (year < 2017){
         out <- subset(out, select = c(GEOID,
@@ -371,7 +371,7 @@ dep_process_svi_ses <- function(.data, style, geography, year, survey, keep_comp
 
     }
 
-  } else if (keep_components == FALSE){
+  } else if (!keep_components){
 
     out <- subset(out, select = c(GEOID, SPL_THEME1, SVI_SES))
 
@@ -407,18 +407,18 @@ dep_process_svi_hhd <- function(.data, style, geography, year, survey, keep_comp
     names(out)[names(out) == "S0101_C01_030M"] <- "M_AGE65"
   }
 
-  if (style %in% c("svi14", "svi20", "svi20s") == TRUE){
+  if (style %in% c("svi14", "svi20", "svi20s")){
     names(out)[names(out) == "S2701_C01_001E"] <- "D_DISABL"
     names(out)[names(out) == "S2701_C01_001M"] <- "DM_DISABL"
   }
 
-  if (style %in% c("svi20", "svi20s") == TRUE){
+  if (style %in% c("svi20", "svi20s")){
     names(out)[names(out) == "B16004_001E"] <- "D_LIMENG"
     names(out)[names(out) == "B16004_001M"] <- "DM_LIMENG"
   }
 
   ## calculate components
-  if (style %in% c("svi10", "svi14", "svi20") == TRUE){
+  if (style %in% c("svi10", "svi14", "svi20")){
     out$E_SNGPNT <- out$B25115_009E+out$B25115_012E+out$B25115_022E+out$B25115_025E
     out$M_SNGPNT <- sqrt(out$B25115_009M^2+out$B25115_012M^2+out$B25115_022M^2+out$B25115_025M^2)
   } else if (style == "svi20s"){
@@ -460,7 +460,7 @@ dep_process_svi_hhd <- function(.data, style, geography, year, survey, keep_comp
 
   }
 
-  if (style %in% c("svi14", "svi20", "svi20s") == TRUE){
+  if (style %in% c("svi14", "svi20", "svi20s")){
 
     ### create variable list
     varlist <- dep_expand_varlist(geography = geography, index = paste0(style, ", dis"),
@@ -480,7 +480,7 @@ dep_process_svi_hhd <- function(.data, style, geography, year, survey, keep_comp
 
   }
 
-  if (style %in% c("svi20", "svi20s") == TRUE){
+  if (style %in% c("svi20", "svi20s")){
 
     ### create variable list
     varlist <- dep_expand_varlist(geography = geography, index = paste0(style, ", eng"),
@@ -510,12 +510,12 @@ dep_process_svi_hhd <- function(.data, style, geography, year, survey, keep_comp
   out$EP_SNGPNT <- dep_safe_pct(out$E_SNGPNT, out$D_SNGPNT)
   out$MP_SNGPNT <- dep_derived_moe(out$M_SNGPNT, out$EP_SNGPNT, out$DM_SNGPNT, out$DM_SNGPNT)
 
-  if (style %in% c("svi14", "svi20", "svi20s") == TRUE){
+  if (style %in% c("svi14", "svi20", "svi20s")){
     out$EP_DISABL <- dep_safe_pct(out$E_DISABL, out$D_DISABL)
     out$MP_DISABL <- dep_derived_moe(out$M_DISABL, out$EP_DISABL, out$DM_DISABL, out$DM_DISABL)
   }
 
-  if (style %in% c("svi20", "svi20s") == TRUE){
+  if (style %in% c("svi20", "svi20s")){
     out$EP_LIMENG <- dep_safe_pct(out$E_LIMENG, out$D_LIMENG)
     out$MP_LIMENG <- dep_derived_moe(out$M_LIMENG, out$EP_LIMENG, out$DM_LIMENG, out$DM_LIMENG)
   }
@@ -525,11 +525,11 @@ dep_process_svi_hhd <- function(.data, style, geography, year, survey, keep_comp
   out$EPL_AGE65 <- dep_percent_rank(out$EP_AGE65)
   out$EPL_SNGPNT <- dep_percent_rank(out$EP_SNGPNT)
 
-  if (style %in% c("svi14", "svi20", "svi20s") == TRUE){
+  if (style %in% c("svi14", "svi20", "svi20s")){
     out$EPL_DISABL <- dep_percent_rank(out$EP_DISABL)
   }
 
-  if (style %in% c("svi20", "svi20s") == TRUE){
+  if (style %in% c("svi20", "svi20s")){
     out$EPL_LIMENG <- dep_percent_rank(out$EP_LIMENG)
   }
 
@@ -538,7 +538,7 @@ dep_process_svi_hhd <- function(.data, style, geography, year, survey, keep_comp
     out$SPL_THEME2 <- out$EPL_AGE17 + out$EPL_AGE65 + out$EPL_SNGPNT
   } else if (style == "svi14"){
     out$SPL_THEME2 <- out$EPL_AGE17 + out$EPL_AGE65 + out$EPL_DISABL + out$EPL_SNGPNT
-  } else if (style %in% c("svi20", "svi20s") == TRUE){
+  } else if (style %in% c("svi20", "svi20s")){
     out$SPL_THEME2 <- out$EPL_AGE17 + out$EPL_AGE65 + out$EPL_DISABL + out$EPL_SNGPNT + out$EPL_LIMENG
   }
 
@@ -546,7 +546,7 @@ dep_process_svi_hhd <- function(.data, style, geography, year, survey, keep_comp
   out$SVI_HCD <- dep_percent_rank(out$SPL_THEME2)
 
   ## update output order
-  if (keep_components == TRUE){
+  if (keep_components){
 
     if (style == "svi10"){
 
@@ -563,7 +563,7 @@ dep_process_svi_hhd <- function(.data, style, geography, year, survey, keep_comp
                                         E_SNGPNT, M_SNGPNT, EP_SNGPNT, MP_SNGPNT, EPL_SNGPNT,
                                         SPL_THEME2, SVI_HCD))
 
-    } else if (style %in% c("svi20", "svi20s") == TRUE){
+    } else if (style %in% c("svi20", "svi20s")){
 
       out <- subset(out, select = c(GEOID, E_AGE17, M_AGE17, EP_AGE17, MP_AGE17, EPL_AGE17,
                                         E_AGE65, M_AGE65, EP_AGE65, MP_AGE65, EPL_AGE65,
@@ -574,7 +574,7 @@ dep_process_svi_hhd <- function(.data, style, geography, year, survey, keep_comp
 
     }
 
-  } else if (keep_components == FALSE){
+  } else if (!keep_components){
     out <- subset(out, select = c(GEOID, SPL_THEME2, SVI_HCD))
   }
 
@@ -598,7 +598,7 @@ dep_process_svi_msl <- function(.data, style, geography, year, survey, keep_comp
   names(out)[names(out) == "S0101_C01_001E"] <- "D_MINRTY"
   names(out)[names(out) == "S0101_C01_001M"] <- "DM_MINRTY"
 
-  if (style %in% c("svi10", "svi14") == TRUE){
+  if (style %in% c("svi10", "svi14")){
     names(out)[names(out) == "B16004_001E"] <- "D_LIMENG"
     names(out)[names(out) == "B16004_001M"] <- "DM_LIMENG"
   }
@@ -607,7 +607,7 @@ dep_process_svi_msl <- function(.data, style, geography, year, survey, keep_comp
   out$E_MINRTY <- out$D_MINRTY-out$B01001H_001E
   out$M_MINRTY <- sqrt(out$DM_MINRTY^2+out$B01001H_001M^2)
 
-  if (style %in% c("svi10", "svi14") == TRUE){
+  if (style %in% c("svi10", "svi14")){
 
     ### create variable list
     varlist <- dep_expand_varlist(geography = geography, index = paste0(style, ", eng"),
@@ -639,26 +639,26 @@ dep_process_svi_msl <- function(.data, style, geography, year, survey, keep_comp
   ## calculate percentiles
   out$EPL_MINRTY <- dep_percent_rank(out$EP_MINRTY)
 
-  if (style %in% c("svi10", "svi14") == TRUE){
+  if (style %in% c("svi10", "svi14")){
     out$EPL_LIMENG <- dep_percent_rank(out$EP_LIMENG)
   }
 
   ### calculate theme
-  if (style %in% c("svi10", "svi14") == TRUE){
+  if (style %in% c("svi10", "svi14")){
     out$SPL_THEME3 <- out$EPL_MINRTY + out$EPL_LIMENG
-  } else if (style %in% c("svi20", "svi20s") == TRUE){
+  } else if (style %in% c("svi20", "svi20s")){
     out$SPL_THEME3 <- out$EPL_MINRTY
   }
 
   ## calculate theme percentile
-  if (style %in% c("svi10", "svi14") == TRUE){
+  if (style %in% c("svi10", "svi14")){
     out$SVI_MSL <- dep_percent_rank(out$SPL_THEME3)
-  } else if (style %in% c("svi20", "svi20s") == TRUE){
+  } else if (style %in% c("svi20", "svi20s")){
     out$SVI_MSL <- out$SPL_THEME3
   }
 
   ### update output order
-  if (keep_components == TRUE){
+  if (keep_components){
 
     if (style %in% c("svi10", "svi14")){
 
@@ -666,14 +666,14 @@ dep_process_svi_msl <- function(.data, style, geography, year, survey, keep_comp
                                     D_LIMENG, DM_LIMENG, E_LIMENG, M_LIMENG, EP_LIMENG, MP_LIMENG, EPL_LIMENG,
                                     SPL_THEME3, SVI_MSL))
 
-    } else if (style %in% c("svi20", "svi20s") == TRUE){
+    } else if (style %in% c("svi20", "svi20s")){
 
       out <- subset(out, select = c(GEOID, E_MINRTY, M_MINRTY, EP_MINRTY, MP_MINRTY, EPL_MINRTY,
                                     SPL_THEME3, SVI_MSL))
 
     }
 
-  } else if (keep_components == FALSE){
+  } else if (!keep_components){
 
     out <- subset(out, select = c(GEOID, SPL_THEME3, SVI_MSL))
 
@@ -767,7 +767,7 @@ dep_process_svi_htt <- function(.data, style, geography, year, survey, keep_comp
   .data$SVI_HTT <- dep_percent_rank(.data$SPL_THEME4)
 
   ## update output order
-  if (keep_components == TRUE){
+  if (keep_components){
 
     .data <- subset(.data, select = c(GEOID, E_MUNIT, M_MUNIT, EP_MUNIT, MP_MUNIT, EPL_MUNIT,
                                       E_MOBILE, M_MOBILE, EP_MOBILE, MP_MOBILE, EPL_MOBILE,
@@ -776,7 +776,7 @@ dep_process_svi_htt <- function(.data, style, geography, year, survey, keep_comp
                                       E_GROUPQ, M_GROUPQ, EP_GROUPQ, MP_GROUPQ, EPL_GROUPQ,
                                       SPL_THEME4, SVI_HTT))
 
-  } else if (keep_components == FALSE){
+  } else if (!keep_components){
 
     .data <- subset(.data, select = c(GEOID, SPL_THEME4, SVI_HTT))
 
