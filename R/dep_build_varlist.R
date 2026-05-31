@@ -110,84 +110,85 @@ dep_build_varlist <- function(geography, index, year, survey = "acs5", output = 
 
   ## gini
   if ("gini" %in% index == TRUE){
-    a <- request_vars$gini10
+    gini_vars <- request_vars$gini10
   } else {
-    a <- NULL
+    gini_vars <- NULL
   }
 
   ## svi
   ### 2010 svi style
   if ("svi10" %in% index == TRUE){
     if (year %in% c(2010:2014) == TRUE){
-      b <- unlist(request_vars$svi10_10)
+      svi10_vars <- unlist(request_vars$svi10_10)
     } else if (year %in% c(2015, 2016) == TRUE){
-      b <- unlist(request_vars$svi10_15)
+      svi10_vars <- unlist(request_vars$svi10_15)
     } else if (year > 2016){
-      b <- unlist(request_vars$svi10_17)
+      svi10_vars <- unlist(request_vars$svi10_17)
     }
   }else {
-    b <- NULL
+    svi10_vars <- NULL
   }
 
   ### 2014 svi style
   if ("svi14" %in% index == TRUE){
     if (year %in% c(2012:2014) == TRUE){
-      c <- unlist(request_vars$svi14_12)
+      svi14_vars <- unlist(request_vars$svi14_12)
     } else if (year %in% c(2015, 2016) == TRUE){
-      c <- unlist(request_vars$svi14_15)
+      svi14_vars <- unlist(request_vars$svi14_15)
     } else if (year > 2016){
-      c <- unlist(request_vars$svi14_17)
+      svi14_vars <- unlist(request_vars$svi14_17)
     }
   } else {
-    c <- NULL
+    svi14_vars <- NULL
   }
 
   ### 2020 svi style
   if ("svi20" %in% index == TRUE){
     if (year == 2012){
-      d <- unlist(request_vars$svi20_12)
+      svi20_vars <- unlist(request_vars$svi20_12)
     } else if (year %in% c(2013, 2014)){
-      d <- unlist(request_vars$svi20_13)
+      svi20_vars <- unlist(request_vars$svi20_13)
     } else if (year %in% c(2015, 2016) == TRUE){
-      d <- unlist(request_vars$svi20_15)
+      svi20_vars <- unlist(request_vars$svi20_15)
     } else if (year > 2016){
-      d <- unlist(request_vars$svi20_17)
+      svi20_vars <- unlist(request_vars$svi20_17)
     }
   } else {
-    d <- NULL
+    svi20_vars <- NULL
   }
 
   ### 2020 svi style with alt definition of single parent households
   if ("svi20s" %in% index == TRUE){
-    e <- unlist(request_vars$svi20s_19)
+    svi20s_vars <- unlist(request_vars$svi20s_19)
   } else {
-    e <- NULL
+    svi20s_vars <- NULL
   }
 
   ## adi
   if ("adi" %in% index == TRUE){
-    f <- build_adi_varlist(geography, year = year, survey = survey)
+    adi_vars <- build_adi_varlist(geography, year = year, survey = survey)
   } else {
-    f <- NULL
+    adi_vars <- NULL
   }
 
   ## ndi, messer
   if ("ndi_m" %in% index == TRUE){
-    g <- request_vars$ndi_m
+    ndi_m_vars <- request_vars$ndi_m
   } else {
-    g <- NULL
+    ndi_m_vars <- NULL
   }
 
   ## ndi, powell-wiley
   if ("ndi_pw" %in% index == TRUE){
-    h <- request_vars$ndi_pw
+    ndi_pw_vars <- request_vars$ndi_pw
   } else {
-    h <- NULL
+    ndi_pw_vars <- NULL
   }
 
   ## create output
   ### create initial vector
-  out <- sort(unique(c(a,b,c,d,e,f,g,h)))
+  out <- sort(unique(c(gini_vars, svi10_vars, svi14_vars, svi20_vars,
+                       svi20s_vars, adi_vars, ndi_m_vars, ndi_pw_vars)))
 
   ### optionally create output tibble
   if (output == "tibble"){
