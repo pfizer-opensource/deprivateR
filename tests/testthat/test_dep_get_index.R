@@ -105,11 +105,49 @@ test_that("non-logical keep_components triggers error", {
 })
 
 test_that("territory in state argument triggers error", {
-  # Note: validate_state converts abbreviations to FIPS codes before the
+  # Abbreviation input (converted to FIPS by validate_state before the check)
+  expect_error(
+    dep_get_index(geography = "county", index = "ndi_m", year = 2020, survey = "acs5", state = "PR"),
+    "Territories cannot be specified"
+  )
+  expect_error(
+    dep_get_index(geography = "county", index = "ndi_m", year = 2020, survey = "acs5", state = "AS"),
+    "Territories cannot be specified"
+  )
+  expect_error(
+    dep_get_index(geography = "county", index = "ndi_m", year = 2020, survey = "acs5", state = "GU"),
+    "Territories cannot be specified"
+  )
+  expect_error(
+    dep_get_index(geography = "county", index = "ndi_m", year = 2020, survey = "acs5", state = "MP"),
+    "Territories cannot be specified"
+  )
+  expect_error(
+    dep_get_index(geography = "county", index = "ndi_m", year = 2020, survey = "acs5", state = "VI"),
+    "Territories cannot be specified"
+  )
 
-  # territory check runs, so we pass the FIPS code directly to trigger the
-  # correct validation path. This is a known issue in the package.
-  skip("Territory validation compares FIPS against abbreviations - known bug")
+  # Direct FIPS input
+  expect_error(
+    dep_get_index(geography = "county", index = "ndi_m", year = 2020, survey = "acs5", state = "72"),
+    "Territories cannot be specified"
+  )
+  expect_error(
+    dep_get_index(geography = "county", index = "ndi_m", year = 2020, survey = "acs5", state = "60"),
+    "Territories cannot be specified"
+  )
+  expect_error(
+    dep_get_index(geography = "county", index = "ndi_m", year = 2020, survey = "acs5", state = "66"),
+    "Territories cannot be specified"
+  )
+  expect_error(
+    dep_get_index(geography = "county", index = "ndi_m", year = 2020, survey = "acs5", state = "69"),
+    "Territories cannot be specified"
+  )
+  expect_error(
+    dep_get_index(geography = "county", index = "ndi_m", year = 2020, survey = "acs5", state = "78"),
+    "Territories cannot be specified"
+  )
 })
 
 test_that("state and county both specified triggers error", {

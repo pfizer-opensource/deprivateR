@@ -178,7 +178,7 @@ dep_get_index <- function(geography, index, year, survey = "acs5",
     state <- unlist(sapply(state, validate_state, USE.NAMES=FALSE))
   }
 
-  if (any(state %in% c("AS", "GU", "MP", "PR", "VI"))){
+  if (any(state %in% c("60", "66", "69", "72", "78"))){
     cli::cli_abort(c(
       "Territories cannot be specified using the {.arg state} argument.",
       "i" = "Use the {.arg puerto_rico} argument for Puerto Rico.",
