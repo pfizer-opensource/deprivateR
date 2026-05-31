@@ -20,6 +20,11 @@ reference:
     - dep_percentiles
     - dep_map_breaks
 
+  - title: "Configuration"
+    desc: "Set Up API Keys and Credentials"
+    contents:
+    - dep_set_api_key
+
   - title: "Sample Data"
     desc: "Data Used for Examples"
     contents:
