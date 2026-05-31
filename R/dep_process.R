@@ -42,15 +42,15 @@ dep_process <- function(.data, geography, index, year, survey,
   }
 
   # optionally add year
-  if (label_year == TRUE){
+  if (label_year){
     geo$YEAR <- year
   }
 
   # create gini output
-  if ("gini" %in% index == TRUE){
+  if ("gini" %in% index){
     out <- dep_process_gini(demo, geography = geography, year = year, survey = survey)
     out <- merge(x = geo, y = out, by = "GEOID", all.x = TRUE)
-  } else if ("gini" %in% index == FALSE){
+  } else if (!("gini" %in% index)){
     out <- geo
   }
 
@@ -74,7 +74,7 @@ dep_process <- function(.data, geography, index, year, survey,
   }
 
   # create adi output
-  if ("adi" %in% index == TRUE){
+  if ("adi" %in% index){
     adi <- dep_process_adi(demo, geography = geography, year = year, survey = survey,
                            keep_subscales = keep_subscales,
                            keep_components = keep_components,
@@ -83,7 +83,7 @@ dep_process <- function(.data, geography, index, year, survey,
   }
 
   # create ndi output
-  if ("ndi_m" %in% index == TRUE){
+  if ("ndi_m" %in% index){
     ndi_m <- dep_process_ndi_m(demo, geography = geography, year = year, survey = survey,
                                keep_components = keep_components,
                                return_percentiles = return_percentiles)
@@ -91,7 +91,7 @@ dep_process <- function(.data, geography, index, year, survey,
     out <- merge(x = out, y = ndi_m, by = "GEOID", all.x = TRUE)
   }
 
-  if ("ndi_pw" %in% index == TRUE){
+  if ("ndi_pw" %in% index){
     ndi_pw <- dep_process_ndi_pw(demo, geography = geography, year = year, survey = survey,
                                  keep_components = keep_components,
                                  return_percentiles = return_percentiles)
@@ -105,7 +105,7 @@ dep_process <- function(.data, geography, index, year, survey,
 
   } else if (output == "tidy"){
 
-    cols <- names(out)[names(out) %in% c("GEOID", "NAME") == FALSE]
+    cols <- names(out)[!(names(out) %in% c("GEOID", "NAME"))]
     out <- tidyr::pivot_longer(out, cols = tidyr::all_of(cols), names_to = "index",
                                values_to = "estimate")
 

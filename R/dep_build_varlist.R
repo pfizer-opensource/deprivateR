@@ -31,63 +31,63 @@
 dep_build_varlist <- function(geography, index, year, survey = "acs5", output = "vector"){
 
   # check inputs
-  if (missing(geography) == TRUE) {
+  if (missing(geography)) {
     cli::cli_abort(c(
       "A {.arg geography} value must be provided.",
       "i" = "Choose one of: {.val county}, {.val zcta3}, {.val zcta5}, or {.val tract}."
     ))
   }
 
-  if (geography %in% c("county", "zcta3", "zcta5", "tract") == FALSE){
+  if (!(geography %in% c("county", "zcta3", "zcta5", "tract"))){
     cli::cli_abort(c(
       "Invalid {.arg geography} provided: {.val {geography}}.",
       "i" = "Choose one of: {.val county}, {.val zcta3}, {.val zcta5}, or {.val tract}."
     ))
   }
 
-  if (missing(index) == TRUE){
+  if (missing(index)){
     cli::cli_abort(c(
       "A {.arg index} value must be provided.",
       "i" = "Choose one of: {.val adi}, {.val gini}, {.val ndi_m}, {.val ndi_pw}, {.val svi10}, {.val svi14}, {.val svi20}, or {.val svi20s}."
     ))
   }
 
-  if (all(index %in% c("adi", "gini", "ndi_m", "ndi_pw", "svi10", "svi14", "svi20", "svi20s")) == FALSE){
+  if (!all(index %in% c("adi", "gini", "ndi_m", "ndi_pw", "svi10", "svi14", "svi20", "svi20s"))){
     cli::cli_abort(c(
       "Invalid {.arg index} provided: {.val {index}}.",
       "i" = "Choose one of: {.val adi}, {.val gini}, {.val ndi_m}, {.val ndi_pw}, {.val svi10}, {.val svi14}, {.val svi20}, or {.val svi20s}."
     ))
   }
 
-  if (missing(year) == TRUE){
+  if (missing(year)){
     cli::cli_abort(c(
       "A {.arg year} value must be provided.",
       "i" = "Choose a numeric value between {.val 2010} and {.val 2022}."
     ))
   }
 
-  if (is.numeric(year) == FALSE | (min(year) < 2010 | max(year) > 2022)){
+  if (!is.numeric(year) | (min(year) < 2010 | max(year) > 2022)){
     cli::cli_abort(c(
       "Invalid {.arg year} provided: {.val {year}}.",
       "i" = "Provide a numeric value between {.val 2010} and {.val 2022}."
     ))
   }
 
-  if (any(index %in% c("svi14", "svi20")) == TRUE & min(year) < 2012){
+  if (any(index %in% c("svi14", "svi20")) & min(year) < 2012){
     cli::cli_abort(c(
       "Invalid {.arg year} provided for {.arg index}: {.val {year}}.",
       "i" = "{.val svi14} and {.val svi20} can be calculated from {.val 2012} onward. Use {.val svi10} for {.val 2010} or {.val 2011}."
     ))
   }
 
-  if (any(index == "svi20s") == TRUE & min(year) < 2019){
+  if (any(index == "svi20s") & min(year) < 2019){
     cli::cli_abort(c(
       "Invalid {.arg year} provided for {.arg index}: {.val {year}}.",
       "i" = "{.val svi20s} can only be calculated from {.val 2019} onward."
     ))
   }
 
-  if (survey %in% c("acs1", "acs3", "acs5") == FALSE){
+  if (!(survey %in% c("acs1", "acs3", "acs5"))){
     cli::cli_abort(c(
       "Invalid {.arg survey} provided: {.val {survey}}.",
       "i" = "Choose one of: {.val acs1}, {.val acs3}, or {.val acs5}."
@@ -101,7 +101,7 @@ dep_build_varlist <- function(geography, index, year, survey = "acs5", output = 
     ))
   }
 
-  if (output %in% c("vector", "tibble") == FALSE){
+  if (!(output %in% c("vector", "tibble"))){
     cli::cli_abort(c(
       "Invalid {.arg output} provided: {.val {output}}.",
       "i" = "Choose one of: {.val vector} or {.val tibble}."
@@ -109,7 +109,7 @@ dep_build_varlist <- function(geography, index, year, survey = "acs5", output = 
   }
 
   ## gini
-  if ("gini" %in% index == TRUE){
+  if ("gini" %in% index){
     gini_vars <- request_vars$gini10
   } else {
     gini_vars <- NULL
@@ -117,10 +117,10 @@ dep_build_varlist <- function(geography, index, year, survey = "acs5", output = 
 
   ## svi
   ### 2010 svi style
-  if ("svi10" %in% index == TRUE){
-    if (year %in% c(2010:2014) == TRUE){
+  if ("svi10" %in% index){
+    if (year %in% c(2010:2014)){
       svi10_vars <- unlist(request_vars$svi10_10)
-    } else if (year %in% c(2015, 2016) == TRUE){
+    } else if (year %in% c(2015, 2016)){
       svi10_vars <- unlist(request_vars$svi10_15)
     } else if (year > 2016){
       svi10_vars <- unlist(request_vars$svi10_17)
@@ -130,10 +130,10 @@ dep_build_varlist <- function(geography, index, year, survey = "acs5", output = 
   }
 
   ### 2014 svi style
-  if ("svi14" %in% index == TRUE){
-    if (year %in% c(2012:2014) == TRUE){
+  if ("svi14" %in% index){
+    if (year %in% c(2012:2014)){
       svi14_vars <- unlist(request_vars$svi14_12)
-    } else if (year %in% c(2015, 2016) == TRUE){
+    } else if (year %in% c(2015, 2016)){
       svi14_vars <- unlist(request_vars$svi14_15)
     } else if (year > 2016){
       svi14_vars <- unlist(request_vars$svi14_17)
@@ -143,12 +143,12 @@ dep_build_varlist <- function(geography, index, year, survey = "acs5", output = 
   }
 
   ### 2020 svi style
-  if ("svi20" %in% index == TRUE){
+  if ("svi20" %in% index){
     if (year == 2012){
       svi20_vars <- unlist(request_vars$svi20_12)
     } else if (year %in% c(2013, 2014)){
       svi20_vars <- unlist(request_vars$svi20_13)
-    } else if (year %in% c(2015, 2016) == TRUE){
+    } else if (year %in% c(2015, 2016)){
       svi20_vars <- unlist(request_vars$svi20_15)
     } else if (year > 2016){
       svi20_vars <- unlist(request_vars$svi20_17)
@@ -158,28 +158,28 @@ dep_build_varlist <- function(geography, index, year, survey = "acs5", output = 
   }
 
   ### 2020 svi style with alt definition of single parent households
-  if ("svi20s" %in% index == TRUE){
+  if ("svi20s" %in% index){
     svi20s_vars <- unlist(request_vars$svi20s_19)
   } else {
     svi20s_vars <- NULL
   }
 
   ## adi
-  if ("adi" %in% index == TRUE){
+  if ("adi" %in% index){
     adi_vars <- build_adi_varlist(geography, year = year, survey = survey)
   } else {
     adi_vars <- NULL
   }
 
   ## ndi, messer
-  if ("ndi_m" %in% index == TRUE){
+  if ("ndi_m" %in% index){
     ndi_m_vars <- request_vars$ndi_m
   } else {
     ndi_m_vars <- NULL
   }
 
   ## ndi, powell-wiley
-  if ("ndi_pw" %in% index == TRUE){
+  if ("ndi_pw" %in% index){
     ndi_pw_vars <- request_vars$ndi_pw
   } else {
     ndi_pw_vars <- NULL
@@ -199,7 +199,7 @@ dep_build_varlist <- function(geography, index, year, survey = "acs5", output = 
     )
 
     #### download variable defs
-    if (index %in% c("adi", "gini") == TRUE){
+    if (index %in% c("adi", "gini")){
       vars <- tidycensus::load_variables(
         year = year,
         dataset = survey
@@ -326,43 +326,43 @@ dep_expand_varlist <- function(geography, index, year, survey,
 
   } else if (index == "svi10, msl all") {
 
-    if (year %in% c(2010:2014) == TRUE){
+    if (year %in% c(2010:2014)){
       out <- c(request_vars$svi10_10$msl_vars, request_vars$svi10_10$eng_vars)
-    } else if (year %in% c(2015, 2016) == TRUE){
+    } else if (year %in% c(2015, 2016)){
       out <- c(request_vars$svi10_15$msl_vars, request_vars$svi10_15$eng_vars)
-    } else if (year %in% c(2017:2022) == TRUE){
+    } else if (year %in% c(2017:2022)){
       out <- c(request_vars$svi10_17$msl_vars, request_vars$svi10_17$eng_vars)
     }
 
   } else if (index == "svi14, msl all") {
 
-    if (year %in% c(2012:2014) == TRUE){
+    if (year %in% c(2012:2014)){
       out <- c(request_vars$svi14_12$msl_vars, request_vars$svi14_12$eng_vars)
-    } else if (year %in% c(2015, 2016) == TRUE){
+    } else if (year %in% c(2015, 2016)){
       out <- c(request_vars$svi14_15$msl_vars, request_vars$svi14_15$eng_vars)
-    } else if (year %in% c(2017:2022) == TRUE){
+    } else if (year %in% c(2017:2022)){
       out <- c(request_vars$svi14_17$msl_vars, request_vars$svi14_17$eng_vars)
     }
 
   } else if (index == "svi10, hhd all") {
 
-    if (year %in% c(2010:2014) == TRUE){
+    if (year %in% c(2010:2014)){
       out <- c(request_vars$svi10_10$hhd_vars, request_vars$svi10_10$age_lt18_vars,
                request_vars$svi10_10$age_gt64_vars)
-    } else if (year %in% c(2015, 2016) == TRUE){
+    } else if (year %in% c(2015, 2016)){
       out <- c(request_vars$svi10_15$hhd_vars, request_vars$svi10_15$age_lt18_vars,
                request_vars$svi10_15$age_gt64_vars)
     }
 
   } else if (index == "svi14, hhd all") {
 
-    if (year %in% c(2012:2014) == TRUE){
+    if (year %in% c(2012:2014)){
       out <- c(request_vars$svi14_12$hhd_vars, request_vars$svi14_12$age_lt18_vars,
                request_vars$svi14_12$age_gt64_vars, request_vars$svi14_12$dis_vars)
-    } else if (year %in% c(2015, 2016) == TRUE){
+    } else if (year %in% c(2015, 2016)){
       out <- c(request_vars$svi14_15$hhd_vars, request_vars$svi14_15$age_lt18_vars,
                request_vars$svi14_15$age_gt64_vars, request_vars$svi14_15$dis_vars)
-    } else if (year %in% c(2017:2022) == TRUE){
+    } else if (year %in% c(2017:2022)){
       out <- c(request_vars$svi14_17$hhd_vars, request_vars$svi14_17$dis_vars)
     }
 
@@ -372,15 +372,15 @@ dep_expand_varlist <- function(geography, index, year, survey,
       out <- c(request_vars$svi20_12$hhd_vars, request_vars$svi20_12$age_lt18_vars,
                request_vars$svi20_12$age_gt64_vars, request_vars$svi20_12$dis_vars,
                request_vars$svi20_12$eng_vars)
-    } else if (year %in% c(2013, 2014) == TRUE){
+    } else if (year %in% c(2013, 2014)){
       out <- c(request_vars$svi20_13$hhd_vars, request_vars$svi20_13$age_lt18_vars,
                request_vars$svi20_13$age_gt64_vars, request_vars$svi20_13$dis_vars,
                request_vars$svi20_13$eng_vars)
-    } else if (year %in% c(2015, 2016) == TRUE){
+    } else if (year %in% c(2015, 2016)){
       out <- c(request_vars$svi20_15$hhd_vars, request_vars$svi20_15$age_lt18_vars,
                request_vars$svi20_15$age_gt64_vars, request_vars$svi20_15$dis_vars,
                request_vars$svi20_15$eng_vars)
-    } else if (year %in% c(2017:2022) == TRUE){
+    } else if (year %in% c(2017:2022)){
       out <- c(request_vars$svi20_17$hhd_vars, request_vars$svi20_17$dis_vars,
                request_vars$svi20_17$eng_vars)
     }
@@ -401,7 +401,7 @@ dep_expand_varlist <- function(geography, index, year, survey,
 
     if (year == 2012){
       out <- c(request_vars$svi20_12$ses_vars, request_vars$svi20_12$edu_vars)
-    } else if (year %in% c(2013, 2014) == TRUE){
+    } else if (year %in% c(2013, 2014)){
       out <- c(request_vars$svi20_13$ses_vars, request_vars$svi20_13$edu_vars)
     }
 
@@ -418,27 +418,27 @@ dep_expand_varlist <- function(geography, index, year, survey,
                           "svi14, dis", "svi20, dis", "svi20s, dis",
                           "svi10, msl", "svi14, msl", "svi20, msl", "svi20s, msl",
                           "svi10, eng", "svi14, eng", "svi20, eng", "svi20s, eng",
-                          "svi10, htt", "svi14, htt", "svi20, htt", "svi20s, htt") == TRUE){
+                          "svi10, htt", "svi14, htt", "svi20, htt", "svi20s, htt")){
 
     req <- paste0(.dep_str_word(index, 2),"_vars")
 
     if (.dep_str_word(index, 1) == "svi10,"){
 
-      if (year %in% c(2010:2014) == TRUE){
+      if (year %in% c(2010:2014)){
         out <- request_vars$svi10_10[[req]]
-      } else if (year %in% c(2015, 2016) == TRUE){
+      } else if (year %in% c(2015, 2016)){
         out <- request_vars$svi10_15[[req]]
-      } else if (year %in% c(2017:2022) == TRUE){
+      } else if (year %in% c(2017:2022)){
         out <- request_vars$svi10_17[[req]]
       }
 
     } else if (.dep_str_word(index, 1) == "svi14,"){
 
-      if (year %in% c(2012:2014) == TRUE){
+      if (year %in% c(2012:2014)){
         out <- request_vars$svi14_12[[req]]
-      } else if (year %in% c(2015, 2016) == TRUE){
+      } else if (year %in% c(2015, 2016)){
         out <- request_vars$svi14_15[[req]]
-      } else if (year %in% c(2017:2022) == TRUE){
+      } else if (year %in% c(2017:2022)){
         out <- request_vars$svi14_17[[req]]
       }
 
@@ -446,11 +446,11 @@ dep_expand_varlist <- function(geography, index, year, survey,
 
       if (year == 2012){
         out <- request_vars$svi20_12[[req]]
-      } else if (year %in% c(2013, 2014) == TRUE){
+      } else if (year %in% c(2013, 2014)){
         out <- request_vars$svi20_13[[req]]
-      } else if (year %in% c(2015, 2016) == TRUE){
+      } else if (year %in% c(2015, 2016)){
         out <- request_vars$svi20_15[[req]]
-      } else if (year %in% c(2017:2022) == TRUE){
+      } else if (year %in% c(2017:2022)){
         out <- request_vars$svi20_17[[req]]
       }
     } else if (.dep_str_word(index, 1) == "svi20s,"){
@@ -459,11 +459,11 @@ dep_expand_varlist <- function(geography, index, year, survey,
   }
 
   # expand and combine
-  if (estimates_only == FALSE & moe_only == FALSE){
+  if (!estimates_only & !moe_only){
     out <- sort(c(paste0(out, "E"), paste0(out, "M")))
-  } else if (estimates_only == TRUE & moe_only == FALSE){
+  } else if (estimates_only & !moe_only){
     out <- sort(paste0(out, "E"))
-  } else if (estimates_only == FALSE & moe_only == TRUE){
+  } else if (!estimates_only & moe_only){
     out <- sort(paste0(out, "M"))
   }
 
@@ -487,8 +487,8 @@ dep_zcta3_varlist <- function(varlist){
 
   ## create output
   out <- list(
-    extensive = varlist[varlist %in% intensive_vars == FALSE],
-    intensive = varlist[varlist %in% intensive_vars == TRUE]
+    extensive = varlist[!(varlist %in% intensive_vars)],
+    intensive = varlist[varlist %in% intensive_vars]
   )
 
   ## return output

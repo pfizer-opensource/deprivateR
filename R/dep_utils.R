@@ -1,7 +1,7 @@
 pivot_demos <- function(.data, vars){
 
   out <- tidyr::pivot_longer(.data, cols = dplyr::all_of(vars), names_to = "variable", values_to = "values")
-  out$variable <- ifelse(grepl("E", out$variable, fixed = TRUE) == TRUE, "estimate", "moe")
+  out$variable <- ifelse(grepl("E", out$variable, fixed = TRUE), "estimate", "moe")
 
   out <- suppressWarnings(tidyr::pivot_wider(out, id_cols = GEOID, names_from = variable, values_from = values))
   out <- tidyr::unchop(out, cols = c(GEOID, estimate, moe))
@@ -54,7 +54,7 @@ dep_validate_inputs <- function(geography, index, year, survey,
     ))
   }
 
-  if (geography %in% c("county", "zcta3", "zcta5", "tract") == FALSE) {
+  if (!(geography %in% c("county", "zcta3", "zcta5", "tract"))) {
     cli::cli_abort(c(
       "Invalid {.arg geography} provided: {.val {geography}}.",
       "i" = "Choose one of: {.val county}, {.val zcta3}, {.val zcta5}, or {.val tract}."
@@ -69,7 +69,7 @@ dep_validate_inputs <- function(geography, index, year, survey,
     ))
   }
 
-  if (all(index %in% c("adi", "gini", "ndi_m", "ndi_pw", "svi10", "svi14", "svi20", "svi20s")) == FALSE) {
+  if (!all(index %in% c("adi", "gini", "ndi_m", "ndi_pw", "svi10", "svi14", "svi20", "svi20s"))) {
     cli::cli_abort(c(
       "Invalid {.arg index} provided: {.val {index}}.",
       "i" = "Choose one of: {.val adi}, {.val gini}, {.val ndi_m}, {.val ndi_pw}, {.val svi10}, {.val svi14}, {.val svi20}, or {.val svi20s}."
@@ -84,21 +84,21 @@ dep_validate_inputs <- function(geography, index, year, survey,
     ))
   }
 
-  if (is.numeric(year) == FALSE | (min(year) < 2010 | max(year) > 2022)) {
+  if (!is.numeric(year) | (min(year) < 2010 | max(year) > 2022)) {
     cli::cli_abort(c(
       "The {.arg year} value provided is invalid.",
       "i" = "Please provide a numeric value between 2010 and 2022."
     ))
   }
 
-  if (any(index %in% c("svi14", "svi20")) == TRUE & min(year) < 2012) {
+  if (any(index %in% c("svi14", "svi20")) & min(year) < 2012) {
     cli::cli_abort(c(
       "The {.arg year} value is not valid for 2014 or 2020 SVI specifications.",
       "i" = "Each of those can be calculated from 2012 onward. Use {.val svi10} for 2010 or 2011."
     ))
   }
 
-  if (any(index == "svi20s") == TRUE & min(year) < 2019) {
+  if (any(index == "svi20s") & min(year) < 2019) {
     cli::cli_abort(c(
       "The {.arg year} value is not valid for the 2020 SVI specification with the alternate single parent measure.",
       "i" = "This can only be calculated for 2019 onward."
@@ -106,7 +106,7 @@ dep_validate_inputs <- function(geography, index, year, survey,
   }
 
   # survey
-  if (survey %in% c("acs1", "acs3", "acs5") == FALSE) {
+  if (!(survey %in% c("acs1", "acs3", "acs5"))) {
     cli::cli_abort(c(
       "The {.arg survey} value provided is not valid: {.val {survey}}.",
       "i" = "Choose one of: {.val acs1}, {.val acs3}, or {.val acs5}."
@@ -121,27 +121,27 @@ dep_validate_inputs <- function(geography, index, year, survey,
   }
 
   # logical scalars
-  if (is.logical(return_percentiles) == FALSE) {
+  if (!is.logical(return_percentiles)) {
     cli::cli_abort("Please provide a logical scalar for {.arg return_percentiles}.")
   }
 
-  if (is.logical(keep_subscales) == FALSE) {
+  if (!is.logical(keep_subscales)) {
     cli::cli_abort("Please provide a logical scalar for {.arg keep_subscales}.")
   }
 
-  if (is.logical(keep_components) == FALSE) {
+  if (!is.logical(keep_components)) {
     cli::cli_abort("Please provide a logical scalar for {.arg keep_components}.")
   }
 
   # output
-  if (output %in% valid_output == FALSE) {
+  if (!(output %in% valid_output)) {
     cli::cli_abort(c(
       "The {.arg output} value provided is not valid: {.val {output}}.",
       "i" = "Choose one of: {.val {valid_output}}."
     ))
   }
 
-  if (output == "tidy" & keep_components == TRUE) {
+  if (output == "tidy" & keep_components) {
     cli::cli_abort(c(
       "The {.arg output} requested is invalid.",
       "i" = "Tidy output is only available if {.arg keep_components} is {.code FALSE}."

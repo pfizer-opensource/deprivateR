@@ -174,11 +174,11 @@ dep_get_index <- function(geography, index, year, survey = "acs5",
     valid_output = c("tidy", "wide", "sf")
   )
 
-  if (is.null(state) == FALSE){
+  if (!is.null(state)){
     state <- unlist(sapply(state, validate_state, USE.NAMES=FALSE))
   }
 
-  if (any(state %in% c("AS", "GU", "MP", "PR", "VI")) == TRUE){
+  if (any(state %in% c("AS", "GU", "MP", "PR", "VI"))){
     cli::cli_abort(c(
       "Territories cannot be specified using the {.arg state} argument.",
       "i" = "Use the {.arg puerto_rico} argument for Puerto Rico.",
@@ -186,22 +186,22 @@ dep_get_index <- function(geography, index, year, survey = "acs5",
     ))
   }
 
-  if (is.null(county) == FALSE & is.null(state) == FALSE){
+  if (!is.null(county) & !is.null(state)){
     cli::cli_abort("Please choose values for either {.arg state} or {.arg county} but not both.")
   }
 
-  if (is.logical(puerto_rico) == FALSE){
+  if (!is.logical(puerto_rico)){
     cli::cli_abort("Please provide a logical scalar for {.arg puerto_rico}.")
   }
 
   ## need to check for zcta3_method
 
-  if (geography != "zcta5" & is.null(zcta) == FALSE){
+  if (geography != "zcta5" & !is.null(zcta)){
     cli::cli_warn("The {.arg zcta} argument was ignored because the geography requested is not {.val zcta5}.")
-  } else if (geography == "zcta5" & is.null(zcta) == FALSE){
+  } else if (geography == "zcta5" & !is.null(zcta)){
     valid <- zippeR::zi_validate(zcta, style = geography)
 
-    if (valid == FALSE){
+    if (!valid){
       cli::cli_abort(c(
         "ZCTA data passed to the {.arg zcta} argument are invalid.",
         "i" = "Use {.fn zippeR::zi_validate} with {.code verbose = TRUE} to investigate further.",
@@ -210,7 +210,7 @@ dep_get_index <- function(geography, index, year, survey = "acs5",
     }
   }
 
-  if (is.logical(zcta_cb) == FALSE){
+  if (!is.logical(zcta_cb)){
     cli::cli_abort("Please provide a logical scalar for {.arg zcta_cb}.")
   }
 
@@ -219,7 +219,7 @@ dep_get_index <- function(geography, index, year, survey = "acs5",
   # }
   keep_geo_vars <- FALSE
 
-  if (is.logical(shift_geo) == FALSE){
+  if (!is.logical(shift_geo)){
     cli::cli_abort("Please provide a logical scalar for {.arg shift_geo}.")
   }
 
@@ -264,9 +264,9 @@ dep_get_index <- function(geography, index, year, survey = "acs5",
   out <- do.call(rbind, out)
 
   ## re-order results
-  if (label_year == TRUE){
+  if (label_year){
     out <- out[order(out$GEOID, out$YEAR), ]
-  } else if (label_year == FALSE){
+  } else if (!label_year){
     out <- out[order(out$GEOID), ]
   }
 

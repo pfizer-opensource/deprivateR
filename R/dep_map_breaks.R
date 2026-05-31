@@ -62,20 +62,20 @@ dep_map_breaks <- function(.data, var, new_var, classes, style, breaks,
                            sig_digits = 2, return = "col", show_warnings = TRUE){
 
   # check return
-  if (return %in% c("col", "breaks") == FALSE){
+  if (!(return %in% c("col", "breaks"))){
     cli::cli_abort("{.arg return} only accepts {.val col} or {.val breaks}.")
   }
 
   # check for correct combination of parameters
-  if (missing(breaks) == FALSE & return == "breaks"){
+  if (!missing(breaks) & return == "breaks"){
     cli::cli_abort(c("Returning breaks is only possible when {.arg breaks} is not supplied.", "i" = "Omit {.arg breaks} or set {.arg return} to {.val col}."))
   }
 
-  if ((missing(classes) == TRUE | missing(style) == TRUE) & missing(breaks) == TRUE){
+  if ((missing(classes) | missing(style)) & missing(breaks)){
     cli::cli_abort(c("Supply values for both {.arg classes} and {.arg style}, or supply {.arg breaks}.", "i" = "Use {.arg classes} with {.arg style} to compute breaks, or provide {.arg breaks} directly."))
   }
 
-  if (return == "col" & missing(new_var) == TRUE){
+  if (return == "col" & missing(new_var)){
     cli::cli_abort(c("A name for {.arg new_var} must be supplied when {.arg return} is {.val col}.", "i" = "Provide {.arg new_var} or set {.arg return} to {.val breaks}."))
   }
 
@@ -102,32 +102,32 @@ dep_map_breaks <- function(.data, var, new_var, classes, style, breaks,
   }
 
   # check that source variable exists and is numeric
-  if (refQ %in% names(.data) == FALSE){
+  if (!(refQ %in% names(.data))){
     cli::cli_abort("The variable supplied for {.arg var} cannot be found in {.arg .data}.")
   }
 
-  if (class(.data[[refQ]]) %in% c("numeric", "integer") == FALSE){
+  if (!(class(.data[[refQ]]) %in% c("numeric", "integer"))){
     cli::cli_abort("The variable supplied for {.arg var} must be numeric or integer.")
   }
 
   # check other arguments
-  if (missing(classes) == FALSE){
-    if (class(classes) %in% c("numeric", "integer") == FALSE){
+  if (!missing(classes)){
+    if (!(class(classes) %in% c("numeric", "integer"))){
       cli::cli_abort("The value supplied for {.arg classes} must be numeric or integer.")
     }
   }
 
-  if (missing(style) == FALSE){
+  if (!missing(style)){
     styles <- c("fixed", "sd", "equal", "pretty", "quantile", "kmeans", "hclust",
                 "bclust", "fisher", "jenks", "dpih", "headtails", "maximum", "box")
 
-    if (style %in% styles == FALSE){
+    if (!(style %in% styles)){
       cli::cli_abort(c("{.arg style} is not supported by classInt::classIntervals().", "i" = "Use one of: {.val fixed}, {.val sd}, {.val equal}, {.val pretty}, {.val quantile}, {.val kmeans}, {.val hclust}, {.val bclust}, {.val fisher}, {.val jenks}, {.val dpih}, {.val headtails}, {.val maximum}, or {.val box}."))
     }
   }
 
-  if (missing(breaks) == FALSE){
-    if (class(breaks) %in% c("numeric", "integer") == FALSE){
+  if (!missing(breaks)){
+    if (!(class(breaks) %in% c("numeric", "integer"))){
       cli::cli_abort("The vector supplied for {.arg breaks} must be numeric or integer.")
     }
 
@@ -136,22 +136,22 @@ dep_map_breaks <- function(.data, var, new_var, classes, style, breaks,
     }
   }
 
-  if (class(sig_digits) %in% c("numeric", "integer") == FALSE){
+  if (!(class(sig_digits) %in% c("numeric", "integer"))){
     cli::cli_abort("The value supplied for {.arg sig_digits} must be numeric or integer.")
   }
 
-  if (is.logical(show_warnings) == FALSE){
+  if (!is.logical(show_warnings)){
     cli::cli_abort(c("The value supplied for {.arg show_warnings} must be logical.", "i" = "Use either {.val TRUE} or {.val FALSE}."))
   }
 
   # create breaks object, rounded to specified significant digits
   ## create breaks_values
-  if (missing(breaks) == TRUE){
+  if (missing(breaks)){
 
-    if (show_warnings == TRUE){
+    if (show_warnings){
       breaks_values <- classInt::classIntervals(.data[[refQ]], n = classes,
                                                 style = style)
-    } else if (show_warnings == FALSE){
+    } else if (!show_warnings){
       breaks_values <- suppressWarnings(classInt::classIntervals(.data[[refQ]],
                                                                  n = classes,
                                                                  style = style))
@@ -159,7 +159,7 @@ dep_map_breaks <- function(.data, var, new_var, classes, style, breaks,
 
     breaks_values <- breaks_values$brks
 
-  } else if (missing(breaks) == FALSE){
+  } else if (!missing(breaks)){
     breaks_values <- breaks
   }
 

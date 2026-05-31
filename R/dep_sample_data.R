@@ -23,14 +23,14 @@
 dep_sample_data <- function(index){
 
   # check inputs
-  if (missing(index) == TRUE){
+  if (missing(index)){
     cli::cli_abort(c(
       "A {.arg index} value must be provided.",
       "i" = "Choose one of: {.val adi}, {.val ndi_m}, {.val ndi_pw}, {.val svi10}, {.val svi14}, {.val svi20}, or {.val svi20s}."
     ))
   }
 
-  if (all(index %in% c("adi", "ndi_m", "ndi_pw", "svi10", "svi14", "svi20", "svi20s")) == FALSE){
+  if (!all(index %in% c("adi", "ndi_m", "ndi_pw", "svi10", "svi14", "svi20", "svi20s"))){
     cli::cli_abort(c(
       "Invalid {.arg index} provided: {.val {index}}.",
       "i" = "Choose one of: {.val adi}, {.val ndi_m}, {.val ndi_pw}, {.val svi10}, {.val svi14}, {.val svi20}, or {.val svi20s}."

@@ -34,7 +34,7 @@ dep_percentiles <- function(.data, source_var, new_var){
 
   source_varQN <- as.character(substitute(source_var))
 
-  if (source_varQN %in% names(.data) == FALSE){
+  if (!(source_varQN %in% names(.data))){
     cli::cli_abort(c(
       "The given {.arg source_var} column is not found in your data object.",
       "i" = "Column {.val {source_varQN}} does not exist."
@@ -50,7 +50,7 @@ dep_percentiles <- function(.data, source_var, new_var){
   } else if (!missing(new_var)){
     new_varQN <- as.character(substitute(new_var))
 
-    if (new_varQN %in% names(.data) == TRUE){
+    if (new_varQN %in% names(.data)){
       cli::cli_warn("The given {.arg new_var} column exists in your data and will be overwritten.")
     }
   }

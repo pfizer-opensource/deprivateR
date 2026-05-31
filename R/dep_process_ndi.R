@@ -54,16 +54,16 @@ dep_process_ndi_m <- function(.data, geography, year, survey, keep_components,
   names(ndi_m_score)[names(ndi_m_score) == "NDI"] <- "NDI_M"
 
   ### optionally convert to percentiles
-  if (return_percentiles == TRUE){
+  if (return_percentiles){
     ndi_m_score$NDI_M <- dep_percent_rank(ndi_m_score$NDI_M)*100
   }
 
   ## optionally add components back into data
-  if (keep_components == FALSE){
+  if (!keep_components){
 
     out <- ndi_m_score
 
-  } else if (keep_components == TRUE){
+  } else if (keep_components){
 
     ### rename moe components
     names(.data)[names(.data) == "DP04_0002M"] <- "M_HH"
@@ -194,7 +194,7 @@ dep_process_ndi_pw <- function(.data, geography, year, survey, keep_components,
   names(ndi_pw_score)[names(ndi_pw_score) == "NDI"] <- "NDI_PW"
 
   ### optionally convert to percentiles
-  if (return_percentiles == TRUE){
+  if (return_percentiles){
     ndi_tot <- subset(.data, select = c(GEOID, E_TOTPOP))
     ndi_pw_score <- merge(x = ndi_pw_score, y = ndi_tot, by = "GEOID", all.x = TRUE)
 
@@ -204,11 +204,11 @@ dep_process_ndi_pw <- function(.data, geography, year, survey, keep_components,
   }
 
   ## optionally add components back into data
-  if (keep_components == FALSE){
+  if (!keep_components){
 
     out <- ndi_pw_score
 
-  } else if (keep_components == TRUE){
+  } else if (keep_components){
 
     ### rename moe components
     names(.data)[names(.data) == "S0101_C01_001M"] <- "M_TOTPOP"
